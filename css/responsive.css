@@ -1,0 +1,613 @@
+/* =====================================================
+   ZAVYRO POSTERS
+   RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .nav-links {
+
+        gap: 16px;
+
+    }
+
+    .hero-content {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+    .hero-poster {
+
+        width: 260px;
+        height: 380px;
+
+    }
+
+    .poster-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .style-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+    .sizes-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    .navbar {
+
+        height: 70px;
+
+        padding:
+            0 20px;
+
+    }
+
+
+    .nav-links {
+
+        position: fixed;
+
+        top: 70px;
+        left: 0;
+
+        width: 100%;
+
+        padding: 25px;
+
+        background:
+            rgba(7,7,7,.97);
+
+        border-bottom:
+            1px solid
+            var(--border);
+
+        display: none;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 22px;
+
+    }
+
+    .nav-links.active {
+
+        display: flex;
+
+    }
+
+    .nav-links a.active::after {
+
+        display: none;
+
+    }
+
+
+    .cart-button {
+
+        margin-left: auto;
+        margin-right: 15px;
+
+    }
+
+    .menu-toggle {
+
+        display: block;
+
+    }
+
+
+    .hero {
+
+        min-height: auto;
+
+        padding:
+            125px 22px 90px;
+
+    }
+
+    .hero-content {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+    .hero h1 {
+
+        font-size:
+            clamp(50px, 15vw, 80px);
+
+        letter-spacing:
+            -4px;
+
+    }
+
+    .hero-description {
+
+        font-size: 13px;
+
+    }
+
+    .hero-buttons {
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .primary-btn,
+    .secondary-btn {
+
+        text-align: center;
+
+    }
+
+
+    .hero-poster-area {
+
+        height: 470px;
+
+    }
+
+    .hero-poster {
+
+        width: 260px;
+        height: 370px;
+
+    }
+
+    .hero-z {
+
+        font-size: 125px;
+
+    }
+
+    .hero-poster-title {
+
+        top: 245px;
+
+        font-size: 17px;
+
+    }
+
+    .floating-tag {
+
+        display: none;
+
+    }
+
+
+    .hero-stats {
+
+        justify-content: space-between;
+
+    }
+
+    .hero-stats div {
+
+        padding-right: 12px;
+        margin-right: 12px;
+
+    }
+
+    .hero-stats strong {
+
+        font-size: 12px;
+
+    }
+
+
+    .hero-scroll {
+
+        display: none;
+
+    }
+
+
+    .category-strip {
+
+        justify-content: flex-start;
+
+        padding:
+            0 20px;
+
+        gap: 25px;
+
+    }
+
+
+    .trending-section,
+    .style-section,
+    .surprise-section,
+    .sizes-section,
+    .custom-section,
+    .about-section {
+
+        padding:
+            80px 20px;
+
+    }
+
+
+    .section-heading {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+        gap: 20px;
+
+    }
+
+
+    .poster-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 14px;
+
+    }
+
+
+    .poster-info {
+
+        flex-direction: column;
+
+    }
+
+
+    .style-grid {
+
+        grid-template-columns:
+            1fr;
+
+    }
+
+
+    .style-image {
+
+        height: 190px;
+
+    }
+
+
+    .surprise-content {
+
+        padding: 45px 25px;
+
+        flex-direction: column;
+
+        align-items: stretch;
+
+    }
+
+    .surprise-box {
+
+        min-width: 0;
+
+    }
+
+
+    .sizes-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .size-card {
+
+        padding: 20px;
+
+    }
+
+
+    .custom-box {
+
+        padding: 35px 25px;
+
+        grid-template-columns:
+            1fr;
+
+        gap: 50px;
+
+    }
+
+
+    .custom-preview {
+
+        order: -1;
+
+    }
+
+
+    .about-content {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 40px;
+
+    }
+
+
+    .footer {
+
+        padding:
+            35px 20px;
+
+    }
+
+    .footer-top,
+    .footer-bottom {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 20px;
+
+    }
+
+}
+
+
+@media (max-width: 430px) {
+
+    .brand-name {
+
+        font-size: 12px;
+
+    }
+
+    .cart-button span:nth-child(2) {
+
+        display: none;
+
+    }
+
+    .poster-grid {
+
+        grid-template-columns:
+            1fr 1fr;
+
+    }
+
+    .hero-stats span {
+
+        font-size: 7px;
+
+    }
+
+    .hero-stats strong {
+
+        font-size: 10px;
+
+    }
+
+    .sizes-grid {
+
+        gap: 10px;
+
+    }
+
+}
+/* =====================================================
+   SHOP RESPONSIVE
+===================================================== */
+
+@media (max-width: 1000px) {
+
+    .shop-controls {
+
+        margin-left: 20px;
+        margin-right: 20px;
+
+    }
+
+    .shop-search {
+
+        margin-left: 20px;
+        margin-right: 20px;
+
+    }
+
+    .quick-categories {
+
+        margin-left: 20px;
+        margin-right: 20px;
+
+    }
+
+    .shop-products {
+
+        margin-left: 20px;
+        margin-right: 20px;
+
+    }
+
+    .shop-grid {
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+    }
+
+}
+
+
+@media (max-width: 760px) {
+
+    .shop-page {
+
+        padding-top: 70px;
+
+    }
+
+    .shop-hero {
+
+        padding:
+            80px 20px 50px;
+
+    }
+
+
+    .shop-controls {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .shop-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 14px;
+
+    }
+
+
+    .shop-product-view {
+
+        opacity: 1;
+
+        transform: none;
+
+    }
+
+}
+
+
+@media (max-width: 480px) {
+
+    .shop-hero h1 {
+
+        font-size:
+            53px;
+
+        letter-spacing:
+            -3px;
+
+    }
+
+
+    .shop-description {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .shop-controls {
+
+        grid-template-columns:
+            1fr;
+
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+
+
+    .shop-search {
+
+        margin-left: 15px;
+        margin-right: 15px;
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+    }
+
+
+    .result-count {
+
+        text-align:
+            right;
+
+    }
+
+
+    .quick-categories {
+
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+
+
+    .shop-products {
+
+        margin-left: 15px;
+        margin-right: 15px;
+
+    }
+
+
+    .shop-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 10px;
+
+    }
+
+
+    .shop-product-details {
+
+        display:
+            block;
+
+    }
+
+
+    .shop-product-details strong {
+
+        display:
+            block;
+
+        margin-top:
+            6px;
+
+    }
+
+
+    .shop-product-details h3 {
+
+        font-size:
+            11px;
+
+    }
+
+}

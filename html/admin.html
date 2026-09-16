@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Zavyro Posters — Admin</title>
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <style>
+
+        .admin-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(124, 58, 237, 0.10),
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at 85% 75%,
+                    rgba(124, 58, 237, 0.07),
+                    transparent 35%
+                ),
+                #080808;
+        }
+
+        .admin-container {
+            width: min(950px, 100%);
+            margin: auto;
+        }
+
+        .admin-header {
+            margin-bottom: 28px;
+        }
+
+        .admin-header h1 {
+            font-size: 42px;
+            line-height: 1.1;
+            margin-bottom: 8px;
+        }
+
+        .admin-header p {
+            color: #999;
+            margin: 0;
+        }
+
+
+        /* =================================================
+           QUICK MANAGEMENT
+        ================================================= */
+
+        .admin-quick-actions {
+            display: grid;
+            grid-template-columns:
+                repeat(3, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .admin-quick-card {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+
+            padding: 20px;
+
+            border: 1px solid #30204f;
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #111,
+                    #0d0d0d
+                );
+
+            text-decoration: none;
+            color: white;
+
+            transition: 0.25s ease;
+        }
+
+        .admin-quick-card:hover {
+            transform: translateY(-3px);
+            border-color: #7c3aed;
+            box-shadow:
+                0 12px 35px
+                rgba(124, 58, 237, 0.12);
+        }
+
+        .admin-quick-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .admin-quick-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                rgba(124, 58, 237, 0.12);
+
+            border: 1px solid
+                rgba(124, 58, 237, 0.30);
+
+            font-size: 22px;
+        }
+
+        .admin-quick-text strong {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 15px;
+        }
+
+        .admin-quick-text span {
+            color: #777;
+            font-size: 12px;
+        }
+
+        .admin-quick-arrow {
+            color: #8b5cf6;
+            font-size: 20px;
+        }
+
+
+        /* =================================================
+           ADMIN ORDERS
+        ================================================= */
+
+        .admin-orders-section {
+            margin-bottom: 25px;
+            background: #101010;
+            border: 1px solid #3b2070;
+            border-radius: 20px;
+            padding: 25px;
+
+            box-shadow:
+                0 0 45px
+                rgba(124, 58, 237, 0.08);
+        }
+
+        .admin-orders-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .admin-orders-header h2 {
+            margin: 0;
+            font-size: 21px;
+        }
+
+        .admin-orders-header span {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .admin-order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .admin-order-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 14px;
+            border: 1px solid #292929;
+            border-radius: 12px;
+            background: #0c0c0c;
+        }
+
+        .admin-order-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .admin-order-number {
+            color: #fff;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .admin-order-customer {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .admin-custom-mini {
+            width: 68px;
+            height: 88px;
+            flex-shrink: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #111;
+            border: 1px solid #35205f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .admin-custom-mini img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .admin-order-status {
+            color: #a78bfa;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+        .admin-order-total {
+            color: #f5c542;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .admin-download-btn {
+            border: 1px solid #7c3aed;
+            background: #171717;
+            color: #fff;
+            border-radius: 7px;
+            padding: 7px 10px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .admin-download-btn:hover {
+            background: #7c3aed;
+        }
+
+        .admin-orders-empty {
+            color: #777;
+            text-align: center;
+            padding: 25px;
+        }
+
+
+        /* =================================================
+           EXISTING ADMIN CARD
+        ================================================= */
+
+        .admin-card {
+            background: #101010;
+            border: 1px solid #3b2070;
+            border-radius: 20px;
+            padding: 32px;
+
+            box-shadow:
+                0 0 45px
+                rgba(124, 58, 237, 0.10);
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #fff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 16px;
+            border: 1px solid #333;
+            border-radius: 10px;
+            background: #090909;
+            color: #fff;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #7c3aed;
+            box-shadow:
+                0 0 0 3px
+                rgba(124, 58, 237, 0.10);
+        }
+
+        .form-group textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .admin-section-title {
+            margin: 32px 0 16px;
+            color: #a78bfa;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .admin-divider {
+            height: 1px;
+            margin: 30px 0;
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    #332052,
+                    transparent
+                );
+        }
+
+
+        /* =================================================
+           UPLOAD
+        ================================================= */
+
+        .upload-box {
+            display: block;
+            padding: 32px 20px;
+            text-align: center;
+            border: 2px dashed #43227c;
+            border-radius: 14px;
+            cursor: pointer;
+            background:
+                rgba(124, 58, 237, 0.03);
+        }
+
+        .upload-box:hover {
+            border-color: #8b5cf6;
+            background:
+                rgba(124, 58, 237, 0.07);
+        }
+
+        .upload-box strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .upload-box small {
+            color: #888;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .preview {
+            display: none;
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .preview img {
+            width: 180px;
+            max-height: 250px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid #7c3aed;
+            padding: 5px;
+            background: #090909;
+        }
+
+
+        /* =================================================
+           PRICING
+        ================================================= */
+
+        .price-card {
+            margin-bottom: 14px;
+            padding: 18px;
+            border: 1px solid #30204f;
+            border-radius: 14px;
+            background: #0c0c0c;
+        }
+
+        .price-card h3 {
+            margin: 0 0 15px;
+            color: #fff;
+            font-size: 17px;
+        }
+
+        .price-card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .price-card .form-group {
+            margin-bottom: 0;
+        }
+
+        .price-card small {
+            display: block;
+            margin-top: 6px;
+            color: #777;
+            font-size: 11px;
+        }
+
+
+        /* =================================================
+           OFFER
+        ================================================= */
+
+        .offer-switch {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 16px 18px;
+            margin-bottom: 18px;
+            border: 1px solid #3b2070;
+            border-radius: 12px;
+            background:
+                rgba(124, 58, 237, 0.05);
+        }
+
+        .offer-switch strong {
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .offer-switch > div > span {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .switch {
+            position: relative;
+            width: 52px;
+            height: 28px;
+            flex: 0 0 auto;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            inset: 0;
+            background: #333;
+            border-radius: 999px;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .slider::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            left: 4px;
+            top: 4px;
+            border-radius: 50%;
+            background: #fff;
+            transition: 0.25s;
+        }
+
+        .switch input:checked + .slider {
+            background: #7c3aed;
+        }
+
+        .switch input:checked + .slider::before {
+            transform: translateX(24px);
+        }
+
+        .offer-label-box,
+        .promo-box {
+            padding: 18px;
+            border: 1px solid #30204f;
+            border-radius: 14px;
+            background: #0c0c0c;
+        }
+
+        .offer-label-box {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        .offer-label-box.show {
+            display: block;
+        }
+
+
+        /* =================================================
+           PROMOTION
+        ================================================= */
+
+        .promo-help {
+            margin-bottom: 18px;
+            color: #777;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        #promoFields {
+            display: none;
+        }
+
+        .promo-preview {
+            margin-top: 14px;
+            padding: 12px;
+            border-radius: 9px;
+            background:
+                rgba(124, 58, 237, 0.07);
+            color: #c4b5fd;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+
+        /* =================================================
+           CHECKBOX
+        ================================================= */
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .checkbox-row label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            color: #ddd;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .checkbox-row input {
+            width: auto;
+            accent-color: #7c3aed;
+        }
+
+
+        /* =================================================
+           BUTTON
+        ================================================= */
+
+        .admin-btn {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid #8b5cf6;
+            border-radius: 11px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #7c3aed,
+                    #6d28d9
+                );
+
+            color: white;
+            font-size: 16px;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        .admin-btn:hover {
+            box-shadow:
+                0 12px 30px
+                rgba(124, 58, 237, 0.25);
+        }
+
+        .admin-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+
+        /* =================================================
+           STATUS
+        ================================================= */
+
+        .status {
+            display: none;
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .status.success {
+            display: block;
+            color: #86efac;
+            background:
+                rgba(34, 197, 94, 0.08);
+            border: 1px solid
+                rgba(34, 197, 94, 0.25);
+        }
+
+        .status.error {
+            display: block;
+            color: #fca5a5;
+            background:
+                rgba(239, 68, 68, 0.08);
+            border: 1px solid
+                rgba(239, 68, 68, 0.25);
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 7px;
+            color: #777;
+            font-size: 12px;
+        }
+
+
+        /* =================================================
+           MOBILE
+        ================================================= */
+
+        @media (max-width: 850px) {
+
+            .admin-quick-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-order-row {
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+
+            .admin-page {
+                padding: 110px 15px 40px;
+            }
+
+            .admin-card,
+            .admin-orders-section {
+                padding: 22px;
+            }
+
+            .admin-header h1 {
+                font-size: 34px;
+            }
+
+            .row,
+            .price-card-grid {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .offer-switch {
+                align-items: flex-start;
+            }
+
+            .admin-orders-header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+
+        <!-- HEADER -->
+
+        <div class="admin-header">
+
+            <h1>
+                Poster Admin
+            </h1>
+
+            <p>
+                Manage Zavyro Posters from one place.
+            </p>
+
+        </div>
+
+
+        <!-- =================================================
+             QUICK MANAGEMENT
+        ================================================== -->
+
+        <div class="admin-quick-actions">
+
+
+            <a
+                href="admin-products.html"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-left">
+
+                    <div class="admin-quick-icon">
+                        🖼️
+                    </div>
+
+                    <div class="admin-quick-text">
+
+                        <strong>
+                            Manage Posters
+                        </strong>
+
+                        <span>
+                            Upload and manage poster products
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="admin-quick-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+            <a
+                href="admin-offers.html"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-left">
+
+                    <div class="admin-quick-icon">
+                        🔥
+                    </div>
+
+                    <div class="admin-quick-text">
+
+                        <strong>
+                            Offers & Combos
+                        </strong>
+
+                        <span>
+                            Create and manage special deals
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="admin-quick-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+            <a
+                href="admin-orders.html"
+                class="admin-quick-card"
+            >
+
+                <div class="admin-quick-left">
+
+                    <div class="admin-quick-icon">
+                        📦
+                    </div>
+
+                    <div class="admin-quick-text">
+
+                        <strong>
+                            Orders & Custom Posters
+                        </strong>
+
+                        <span>
+                            View orders and download customer posters
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div class="admin-quick-arrow">
+                    →
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- =================================================
+             CUSTOMER ORDERS
+        ================================================== -->
+
+        <section class="admin-orders-section">
+
+            <div class="admin-orders-header">
+
+                <div>
+
+                    <h2>
+                        Recent Orders & Custom Posters
+                    </h2>
+
+                    <span>
+                        Customer orders and uploaded poster designs
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="adminOrderList"
+                class="admin-order-list"
+            >
+
+                <div class="admin-orders-empty">
+                    Loading orders...
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             EXISTING PRODUCT FORM
+        ================================================== -->
+
+        <div class="admin-card">
+
+            <form
+                id="posterForm"
+                novalidate
+            >
+
+
+                <!-- IMAGE -->
+
+                <div class="form-group">
+
+                    <label>
+                        Poster Image
+                    </label>
+
+                    <label class="upload-box">
+
+                        <input
+                            type="file"
+                            id="posterImage"
+                            accept=".jpg,.jpeg,.png,.webp,.avif"
+                        >
+
+                        <strong>
+                            Click to upload poster
+                        </strong>
+
+                        <small>
+                            JPG, JPEG, PNG, WEBP or AVIF
+                        </small>
+
+                    </label>
+
+
+                    <div
+                        class="preview"
+                        id="preview"
+                    >
+
+                        <img
+                            id="previewImage"
+                            alt="Poster Preview"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- TITLE -->
+
+                <div class="form-group">
+
+                    <label for="title">
+                        Poster Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="title"
+                        placeholder="Example: Virat Kohli King"
+                    >
+
+                </div>
+
+
+                <!-- CATEGORY -->
+
+                <div class="row">
+
+                    <div class="form-group">
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                        <select id="category">
+
+                            <option value="">
+                                Select Category
+                            </option>
+
+                            <option value="anime">
+                                Anime
+                            </option>
+
+                            <option value="movies">
+                                Movies
+                            </option>
+
+                            <option value="music">
+                                Music
+                            </option>
+
+                            <option value="sports">
+                                Sports
+                            </option>
+
+                            <option value="cars">
+                                Cars
+                            </option>
+
+                            <option value="aesthetic">
+                                Aesthetic
+                            </option>
+
+                            <option value="devotional">
+                                Devotional
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="subcategory">
+                            Subcategory
+                        </label>
+
+                        <select id="subcategory">
+
+                            <option value="">
+                                Select Subcategory
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-divider"></div>
+
+
+                <!-- DESCRIPTION -->
+
+                <div class="form-group">
+
+                    <label for="description">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="description"
+                        placeholder="Optional poster description"
+                    ></textarea>
+
+                </div>
+
+
+                <!-- PRICING -->
+
+                <div class="admin-section-title">
+                    SIZE PRICING
+                </div>
+
+
+                <!-- A6 -->
+
+                <div class="price-card">
+
+                    <h3>
+                        A6
+                    </h3>
+
+                    <div class="price-card-grid">
+
+                        <div class="form-group">
+
+                            <label for="mrp_a6">
+                                MRP (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="mrp_a6"
+                                value="199"
+                                min="0"
+                                step="1"
+                            >
+
+                            <small>
+                                Original price
+                            </small>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="offer_a6">
+                                Offer Price (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="offer_a6"
+                                value="99"
+                                min="0"
+                                step="1"
+                            >
+
+                            <small>
+                                Customer pays this
+                            </small>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- A5 -->
+
+                <div class="price-card">
+
+                    <h3>
+                        A5
+                    </h3>
+
+                    <div class="price-card-grid">
+
+                        <div class="form-group">
+
+                            <label for="mrp_a5">
+                                MRP (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="mrp_a5"
+                                value="249"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="offer_a5">
+                                Offer Price (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="offer_a5"
+                                value="129"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- A4 -->
+
+                <div class="price-card">
+
+                    <h3>
+                        A4
+                    </h3>
+
+                    <div class="price-card-grid">
+
+                        <div class="form-group">
+
+                            <label for="mrp_a4">
+                                MRP (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="mrp_a4"
+                                value="299"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="offer_a4">
+                                Offer Price (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="offer_a4"
+                                value="179"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- A3 -->
+
+                <div class="price-card">
+
+                    <h3>
+                        A3
+                    </h3>
+
+                    <div class="price-card-grid">
+
+                        <div class="form-group">
+
+                            <label for="mrp_a3">
+                                MRP (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="mrp_a3"
+                                value="399"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="offer_a3">
+                                Offer Price (₹)
+                            </label>
+
+                            <input
+                                type="number"
+                                id="offer_a3"
+                                value="249"
+                                min="0"
+                                step="1"
+                            >
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- PRICE OFFER -->
+
+                <div class="admin-section-title">
+                    OFFER SETTINGS
+                </div>
+
+
+                <div class="offer-switch">
+
+                    <div>
+
+                        <strong>
+                            Enable Price Offer
+                        </strong>
+
+                        <span>
+                            Show MRP strike-through and offer price.
+                        </span>
+
+                    </div>
+
+
+                    <label class="switch">
+
+                        <input
+                            type="checkbox"
+                            id="offer_active"
+                            checked
+                        >
+
+                        <span class="slider"></span>
+
+                    </label>
+
+                </div>
+
+
+                <div
+                    class="offer-label-box show"
+                    id="offerLabelBox"
+                >
+
+                    <div class="form-group">
+
+                        <label for="offer_label">
+                            Offer Label
+                        </label>
+
+                        <select id="offer_label">
+
+                            <option value="HOT SALE">
+                                🔥 HOT SALE
+                            </option>
+
+                            <option value="TODAY OFFER">
+                                ⚡ TODAY OFFER
+                            </option>
+
+                            <option value="FESTIVAL OFFER">
+                                🎉 FESTIVAL OFFER
+                            </option>
+
+                            <option value="LIMITED TIME OFFER">
+                                ⏳ LIMITED TIME OFFER
+                            </option>
+
+                            <option value="SPECIAL OFFER">
+                                ⭐ SPECIAL OFFER
+                            </option>
+
+                            <option value="NEW YEAR OFFER">
+                                🎊 NEW YEAR OFFER
+                            </option>
+
+                            <option value="DIWALI OFFER">
+                                🪔 DIWALI OFFER
+                            </option>
+
+                            <option value="PONGAL OFFER">
+                                🌾 PONGAL OFFER
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="custom_offer_label">
+                            Custom Offer Label
+                        </label>
+
+                        <input
+                            type="text"
+                            id="custom_offer_label"
+                            placeholder="Example: IPL SPECIAL"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUY X GET Y -->
+
+                <div class="admin-section-title">
+                    BUY X GET Y PROMOTION
+                </div>
+
+
+                <div class="promo-box">
+
+                    <p class="promo-help">
+
+                        Example: Buy 1 Get 1 Free means
+                        the customer pays for 1 poster
+                        and receives 2.
+
+                    </p>
+
+
+                    <div class="offer-switch">
+
+                        <div>
+
+                            <strong>
+                                Enable Buy X Get Y
+                            </strong>
+
+                            <span>
+                                Add a free-poster promotion.
+                            </span>
+
+                        </div>
+
+
+                        <label class="switch">
+
+                            <input
+                                type="checkbox"
+                                id="promo_active"
+                            >
+
+                            <span class="slider"></span>
+
+                        </label>
+
+                    </div>
+
+
+                    <div
+                        id="promoFields"
+                    >
+
+                        <div class="row">
+
+                            <div class="form-group">
+
+                                <label for="promo_buy_qty">
+                                    Buy Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="promo_buy_qty"
+                                    value="1"
+                                    min="1"
+                                    step="1"
+                                >
+
+                            </div>
+
+
+                            <div class="form-group">
+
+                                <label for="promo_get_qty">
+                                    Free Quantity
+                                </label>
+
+                                <input
+                                    type="number"
+                                    id="promo_get_qty"
+                                    value="1"
+                                    min="1"
+                                    step="1"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label for="promo_label">
+                                Promotion Label
+                            </label>
+
+                            <input
+                                type="text"
+                                id="promo_label"
+                                value="BUY 1 GET 1 FREE"
+                                placeholder="Example: BUY 2 GET 1 FREE"
+                            >
+
+                        </div>
+
+
+                        <div
+                            class="promo-preview"
+                            id="promoPreview"
+                        >
+                            BUY 1 GET 1 FREE
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- DISPLAY -->
+
+                <div class="admin-section-title">
+                    PRODUCT DISPLAY
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="badge">
+                        Product Badge
+                    </label>
+
+                    <select id="badge">
+
+                        <option value="NEW">
+                            NEW
+                        </option>
+
+                        <option value="TRENDING">
+                            TRENDING
+                        </option>
+
+                        <option value="POPULAR">
+                            POPULAR
+                        </option>
+
+                        <option value="">
+                            None
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- SIZES -->
+
+                <div class="form-group">
+
+                    <label>
+                        Available Sizes
+                    </label>
+
+
+                    <div class="checkbox-row">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                value="A3"
+                                checked
+                            >
+
+                            A3
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                value="A4"
+                                checked
+                            >
+
+                            A4
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                value="A5"
+                                checked
+                            >
+
+                            A5
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                value="A6"
+                                checked
+                            >
+
+                            A6
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- TAGS -->
+
+                <div class="form-group">
+
+                    <label for="tags">
+                        Search Tags
+                    </label>
+
+                    <input
+                        type="text"
+                        id="tags"
+                        placeholder="virat, kohli, cricket, india, king"
+                    >
+
+                    <span class="help-text">
+                        Separate tags using commas.
+                    </span>
+
+                </div>
+
+
+                <!-- OPTIONS -->
+
+                <div class="form-group">
+
+                    <label>
+                        Options
+                    </label>
+
+
+                    <div class="checkbox-row">
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="featured"
+                            >
+
+                            Featured
+
+                        </label>
+
+
+                        <label>
+
+                            <input
+                                type="checkbox"
+                                id="active"
+                                checked
+                            >
+
+                            Published
+
+                        </label>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="admin-btn"
+                    id="uploadBtn"
+                >
+                    Upload Poster
+                </button>
+
+
+                <div
+                    class="status"
+                    id="status"
+                ></div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- SUPABASE -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/admin.js"></script>
+
+<script src="../js/shop-layout.js"></script>
+
+
+<!-- OFFER + PROMOTION UI -->
+
+<script>
+
+    const offerToggle =
+        document.getElementById(
+            "offer_active"
+        );
+
+    const offerLabelBox =
+        document.getElementById(
+            "offerLabelBox"
+        );
+
+
+    offerToggle.addEventListener(
+        "change",
+        () => {
+
+            offerLabelBox.classList.toggle(
+                "show",
+                offerToggle.checked
+            );
+
+        }
+    );
+
+
+    const promoToggle =
+        document.getElementById(
+            "promo_active"
+        );
+
+    const promoFields =
+        document.getElementById(
+            "promoFields"
+        );
+
+
+    promoToggle.addEventListener(
+        "change",
+        () => {
+
+            promoFields.style.display =
+                promoToggle.checked
+                    ? "block"
+                    : "none";
+
+        }
+    );
+
+
+    const promoBuy =
+        document.getElementById(
+            "promo_buy_qty"
+        );
+
+    const promoGet =
+        document.getElementById(
+            "promo_get_qty"
+        );
+
+    const promoLabel =
+        document.getElementById(
+            "promo_label"
+        );
+
+    const promoPreview =
+        document.getElementById(
+            "promoPreview"
+        );
+
+
+    function updatePromoPreview() {
+
+        const buy =
+            Number(
+                promoBuy.value
+            ) || 1;
+
+
+        const get =
+            Number(
+                promoGet.value
+            ) || 1;
+
+
+        const custom =
+            promoLabel.value.trim();
+
+
+        promoPreview.textContent =
+            custom ||
+            `BUY ${buy} GET ${get} FREE`;
+    }
+
+
+    promoBuy.addEventListener(
+        "input",
+        updatePromoPreview
+    );
+
+
+    promoGet.addEventListener(
+        "input",
+        updatePromoPreview
+    );
+
+
+    promoLabel.addEventListener(
+        "input",
+        updatePromoPreview
+    );
+
+
+    updatePromoPreview();
+
+
+    promoFields.style.display =
+        promoToggle.checked
+            ? "block"
+            : "none";
+
+</script>
+
+
+</body>
+
+</html>
+

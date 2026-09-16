@@ -1,0 +1,1644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Manage Posters — Zavyro Admin
+    </title>
+
+    <meta
+        name="description"
+        content="Manage Zavyro Posters products."
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(124, 58, 237, 0.16),
+                    transparent 32%
+                ),
+                #070707;
+            color: #ffffff;
+            font-family:
+                Inter,
+                ui-sans-serif,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .admin-page {
+            width: 100%;
+            min-height: 100vh;
+            padding: 45px 24px 70px;
+        }
+
+        .admin-container {
+            width: min(1250px, 100%);
+            margin: 0 auto;
+        }
+
+        .admin-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 25px;
+            margin-bottom: 35px;
+        }
+
+        .admin-eyebrow {
+            margin-bottom: 12px;
+            color: #a78bfa;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.24em;
+        }
+
+        .admin-title {
+            margin: 0;
+            font-size: clamp(32px, 5vw, 58px);
+            line-height: 1;
+            font-weight: 850;
+            letter-spacing: -0.04em;
+        }
+
+        .admin-subtitle {
+            margin: 15px 0 0;
+            color: #888;
+            font-size: 14px;
+        }
+
+        .dashboard-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 15px;
+            border: 1px solid #282828;
+            border-radius: 10px;
+            background: #111;
+            color: #ddd;
+            transition: 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dashboard-link:hover {
+            border-color: #7c3aed;
+            color: #fff;
+        }
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .message {
+            position: fixed;
+            left: 50%;
+            bottom: 25px;
+            z-index: 10000;
+            transform: translate(-50%, 25px);
+            opacity: 0;
+            pointer-events: none;
+            padding: 13px 18px;
+            border: 1px solid #303030;
+            border-radius: 12px;
+            background: #121212;
+            color: #fff;
+            box-shadow:
+                0 15px 50px rgba(0, 0, 0, 0.45);
+            transition: 0.25s ease;
+            font-size: 13px;
+        }
+
+        .message.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+
+        .message.success {
+            border-color: rgba(34, 197, 94, 0.45);
+        }
+
+        .message.error {
+            border-color: rgba(248, 113, 113, 0.5);
+            color: #fca5a5;
+        }
+
+        /* =====================================================
+           PANEL
+        ===================================================== */
+
+        .admin-panel {
+            border: 1px solid #242424;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255,255,255,0.025),
+                    rgba(255,255,255,0.01)
+                ),
+                #0d0d0d;
+            box-shadow:
+                0 25px 80px rgba(0,0,0,0.28);
+        }
+
+        .filters-panel {
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns:
+                minmax(0, 1fr)
+                220px;
+            gap: 14px;
+        }
+
+        .search-box,
+        .filter-select {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid #292929;
+            border-radius: 11px;
+            outline: none;
+            background: #080808;
+            color: #fff;
+        }
+
+        .search-box::placeholder {
+            color: #666;
+        }
+
+        .search-box:focus,
+        .filter-select:focus {
+            border-color: #7c3aed;
+        }
+
+        .count-label {
+            margin-top: 12px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           PRODUCTS
+        ===================================================== */
+
+        .products-panel {
+            padding: 20px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 18px;
+        }
+
+        .product-card {
+            min-width: 0;
+            overflow: hidden;
+            border: 1px solid #242424;
+            border-radius: 16px;
+            background: #101010;
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-3px);
+            border-color: #49218b;
+            box-shadow:
+                0 15px 45px rgba(0,0,0,0.28);
+        }
+
+        .product-card.hidden-product {
+            opacity: 0.7;
+        }
+
+        .product-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 3 / 4;
+            overflow: hidden;
+            background:
+                radial-gradient(
+                    circle,
+                    #1d1230,
+                    #090909 70%
+                );
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .product-placeholder {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            color: #7c3aed;
+            font-size: 45px;
+            font-weight: 900;
+        }
+
+        .product-body {
+            padding: 15px;
+        }
+
+        .product-category {
+            margin-bottom: 7px;
+            color: #a78bfa;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+        }
+
+        .product-body h3 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .product-subcategory {
+            min-height: 18px;
+            margin-top: 6px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .product-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 12px;
+        }
+
+        .status-chip {
+            display: inline-flex;
+            align-items: center;
+            min-height: 22px;
+            padding: 3px 7px;
+            border: 1px solid #353535;
+            border-radius: 999px;
+            background: #151515;
+            color: #aaa;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .status-chip.live {
+            border-color: rgba(34,197,94,0.35);
+            color: #86efac;
+        }
+
+        .status-chip.off {
+            border-color: rgba(248,113,113,0.35);
+            color: #fca5a5;
+        }
+
+        .status-chip.featured {
+            color: #c4b5fd;
+        }
+
+        .product-price {
+            margin: 12px 0;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .product-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 7px;
+        }
+
+        .action-btn {
+            min-height: 38px;
+            padding: 8px 9px;
+            border: 1px solid #303030;
+            border-radius: 9px;
+            background: #161616;
+            color: #ddd;
+            font-size: 11px;
+            font-weight: 700;
+            transition: 0.2s ease;
+        }
+
+        .action-btn:hover {
+            border-color: #7c3aed;
+            color: #fff;
+        }
+
+        .action-btn.hide {
+            border-color: #55420c;
+        }
+
+        .action-btn.delete {
+            border-color: #542525;
+            color: #fca5a5;
+        }
+
+        .action-btn.delete:hover {
+            border-color: #ef4444;
+        }
+
+        .empty-state {
+            min-height: 200px;
+            display: grid;
+            place-items: center;
+            border: 1px dashed #292929;
+            border-radius: 15px;
+            color: #666;
+        }
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        .edit-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: rgba(0,0,0,0.78);
+            backdrop-filter: blur(12px);
+        }
+
+        .edit-modal.show {
+            display: flex;
+        }
+
+        body.modal-open {
+            overflow: hidden;
+        }
+
+        .edit-box {
+            width: min(950px, 100%);
+            max-height: calc(100vh - 40px);
+            overflow-y: auto;
+            border: 1px solid #4d2491;
+            border-radius: 18px;
+            background:
+                linear-gradient(
+                    145deg,
+                    #121212,
+                    #0b0b0b
+                );
+            box-shadow:
+                0 30px 100px rgba(0,0,0,0.65);
+        }
+
+        .edit-header {
+            position: sticky;
+            top: 0;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 20px;
+            border-bottom: 1px solid #242424;
+            background: rgba(14,14,14,0.96);
+            backdrop-filter: blur(12px);
+        }
+
+        .edit-header h2 {
+            margin: 0;
+            font-size: 20px;
+        }
+
+        .close-modal {
+            width: 34px;
+            height: 34px;
+            border: 1px solid #303030;
+            border-radius: 9px;
+            background: #151515;
+            color: #bbb;
+            font-size: 20px;
+        }
+
+        .close-modal:hover {
+            border-color: #7c3aed;
+            color: #fff;
+        }
+
+        #editForm {
+            padding: 20px;
+        }
+
+        .edit-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .edit-group {
+            min-width: 0;
+        }
+
+        .edit-group.full,
+        .edit-section-title,
+        .edit-actions {
+            grid-column: 1 / -1;
+        }
+
+        .edit-group > label {
+            display: block;
+            margin-bottom: 7px;
+            color: #aaa;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .edit-group input[type="text"],
+        .edit-group input[type="number"],
+        .edit-group input[type="file"],
+        .edit-group select,
+        .edit-group textarea {
+            width: 100%;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            outline: none;
+            background: #080808;
+            color: #fff;
+        }
+
+        .edit-group input[type="text"],
+        .edit-group input[type="number"],
+        .edit-group select {
+            min-height: 45px;
+            padding: 0 12px;
+        }
+
+        .edit-group input[type="file"] {
+            padding: 11px;
+        }
+
+        .edit-group textarea {
+            min-height: 105px;
+            resize: vertical;
+            padding: 12px;
+        }
+
+        .edit-group input:focus,
+        .edit-group select:focus,
+        .edit-group textarea:focus {
+            border-color: #7c3aed;
+        }
+
+        .edit-section-title {
+            margin-top: 8px;
+            padding-top: 18px;
+            border-top: 1px solid #242424;
+            color: #a78bfa;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.15em;
+        }
+
+        /* =====================================================
+           IMAGE
+        ===================================================== */
+
+        .edit-image-preview-wrap {
+            width: 100%;
+            margin-top: 12px;
+            padding: 15px;
+            border: 1px solid #242424;
+            border-radius: 13px;
+            background: #080808;
+        }
+
+        .edit-image-frame {
+            width: min(260px, 100%);
+            aspect-ratio: 3 / 4;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 1px solid #333;
+            border-radius: 8px;
+            background: #111;
+        }
+
+        .edit-image-frame img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+        .edit-preview-info {
+            margin-top: 10px;
+            color: #777;
+            font-size: 11px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        /* =====================================================
+           CHECKBOXES
+        ===================================================== */
+
+        .edit-checkboxes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+            padding: 12px;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            background: #080808;
+        }
+
+        .edit-checkboxes label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            min-height: 34px;
+            padding: 7px 10px;
+            border: 1px solid #292929;
+            border-radius: 8px;
+            color: #bbb;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .edit-checkboxes label:hover {
+            border-color: #7c3aed;
+            color: #fff;
+        }
+
+        .edit-checkboxes input {
+            accent-color: #7c3aed;
+        }
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .edit-actions {
+            display: flex;
+            gap: 10px;
+            padding-top: 8px;
+        }
+
+        .save-edit,
+        .cancel-edit {
+            flex: 1;
+            min-height: 48px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+        }
+
+        .save-edit {
+            border: 1px solid #7c3aed;
+            background: #24103f;
+            color: #fff;
+        }
+
+        .save-edit:hover {
+            background: #32145a;
+        }
+
+        .save-edit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .cancel-edit {
+            border: 1px solid #303030;
+            background: #151515;
+            color: #bbb;
+        }
+
+        .cancel-edit:hover {
+            border-color: #555;
+            color: #fff;
+        }
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .products-grid {
+                grid-template-columns:
+                    repeat(3, minmax(0, 1fr));
+            }
+
+        }
+
+        @media (max-width: 760px) {
+
+            .admin-page {
+                padding: 25px 14px 60px;
+            }
+
+            .admin-top {
+                flex-direction: column;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .products-grid {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .edit-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-group.full,
+            .edit-section-title,
+            .edit-actions {
+                grid-column: auto;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .product-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .edit-modal {
+                padding: 8px;
+            }
+
+            .edit-box {
+                max-height: calc(100vh - 16px);
+                border-radius: 13px;
+            }
+
+            #editForm {
+                padding: 14px;
+            }
+
+            .edit-actions {
+                flex-direction: column;
+            }
+
+        }
+        /* =========================================================
+   ZAVYRO — MANAGE POSTERS IMAGE CARD FIX
+   Make every poster preview use the same wide frame
+========================================================= */
+
+/* Product grid */
+.products-grid,
+.poster-grid,
+#productsList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+/* Poster card */
+.product-card,
+.poster-card {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Fixed image area */
+.product-card .product-image,
+.product-card .poster-image,
+.poster-card .product-image,
+.poster-card .poster-image,
+.product-card .image-wrap,
+.poster-card .image-wrap {
+    width: 100%;
+    height: 205px !important;
+    min-height: 205px !important;
+    max-height: 205px !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #050505;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Actual poster image */
+.product-card .product-image img,
+.product-card .poster-image img,
+.poster-card .product-image img,
+.poster-card .poster-image img,
+.product-card .image-wrap img,
+.poster-card .image-wrap img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain !important;
+    object-position: center center;
+
+    display: block;
+    background: #050505;
+}
+
+/* If your card uses only a direct image */
+.product-card > img,
+.poster-card > img {
+    width: 100%;
+    height: 205px !important;
+
+    object-fit: contain !important;
+    object-position: center;
+
+    display: block;
+    background: #050505;
+}
+
+/* Keep card content below image */
+.product-card .product-info,
+.poster-card .product-info,
+.product-card .card-content,
+.poster-card .card-content {
+    width: 100%;
+}
+
+/* Desktop */
+@media (min-width: 900px) {
+    .products-grid,
+    .poster-grid,
+    #productsList {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 899px) {
+    .products-grid,
+    .poster-grid,
+    #productsList {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile */
+@media (max-width: 599px) {
+    .products-grid,
+    .poster-grid,
+    #productsList {
+        grid-template-columns: 1fr;
+    }
+
+    .product-card .product-image,
+    .product-card .poster-image,
+    .poster-card .product-image,
+    .poster-card .poster-image,
+    .product-card .image-wrap,
+    .poster-card .image-wrap,
+    .product-card > img,
+    .poster-card > img {
+        height: 205px !important;
+        min-height: 205px !important;
+        max-height: 205px !important;
+    }
+}
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div
+        id="message"
+        class="message"
+    ></div>
+
+
+    <main class="admin-page">
+
+        <div class="admin-container">
+
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
+
+            <header class="admin-top">
+
+                <div>
+
+                    <div class="admin-eyebrow">
+                        ADMIN MANAGEMENT
+                    </div>
+
+                    <h1 class="admin-title">
+                        Manage Posters
+                    </h1>
+
+                    <p class="admin-subtitle">
+                        Edit, hide or delete existing posters.
+                    </p>
+
+                    <p
+                        style="
+                            margin:18px 0 0;
+                            color:#aaa;
+                            font-size:14px;
+                        "
+                    >
+                        ←
+                        <a
+                            href="admin.html"
+                            style="color:#c4b5fd;"
+                        >
+                            Dashboard
+                        </a>
+                    </p>
+
+                </div>
+
+            </header>
+
+
+            <!-- =================================================
+                 FILTERS
+            ================================================== -->
+
+            <section class="admin-panel filters-panel">
+
+                <div class="filters">
+
+                    <input
+                        id="searchInput"
+                        class="search-box"
+                        type="search"
+                        placeholder="Search title, category, subcategory or tags"
+                        autocomplete="off"
+                    >
+
+                    <select
+                        id="statusFilter"
+                        class="filter-select"
+                    >
+
+                        <option value="all">
+                            All Posters
+                        </option>
+
+                        <option value="active">
+                            Published
+                        </option>
+
+                        <option value="hidden">
+                            Hidden
+                        </option>
+
+                        <option value="featured">
+                            Featured
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div
+                    id="countLabel"
+                    class="count-label"
+                >
+                    0 posters
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 PRODUCTS
+            ================================================== -->
+
+            <section class="admin-panel products-panel">
+
+                <div
+                    id="productsGrid"
+                    class="products-grid"
+                >
+                    Loading posters...
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         EDIT MODAL
+    ====================================================== -->
+
+    <div
+        id="editModal"
+        class="edit-modal"
+    >
+
+        <div class="edit-box">
+
+            <div class="edit-header">
+
+                <h2>
+                    Edit Poster
+                </h2>
+
+                <button
+                    type="button"
+                    class="close-modal"
+                    id="closeModal"
+                    aria-label="Close"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                id="editForm"
+                novalidate
+            >
+
+                <input
+                    type="hidden"
+                    id="editId"
+                >
+
+
+                <div class="edit-grid">
+
+
+                    <!-- =================================================
+                         IMAGE
+                    ================================================== -->
+
+                    <div class="edit-group full">
+
+                        <label>
+                            Poster Image
+                        </label>
+
+                        <input
+                            type="file"
+                            id="editImage"
+                            accept=".jpg,.jpeg,.png,.webp,.avif,image/*"
+                        >
+
+                        <div class="edit-image-preview-wrap">
+
+                            <div
+                                id="editImageFrame"
+                                class="edit-image-frame"
+                            >
+
+                                <img
+                                    id="editImagePreviewImage"
+                                    alt="Poster Preview"
+                                >
+
+                            </div>
+
+                        </div>
+
+                        <div
+                            id="editPreviewInfo"
+                            class="edit-preview-info"
+                        >
+                            Use Poster Editor for A6/A5/A4/A3 orientation,
+                            sizing and final image adjustment.
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         BASIC INFORMATION
+                    ================================================== -->
+
+                    <div class="edit-group">
+
+                        <label>
+                            Title
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editTitle"
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Category
+                        </label>
+
+                        <select
+                            id="editCategory"
+                        >
+
+                            <option value="anime">
+                                Anime
+                            </option>
+
+                            <option value="movies">
+                                Movies
+                            </option>
+
+                            <option value="music">
+                                Music
+                            </option>
+
+                            <option value="sports">
+                                Sports
+                            </option>
+
+                            <option value="cars">
+                                Cars
+                            </option>
+
+                            <option value="aesthetic">
+                                Aesthetic
+                            </option>
+
+                            <option value="devotional">
+                                Devotional
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Subcategory
+                        </label>
+
+                        <select
+                            id="editSubcategory"
+                        >
+
+                            <option value="">
+                                Select Subcategory
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="edit-group full">
+
+                        <label>
+                            Description
+                        </label>
+
+                        <textarea
+                            id="editDescription"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PRICING
+                    ================================================== -->
+
+                    <div class="edit-section-title">
+                        PRICING
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A6 MRP
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editMrpA6"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A6 Offer Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editOfferA6"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A5 MRP
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editMrpA5"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A5 Offer Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editOfferA5"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A4 MRP
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editMrpA4"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A4 Offer Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editOfferA4"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A3 MRP
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editMrpA3"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            A3 Offer Price
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editOfferA3"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <!-- =================================================
+                         OFFER
+                    ================================================== -->
+
+                    <div class="edit-group full">
+
+                        <label>
+                            Offer Settings
+                        </label>
+
+                        <div class="edit-checkboxes">
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    id="editOfferActive"
+                                >
+
+                                Enable Price Offer
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Offer Label
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editOfferLabel"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Badge
+                        </label>
+
+                        <select
+                            id="editBadge"
+                        >
+
+                            <option value="NEW">
+                                NEW
+                            </option>
+
+                            <option value="TRENDING">
+                                TRENDING
+                            </option>
+
+                            <option value="POPULAR">
+                                POPULAR
+                            </option>
+
+                            <option value="">
+                                None
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         AVAILABLE SIZES
+                    ================================================== -->
+
+                    <div class="edit-group full">
+
+                        <label>
+                            Available Sizes
+                        </label>
+
+                        <div class="edit-checkboxes">
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    value="A3"
+                                    name="editSize"
+                                >
+
+                                A3
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    value="A4"
+                                    name="editSize"
+                                >
+
+                                A4
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    value="A5"
+                                    name="editSize"
+                                >
+
+                                A5
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    value="A6"
+                                    name="editSize"
+                                >
+
+                                A6
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         TAGS
+                    ================================================== -->
+
+                    <div class="edit-group full">
+
+                        <label>
+                            Search Tags
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editTags"
+                            placeholder="Example: Virat Kohli, cricket, India"
+                        >
+
+                    </div>
+
+
+                    <!-- =================================================
+                         PROMOTION
+                    ================================================== -->
+
+                    <div class="edit-section-title">
+                        PROMOTION
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Buy Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editPromoBuy"
+                            min="1"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Get Quantity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editPromoGet"
+                            min="0"
+                            step="1"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Promotion Label
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editPromoLabel"
+                        >
+
+                    </div>
+
+
+                    <div class="edit-group">
+
+                        <label>
+                            Promotion Status
+                        </label>
+
+                        <div class="edit-checkboxes">
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    id="editPromoActive"
+                                >
+
+                                Enable Promotion
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         OPTIONS
+                    ================================================== -->
+
+                    <div class="edit-section-title">
+                        PRODUCT OPTIONS
+                    </div>
+
+
+                    <div class="edit-group full">
+
+                        <div class="edit-checkboxes">
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    id="editFeatured"
+                                >
+
+                                Featured
+
+                            </label>
+
+
+                            <label>
+
+                                <input
+                                    type="checkbox"
+                                    id="editActive"
+                                >
+
+                                Published
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =================================================
+                         ACTIONS
+                    ================================================== -->
+
+                    <div class="edit-actions">
+
+                        <button
+                            type="submit"
+                            class="save-edit"
+                            id="saveEdit"
+                        >
+                            SAVE CHANGES
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="cancel-edit"
+                            id="cancelEdit"
+                        >
+                            CANCEL
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         SUPABASE
+    ====================================================== -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script src="../js/supabase.js"></script>
+
+    <!-- IMPORTANT: correct filename -->
+    <script src="../js/admin-products.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout — Zavyro Posters</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        body {
+            background:
+                radial-gradient(circle at 10% 15%, rgba(124,58,237,.12), transparent 30%),
+                radial-gradient(circle at 90% 80%, rgba(124,58,237,.08), transparent 30%),
+                #080808;
+            color: #fff;
+        }
+
+        .checkout-page {
+            max-width: 1200px;
+            margin: auto;
+            padding: 130px 30px 80px;
+        }
+
+        .checkout-heading {
+            margin-bottom: 40px;
+        }
+
+        .checkout-heading .small-title {
+            color: #8b5cf6;
+            font-size: 13px;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .checkout-heading h1 {
+            font-size: clamp(36px, 5vw, 58px);
+            line-height: 1;
+            margin: 0;
+            font-weight: 800;
+        }
+
+        .checkout-heading p {
+            color: #888;
+            margin-top: 14px;
+        }
+
+        .checkout-layout {
+            display: grid;
+            grid-template-columns: 1fr 430px;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .checkout-card {
+            background: rgba(17,17,17,.9);
+            border: 1px solid #242424;
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        }
+
+        .checkout-card:hover {
+            border-color: rgba(124,58,237,.45);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 25px;
+        }
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #aaa;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            box-sizing: border-box;
+            background: #090909;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            color: #fff;
+            padding: 14px 15px;
+            outline: none;
+            font-family: inherit;
+            transition: .25s;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #7c3aed;
+            box-shadow: 0 0 18px rgba(124,58,237,.15);
+        }
+
+        /* PAYMENT */
+
+        .online-payment {
+            margin-top: 28px;
+            padding: 18px;
+            border: 1px solid rgba(124,58,237,.5);
+            border-radius: 12px;
+            background: linear-gradient(
+                135deg,
+                rgba(124,58,237,.12),
+                rgba(124,58,237,.03)
+            );
+        }
+
+        .payment-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 800;
+            font-size: 14px;
+            letter-spacing: .5px;
+        }
+
+        .payment-icon {
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #7c3aed;
+            border-radius: 9px;
+        }
+
+        .payment-description {
+            color: #888;
+            font-size: 12px;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* ORDER ITEMS */
+
+        .order-items {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .order-item {
+            display: flex;
+            gap: 15px;
+            padding: 16px 0;
+            border-bottom: 1px solid #242424;
+        }
+
+        .order-item:first-child {
+            padding-top: 0;
+        }
+
+        .order-poster {
+            width: 82px;
+            height: 105px;
+            flex-shrink: 0;
+            object-fit: cover;
+            border-radius: 9px;
+            border: 1px solid #333;
+            background: #080808;
+        }
+
+        .order-info {
+            min-width: 0;
+            flex: 1;
+        }
+
+        .order-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .order-meta {
+            color: #777;
+            font-size: 12px;
+            margin: 4px 0;
+        }
+
+        .order-price {
+            color: #ffd21f;
+            font-weight: 800;
+            font-size: 15px;
+            margin-top: 8px;
+        }
+
+        .promo-text {
+            display: inline-block;
+            margin-top: 6px;
+            color: #c4a5ff;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* TOTAL */
+
+        .total-section {
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid #292929;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .total-label {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .total-price {
+            color: #ffd21f;
+            font-size: 26px;
+            font-weight: 900;
+        }
+
+        /* BUTTON */
+
+        .pay-btn {
+            width: 100%;
+            margin-top: 22px;
+            padding: 16px;
+            border: 0;
+            border-radius: 11px;
+            background: linear-gradient(
+                135deg,
+                #7c3aed,
+                #8b5cf6
+            );
+            color: white;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: .25s;
+        }
+
+        .pay-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(124,58,237,.3);
+        }
+
+        .pay-btn:disabled {
+            opacity: .5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .secure-payment {
+            text-align: center;
+            color: #666;
+            font-size: 11px;
+            margin-top: 13px;
+        }
+
+        /* ERROR */
+
+        .checkout-message {
+            display: none;
+            margin-bottom: 20px;
+            padding: 13px 16px;
+            border-radius: 10px;
+            background: rgba(255,60,60,.08);
+            border: 1px solid rgba(255,60,60,.3);
+            color: #ff7777;
+            font-size: 13px;
+        }
+
+        .checkout-message.error {
+            display: block;
+        }
+
+        /* EMPTY */
+
+        .empty-checkout {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .empty-checkout h2 {
+            margin-bottom: 10px;
+        }
+
+        .empty-checkout p {
+            color: #777;
+        }
+
+        .empty-checkout a {
+            display: inline-block;
+            margin-top: 22px;
+            padding: 13px 22px;
+            background: #7c3aed;
+            color: white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        @media (max-width: 850px) {
+
+            .checkout-page {
+                padding: 110px 18px 60px;
+            }
+
+            .checkout-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .checkout-card {
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            .checkout-heading h1 {
+                font-size: 38px;
+            }
+
+            .order-poster {
+                width: 70px;
+                height: 90px;
+            }
+        }
+
+.checkout-item-image {
+    width: 72px;
+    height: 92px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #111;
+    border: 1px solid #2d1a54;
+}
+
+.checkout-item-image img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.checkout-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.checkout-item-title {
+    color: #fff;
+    font-weight: 700;
+}
+
+.checkout-item-meta {
+    color: #888;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+    </style>
+</head>
+
+<body>
+
+<header <nav class="navbar">
+
+    <a href="index.html" class="brand">
+        <span class="brand-mark">Z</span>
+
+        <span class="brand-text">
+            <strong>ZAVYRO</strong>
+            <small>POSTERS</small>
+        </span>
+    </a>
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Toggle navigation"
+    >
+        ☰
+    </button>
+
+    <div class="nav-links" id="navLinks">
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="shop.html">
+            Shop
+        </a>
+
+        <a href="shop.html#categories">
+            Categories
+        </a>
+
+        <a href="customize.html">
+            Customize
+        </a>
+
+        <a href="surprise-me.html">
+            Surprise Me
+        </a>
+
+        <a href="offers.html">
+            Offers
+        </a>
+
+        <a href="track-order.html">
+            Track Order
+        </a>
+
+        <a
+            href="cart.html"
+            class="nav-cart"
+        >
+            Cart
+            <span id="cartCount">0</span>
+        </a>
+
+    </div>
+
+</nav>
+</header>
+
+
+<main class="checkout-page">
+
+    <div class="checkout-heading">
+        <div class="small-title">ZAVYRO POSTERS</div>
+        <h1>CHECKOUT</h1>
+        <p>Almost there. Enter your delivery details to complete your order.</p>
+    </div>
+
+
+    <div id="checkoutMessage" class="checkout-message"></div>
+
+
+    <div id="emptyCheckout" class="checkout-card empty-checkout" hidden>
+
+        <h2>Your Cart is Empty</h2>
+
+        <p>Add some posters before proceeding to checkout.</p>
+
+        <a href="shop.html">EXPLORE POSTERS</a>
+
+    </div>
+
+
+    <div class="checkout-layout" id="checkoutContent">
+
+        <!-- CUSTOMER DETAILS -->
+
+        <section class="checkout-card">
+
+            <div class="card-title">
+                Delivery Details
+            </div>
+
+            <form id="checkoutForm">
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="10-digit mobile number"
+                        maxlength="10"
+                        pattern="[0-9]{10}"
+                        required
+                    >
+
+                </div>
+                <div class="form-group">
+
+    <label for="email">
+        Email Address
+    </label>
+
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Enter your email address"
+        required
+    >
+
+</div>
+
+
+                <div class="form-group">
+
+                    <label for="address">
+                        Full Delivery Address
+                    </label>
+
+                    <textarea
+                        id="address"
+                        name="address"
+                        placeholder="House / Door No, Street, Area, City, State"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="pincode">
+                        PIN Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="pincode"
+                        name="pincode"
+                        placeholder="6-digit PIN code"
+                        maxlength="6"
+                        pattern="[0-9]{6}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="online-payment">
+
+                    <div class="payment-heading">
+
+                        <div class="payment-icon">
+                            💳
+                        </div>
+
+                        ONLINE PAYMENT ONLY
+
+                    </div>
+
+                    <div class="payment-description">
+                        Pay securely using UPI, cards, net banking
+                        and other supported online payment methods.
+                    </div>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+        <!-- ORDER SUMMARY -->
+
+        <section class="checkout-card">
+
+            <div class="card-title">
+                Your Order
+            </div>
+
+            <div
+                class="order-items"
+                id="summaryItems"
+            ></div>
+
+
+            <div class="total-section">
+
+                <div class="total-row">
+
+                    <span class="total-label">
+                        Order Total
+                    </span>
+
+                    <span
+                        class="total-price"
+                        id="summaryTotal"
+                    >
+                        ₹0
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="pay-btn"
+                id="payBtn"
+            >
+                PAY NOW
+            </button>
+
+            <div class="secure-payment">
+                🔒 Secure online payment
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<!-- SUPABASE -->
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/checkout.js"></script>
+
+</body>
+</html>

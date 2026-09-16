@@ -1,0 +1,532 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Shop — Zavyro Posters</title>
+
+    <meta
+        name="description"
+        content="Shop premium posters from Zavyro Posters."
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <a
+        href="index.html"
+        class="brand"
+    >
+
+        <span class="brand-mark">
+            Z
+        </span>
+
+        <span class="brand-name">
+            ZAVYRO
+            <small>POSTERS</small>
+        </span>
+
+    </a>
+
+
+    <nav
+        class="nav-links"
+        id="navLinks"
+    >
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a
+            href="shop.html"
+            class="active"
+        >
+            Shop
+        </a>
+
+        <a href="shop.html#categories">
+            Categories
+        </a>
+
+        <a
+            href="offers.html"
+            class="offers-nav-link"
+        >
+            🔥 Offers
+        </a>
+
+        <a href="customize.html">
+            Customize
+        </a>
+
+        <a
+            href="random.html"
+            class="surprise-link"
+        >
+            Surprise Me
+            <span id="surpriseCountBadge">0</span>
+        </a>
+
+        <a href="track-order.html">
+            Track Orders
+        </a>
+
+        <a href="index.html#about">
+            About
+        </a>
+
+    </nav>
+
+
+    <a
+        href="cart.html"
+        class="cart-button"
+    >
+
+        <span>🛒</span>
+
+        <span>Cart</span>
+
+        <b id="cartCount">
+            0
+        </b>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+    >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     SHOP
+===================================================== -->
+
+<main class="shop-page">
+
+
+    <!-- =================================================
+         HERO
+    ================================================== -->
+
+    <section class="shop-hero">
+
+        <p class="section-label">
+            ZAVYRO COLLECTION
+        </p>
+
+        <h1>
+            FIND YOUR<br>
+            <span>POSTER.</span>
+        </h1>
+
+        <p class="shop-description">
+
+            Explore posters across anime, movies, music,
+            sports, cars, aesthetic and devotional art.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         FILTERS
+    ================================================== -->
+
+    <section
+        class="shop-controls"
+        id="categories"
+    >
+
+        <div class="filter-block">
+
+            <label>
+                CATEGORY
+            </label>
+
+            <select id="categoryFilter">
+
+                <option value="all">
+                    All Categories
+                </option>
+
+                <option value="anime">
+                    Anime
+                </option>
+
+                <option value="movies">
+                    Movies
+                </option>
+
+                <option value="sports">
+                    Sports
+                </option>
+
+                <option value="cars">
+                    Cars
+                </option>
+
+                <option value="music">
+                    Music
+                </option>
+
+                <option value="aesthetic">
+                    Aesthetic
+                </option>
+
+                <option value="devotional">
+                    Devotional
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-block">
+
+            <label>
+                SUBCATEGORY
+            </label>
+
+            <select id="subcategoryFilter">
+
+                <option value="all">
+                    All
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-block">
+
+            <label>
+                SIZE
+            </label>
+
+            <select id="sizeFilter">
+
+                <option value="all">
+                    All Sizes
+                </option>
+
+                <option value="A6">
+                    A6
+                </option>
+
+                <option value="A5">
+                    A5
+                </option>
+
+                <option value="A4">
+                    A4
+                </option>
+
+                <option value="A3">
+                    A3
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="filter-block">
+
+            <label>
+                SORT
+            </label>
+
+            <select id="sortFilter">
+
+                <option value="featured">
+                    Featured
+                </option>
+
+                <option value="low">
+                    Price: Low to High
+                </option>
+
+                <option value="high">
+                    Price: High to Low
+                </option>
+
+                <option value="az">
+                    Name: A — Z
+                </option>
+
+            </select>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         SEARCH
+    ================================================== -->
+
+    <section class="shop-search">
+
+        <div class="search-box">
+
+            <span>⌕</span>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search posters..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div class="result-count">
+
+            <span id="resultCount">
+                0
+            </span>
+
+            POSTERS
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         QUICK CATEGORIES
+    ================================================== -->
+
+    <section class="quick-categories">
+
+        <button
+            class="quick-category active"
+            data-category="all"
+        >
+            All
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="anime"
+        >
+            Anime
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="movies"
+        >
+            Movies
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="music"
+        >
+            Music
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="sports"
+        >
+            Sports
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="cars"
+        >
+            Cars
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="aesthetic"
+        >
+            Aesthetic
+        </button>
+
+        <button
+            class="quick-category"
+            data-category="devotional"
+        >
+            Devotional
+        </button>
+
+    </section>
+
+
+
+    <!-- =================================================
+         PRODUCTS
+    ================================================== -->
+
+    <section class="shop-products">
+
+        <div
+            class="shop-grid"
+            id="shopGrid"
+        >
+
+            <div class="shop-loading">
+                Loading posters...
+            </div>
+
+        </div>
+
+
+        <div
+            class="shop-empty"
+            id="shopEmpty"
+            hidden
+        >
+
+            <div class="shop-empty-z">
+                Z
+            </div>
+
+            <h2>
+                No posters found.
+            </h2>
+
+            <p>
+                Try another category, subcategory or search.
+            </p>
+
+            <button
+                id="resetFilters"
+                class="primary-btn"
+            >
+                Reset Filters
+            </button>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-top">
+
+        <div class="footer-brand">
+
+            <span class="footer-z">
+                Z
+            </span>
+
+            <div>
+
+                <strong>
+                    ZAVYRO
+                </strong>
+
+                <small>
+                    POSTERS
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <p>
+            ART • DESIGN • CULTURE
+        </p>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 Zavyro Posters. All rights reserved.
+        </span>
+
+        <a href="index.html">
+            BACK TO HOME ↑
+        </a>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/shop.js"></script>
+
+<script src="../js/shop-layout.js"></script>
+
+</body>
+
+</html>

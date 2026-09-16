@@ -1,0 +1,1087 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zavyro Posters — Art That Belongs</title>
+
+    <meta
+        name="description"
+        content="Zavyro Posters — Premium wall posters, anime, movies, music, sports, cars, aesthetic and devotional art."
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <!-- =====================================================
+         OFFERS HOMEPAGE SECTION
+         Uses existing Zavyro visual style
+    ====================================================== -->
+
+    <style>
+        /* =====================================================
+           ZAVYRO OFFERS PREVIEW
+           Added without changing existing sections
+        ===================================================== */
+
+        .zavyro-offers-preview {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zavyro-offers-preview-box {
+            position: relative;
+            min-height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 50px;
+            margin-top: 30px;
+
+            background:
+                radial-gradient(
+                    circle at 82% 50%,
+                    rgba(124, 58, 237, 0.18),
+                    transparent 32%
+                ),
+                #0d0d0d;
+
+            border: 1px solid rgba(124, 58, 237, 0.38);
+            border-radius: 22px;
+
+            box-shadow:
+                0 20px 70px rgba(0, 0, 0, 0.35),
+                0 0 35px rgba(124, 58, 237, 0.08);
+        }
+
+        .zavyro-offers-copy {
+            position: relative;
+            z-index: 2;
+            max-width: 590px;
+        }
+
+        .zavyro-offers-copy .section-label {
+            margin-bottom: 12px;
+        }
+
+        .zavyro-offers-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 18px;
+            padding: 7px 12px;
+
+            border: 1px solid rgba(124, 58, 237, 0.40);
+            border-radius: 999px;
+
+            background: rgba(124, 58, 237, 0.10);
+            color: #b794ff;
+
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .zavyro-offers-title {
+            margin: 0;
+            font-size: clamp(38px, 5vw, 64px);
+            line-height: 1;
+        }
+
+        .zavyro-offers-title span {
+            color: var(--purple2, #8b5cf6);
+        }
+
+        .zavyro-offers-text {
+            max-width: 520px;
+            margin: 20px 0 25px;
+            color: #999;
+            line-height: 1.7;
+        }
+
+        .zavyro-offers-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .zavyro-offers-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 13px 18px;
+            border-radius: 10px;
+
+            border: 1px solid #2b2b2b;
+            background: #111;
+
+            color: #aaa;
+            text-decoration: none;
+
+            transition: 0.25s ease;
+        }
+
+        .zavyro-offers-secondary:hover {
+            color: #fff;
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.08);
+        }
+
+        .zavyro-offers-visual {
+            position: absolute;
+            right: 7%;
+            top: 50%;
+            transform: translateY(-50%);
+
+            width: 260px;
+            height: 260px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid rgba(139, 92, 246, 0.45);
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(124, 58, 237, 0.16),
+                    rgba(124, 58, 237, 0.04) 48%,
+                    transparent 70%
+                );
+
+            box-shadow:
+                0 0 45px rgba(124, 58, 237, 0.16),
+                inset 0 0 45px rgba(124, 58, 237, 0.07);
+        }
+
+        .zavyro-offers-visual::before,
+        .zavyro-offers-visual::after {
+            content: "";
+            position: absolute;
+            border: 1px solid rgba(139, 92, 246, 0.18);
+            border-radius: 50%;
+        }
+
+        .zavyro-offers-visual::before {
+            width: 205px;
+            height: 205px;
+        }
+
+        .zavyro-offers-visual::after {
+            width: 145px;
+            height: 145px;
+        }
+
+        .zavyro-offers-symbol {
+            position: relative;
+            z-index: 2;
+
+            color: #8b5cf6;
+            font-size: 82px;
+            line-height: 1;
+
+            text-shadow:
+                0 0 25px rgba(124, 58, 237, 0.45);
+        }
+
+        @media (max-width: 900px) {
+
+            .zavyro-offers-preview-box {
+                min-height: 320px;
+                padding: 40px;
+            }
+
+            .zavyro-offers-visual {
+                right: 3%;
+                width: 220px;
+                height: 220px;
+                opacity: 0.55;
+            }
+
+            .zavyro-offers-symbol {
+                font-size: 70px;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .zavyro-offers-preview-box {
+                min-height: 360px;
+                padding: 32px 24px;
+            }
+
+            .zavyro-offers-copy {
+                max-width: 100%;
+            }
+
+            .zavyro-offers-title {
+                font-size: 42px;
+            }
+
+            .zavyro-offers-text {
+                max-width: 100%;
+            }
+
+            .zavyro-offers-visual {
+                right: -65px;
+                opacity: 0.25;
+            }
+
+            .zavyro-offers-buttons {
+                position: relative;
+                z-index: 3;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =====================================================
+     LOADER
+===================================================== -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-orb">
+        <div class="loader-ring"></div>
+        <div class="loader-mark">Z</div>
+    </div>
+
+    <div class="loader-logo">
+        ZAVYRO
+        <span>POSTERS</span>
+    </div>
+
+    <div class="loader-line"></div>
+
+</div>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <a href="index.html" class="brand">
+
+        <span class="brand-mark">Z</span>
+
+        <span class="brand-name">
+            ZAVYRO
+            <small>POSTERS</small>
+        </span>
+
+    </a>
+
+
+    <nav class="nav-links" id="navLinks">
+
+        <a href="index.html" class="active">Home</a>
+
+        <a href="shop.html">Shop</a>
+
+        <a href="shop.html#categories">Categories</a>
+
+        <!-- NEW -->
+        <a href="offers.html" class="offers-nav-link">
+            🔥 Offers
+        </a>
+
+        <a href="customize.html">Customize</a>
+
+        <a href="random.html" class="surprise-link">
+            Surprise Me
+            <span id="surpriseCountBadge">0</span>
+        </a>
+
+        <!-- TRACK ORDERS -->
+        <a href="track-order.html">
+            Track Orders
+        </a>
+
+        <a href="#about">About</a>
+
+    </nav>
+
+
+    <a href="cart.html" class="cart-button">
+
+        <span>🛒</span>
+
+        <span>Cart</span>
+
+        <b id="cartCount">0</b>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open menu"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+</header>
+
+
+<main>
+
+
+<!-- =====================================================
+     HERO
+===================================================== -->
+
+<section class="hero" id="home">
+
+    <div class="hero-glow"></div>
+
+
+    <div class="hero-content">
+
+        <div class="hero-copy">
+
+            <div class="hero-label">
+                <span>●</span>
+                PREMIUM WALL ART
+            </div>
+
+
+            <h1>
+                Art that<br>
+                belongs<br>
+                <span>on your wall.</span>
+            </h1>
+
+
+            <p class="hero-description">
+                Discover posters made to transform empty walls
+                into something personal, bold and unforgettable.
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a href="shop.html" class="primary-btn">
+                    Explore Posters
+                    <span>→</span>
+                </a>
+
+                <a href="customize.html" class="secondary-btn">
+                    Create Your Poster
+                </a>
+
+            </div>
+
+
+            <div class="hero-stats">
+
+                <div>
+                    <strong>500+</strong>
+                    <span>Designs</span>
+                </div>
+
+                <div>
+                    <strong>A3 — A6</strong>
+                    <span>Available Sizes</span>
+                </div>
+
+                <div>
+                    <strong>Custom</strong>
+                    <span>Your Photos</span>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- HERO POSTER -->
+
+        <div class="hero-poster-area">
+
+            <div class="hero-poster-shadow"></div>
+
+            <div class="hero-poster">
+
+                <div class="poster-top">
+                    ZAVYRO
+                    <span>01</span>
+                </div>
+
+                <div class="hero-z">
+                    Z
+                </div>
+
+                <div class="hero-poster-title">
+                    DEFINE<br>
+                    <span>YOUR SPACE</span>
+                </div>
+
+                <div class="poster-bottom">
+                    EST. 2026
+                    <span>ART / DESIGN / CULTURE</span>
+                </div>
+
+            </div>
+
+
+            <div class="floating-tag tag-new">
+                NEW<br>
+                <strong>2026</strong>
+            </div>
+
+            <div class="floating-tag tag-print">
+                PRINT<br>
+                <strong>01</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-scroll">
+        <span>SCROLL TO EXPLORE</span>
+        <div class="scroll-line"></div>
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CATEGORY STRIP
+===================================================== -->
+
+<section class="category-strip" id="categories">
+
+    <a href="shop.html?category=anime">
+        ANIME
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=movies">
+        MOVIES
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=sports">
+        SPORTS
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=cars">
+        CARS
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=music">
+        MUSIC
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=aesthetic">
+        AESTHETIC
+    </a>
+
+    <i>✦</i>
+
+    <a href="shop.html?category=devotional">
+        DEVOTIONAL
+    </a>
+
+</section>
+
+
+
+<!-- =====================================================
+     TRENDING
+===================================================== -->
+
+<section class="trending-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                TRENDING NOW
+            </p>
+
+            <h2>
+                Posters people <span>love.</span>
+            </h2>
+
+        </div>
+
+        <a href="shop.html" class="view-all">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="poster-grid" id="trendingGrid">
+
+        <!-- Javascript fills this -->
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     OFFERS & COMBOS
+===================================================== -->
+
+<section class="trending-section zavyro-offers-preview">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                SPECIAL DEALS
+            </p>
+
+            <h2>
+                Offers & <span>Combos.</span>
+            </h2>
+
+        </div>
+
+        <a href="offers.html" class="view-all">
+            View All →
+        </a>
+
+    </div>
+
+
+    <div class="zavyro-offers-preview-box">
+
+        <div class="zavyro-offers-copy">
+
+            <span class="zavyro-offers-badge">
+                🔥 ZAVYRO EXCLUSIVE
+            </span>
+
+            <h2 class="zavyro-offers-title">
+                More posters.<br>
+                Better <span>deals.</span>
+            </h2>
+
+            <p class="zavyro-offers-text">
+                Discover special Buy & Get offers, curated
+                poster combos and limited-time deals made
+                for people who want more art for less.
+            </p>
+
+
+            <div class="zavyro-offers-buttons">
+
+                <a
+                    href="offers.html"
+                    class="primary-btn"
+                >
+                    Explore Offers →
+                </a>
+
+                <a
+                    href="offers.html"
+                    class="zavyro-offers-secondary"
+                >
+                    View Combos
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="zavyro-offers-visual">
+
+            <div class="zavyro-offers-symbol">
+                %
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FIND YOUR STYLE
+===================================================== -->
+
+<section class="style-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                EXPLORE
+            </p>
+
+            <h2>
+                Find your <span>style.</span>
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="style-grid">
+
+        <a
+            href="shop.html?category=anime"
+            class="style-card"
+        >
+
+            <div class="style-image anime-style">
+                <span>ANIME</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Anime</strong>
+                <span>Naruto • One Piece • Dragon Ball</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="shop.html?category=movies"
+            class="style-card"
+        >
+
+            <div class="style-image movie-style">
+                <span>MOVIES</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Movies</strong>
+                <span>Kollywood • Bollywood • Marvel • DC</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="shop.html?category=sports"
+            class="style-card"
+        >
+
+            <div class="style-image sports-style">
+                <span>SPORTS</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Sports</strong>
+                <span>Cricket • Football • Formula 1</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="shop.html?category=music"
+            class="style-card"
+        >
+
+            <div class="style-image music-style">
+                <span>MUSIC</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Music</strong>
+                <span>Tamil • Hindi • English • Telugu</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="shop.html?category=aesthetic"
+            class="style-card"
+        >
+
+            <div class="style-image aesthetic-style">
+                <span>AESTHETIC</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Aesthetic</strong>
+                <span>Minimal • Dark • Vintage • Modern</span>
+            </div>
+
+        </a>
+
+
+        <a
+            href="shop.html?category=devotional"
+            class="style-card"
+        >
+
+            <div class="style-image devotional-style">
+                <span>DEVOTIONAL</span>
+            </div>
+
+            <div class="style-info">
+                <strong>Devotional</strong>
+                <span>Divine art for your space</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SURPRISE ME
+===================================================== -->
+
+<section class="surprise-section">
+
+    <div class="surprise-content">
+
+        <div>
+
+            <p class="section-label">
+                DON'T KNOW WHAT TO BUY?
+            </p>
+
+            <h2>
+                Let Zavyro<br>
+                <span>surprise you.</span>
+            </h2>
+
+            <p>
+                Choose how many posters you want and we'll
+                randomly pick designs from your selected style.
+            </p>
+
+        </div>
+
+
+        <div class="surprise-box">
+
+            <div class="surprise-count">
+
+                <span>POSTERS</span>
+
+                <div class="count-controls">
+
+                    <button
+                        type="button"
+                        id="homeMinus"
+                    >
+                        −
+                    </button>
+
+                    <strong id="homeSurpriseCount">
+                        1
+                    </strong>
+
+                    <button
+                        type="button"
+                        id="homePlus"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="random.html"
+                class="primary-btn surprise-button"
+                id="homeSurpriseButton"
+            >
+                Surprise Me →
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     SIZES
+===================================================== -->
+
+<section class="sizes-section">
+
+    <div class="section-heading">
+
+        <div>
+
+            <p class="section-label">
+                PRINT SIZES
+            </p>
+
+            <h2>
+                Choose your <span>size.</span>
+            </h2>
+
+        </div>
+
+        <p>
+            Available poster sizes from A6 to A3.
+        </p>
+
+    </div>
+
+
+    <div class="sizes-grid">
+
+        <div class="size-card">
+
+            <span>A6</span>
+
+            <strong>
+                105 × 148 mm
+            </strong>
+
+            <small>
+                Compact
+            </small>
+
+        </div>
+
+
+        <div class="size-card">
+
+            <span>A5</span>
+
+            <strong>
+                148 × 210 mm
+            </strong>
+
+            <small>
+                Small
+            </small>
+
+        </div>
+
+
+        <div class="size-card">
+
+            <span>A4</span>
+
+            <strong>
+                210 × 297 mm
+            </strong>
+
+            <small>
+                Classic
+            </small>
+
+        </div>
+
+
+        <div class="size-card featured">
+
+            <span>A3</span>
+
+            <strong>
+                297 × 420 mm
+            </strong>
+
+            <small>
+                Statement
+            </small>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     CUSTOM POSTER
+===================================================== -->
+
+<section class="custom-section">
+
+    <div class="custom-box">
+
+        <div>
+
+            <p class="section-label">
+                MAKE IT YOURS
+            </p>
+
+            <h2>
+                Your photo.<br>
+                <span>Your poster.</span>
+            </h2>
+
+            <p>
+                Upload your photo, choose A3, A4, A5 or A6,
+                and create a wall poster made specifically for you.
+            </p>
+
+            <a href="customize.html" class="primary-btn">
+                Customize Now →
+            </a>
+
+        </div>
+
+
+        <div class="custom-preview">
+
+            <div class="custom-frame">
+
+                <div class="custom-frame-z">
+                    Z
+                </div>
+
+                <span>
+                    CUSTOM
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ABOUT
+===================================================== -->
+
+<section class="about-section" id="about">
+
+    <div class="about-content">
+
+        <div>
+
+            <p class="section-label">
+                ABOUT ZAVYRO
+            </p>
+
+            <h2>
+                ART MADE<br>
+                <span>PERSONAL.</span>
+            </h2>
+
+        </div>
+
+
+        <div class="about-text">
+
+            <p>
+                Zavyro Posters is built around one simple idea —
+                your walls should say something about you.
+            </p>
+
+            <p>
+                From anime and cinema to sports, music,
+                aesthetic and devotional art, discover posters
+                made to fit your personality and your space.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-top">
+
+        <div class="footer-brand">
+
+            <span class="footer-z">
+                Z
+            </span>
+
+            <div>
+                <strong>ZAVYRO</strong>
+                <small>POSTERS</small>
+            </div>
+
+        </div>
+
+        <p>
+            ART • DESIGN • CULTURE
+        </p>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 Zavyro Posters. All rights reserved.
+        </span>
+
+        <a href="#home">
+            BACK TO TOP ↑
+        </a>
+
+    </div>
+
+</footer>
+
+</main>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+
+<script src="../js/products.js"></script>
+<script src="../js/script.js"></script>
+
+</body>
+</html>

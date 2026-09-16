@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Random — Zavyro Posters
+    </title>
+
+
+    <link
+        rel="stylesheet"
+        href="../css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="../css/responsive.css"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           RANDOM PAGE
+        ===================================================== */
+
+        .random-page {
+
+            width:
+                min(
+                    1200px,
+                    calc(100% - 40px)
+                );
+
+            margin:
+                0 auto;
+
+            padding:
+                145px 0 100px;
+
+        }
+
+
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        .random-header {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                50px;
+
+        }
+
+
+        .random-header h1 {
+
+            margin:
+                0;
+
+            font-size:
+                clamp(
+                    48px,
+                    7vw,
+                    88px
+                );
+
+            line-height:
+                .9;
+
+            letter-spacing:
+                -4px;
+
+        }
+
+
+        .random-header h1 span {
+
+            color:
+                #8b5cf6;
+
+        }
+
+
+        .random-header p:last-child {
+
+            max-width:
+                620px;
+
+            margin:
+                22px auto 0;
+
+            color:
+                #999;
+
+            font-size:
+                14px;
+
+            line-height:
+                1.7;
+
+        }
+
+
+        /* =====================================================
+           BUILDER
+        ===================================================== */
+
+        .random-builder {
+
+            padding:
+                32px;
+
+            border:
+                1px solid
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .35
+                );
+
+            border-radius:
+                22px;
+
+            background:
+
+                radial-gradient(
+                    circle at 85% 10%,
+                    rgba(
+                        124,
+                        58,
+                        237,
+                        .14
+                    ),
+                    transparent 32%
+                ),
+
+                linear-gradient(
+                    145deg,
+                    #111,
+                    #0b0b0b
+                );
+
+            box-shadow:
+
+                0 25px 80px
+                rgba(0,0,0,.42),
+
+                0 0 40px
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .07
+                );
+
+        }
+
+
+        .builder-top {
+
+            text-align:
+                center;
+
+            margin-bottom:
+                28px;
+
+        }
+
+
+        .builder-top small {
+
+            display:
+                block;
+
+            color:
+                #7c3aed;
+
+            font-size:
+                10px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                2px;
+
+            margin-bottom:
+                8px;
+
+        }
+
+
+        .builder-top h2 {
+
+            margin:
+                0;
+
+            font-size:
+                28px;
+
+        }
+
+
+        /* =====================================================
+           FIELDS
+        ===================================================== */
+
+        .random-fields {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    2,
+                    1fr
+                );
+
+            gap:
+                18px;
+
+        }
+
+
+        .random-field {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                8px;
+
+        }
+
+
+        .random-field label {
+
+            color:
+                #aaa;
+
+            font-size:
+                11px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1.5px;
+
+        }
+
+
+        .random-field select {
+
+            width:
+                100%;
+
+            padding:
+                15px 16px;
+
+            border:
+                1px solid
+                #2c2c2c;
+
+            border-radius:
+                11px;
+
+            background:
+                #0a0a0a;
+
+            color:
+                #fff;
+
+            outline:
+                none;
+
+            cursor:
+                pointer;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .random-field select:hover,
+        .random-field select:focus {
+
+            border-color:
+                #7c3aed;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .08
+                );
+
+        }
+
+
+        .random-field select:disabled {
+
+            opacity:
+                .45;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        /* =====================================================
+           COUNT
+        ===================================================== */
+
+        .random-count-box {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            min-height:
+                54px;
+
+            padding:
+                0 14px;
+
+            border:
+                1px solid
+                #2c2c2c;
+
+            border-radius:
+                11px;
+
+            background:
+                #0a0a0a;
+
+        }
+
+
+        .random-count-label {
+
+            color:
+                #888;
+
+            font-size:
+                12px;
+
+        }
+
+
+        .random-count-controls {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                12px;
+
+        }
+
+
+        .random-count-controls button {
+
+            width:
+                34px;
+
+            height:
+                34px;
+
+            border:
+                1px solid
+                #333;
+
+            border-radius:
+                50%;
+
+            background:
+                #151515;
+
+            color:
+                #fff;
+
+            font-size:
+                18px;
+
+            cursor:
+                pointer;
+
+            transition:
+                .2s ease;
+
+        }
+
+
+        .random-count-controls button:hover {
+
+            border-color:
+                #7c3aed;
+
+            background:
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .14
+                );
+
+        }
+
+
+        #randomCount {
+
+            min-width:
+                25px;
+
+            text-align:
+                center;
+
+            color:
+                #fff;
+
+            font-weight:
+                900;
+
+            font-size:
+                18px;
+
+        }
+
+
+        /* =====================================================
+           GENERATE
+        ===================================================== */
+
+        .random-generate-wrap {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            margin-top:
+                25px;
+
+        }
+
+
+        #generateRandom {
+
+            min-width:
+                250px;
+
+            border:
+                0;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        .random-message {
+
+            min-height:
+                22px;
+
+            margin-top:
+                16px;
+
+            text-align:
+                center;
+
+            color:
+                #a78bfa;
+
+            font-size:
+                13px;
+
+        }
+
+
+        /* =====================================================
+           RESULTS
+        ===================================================== */
+
+        .random-results {
+
+            display:
+                none;
+
+            margin-top:
+                60px;
+
+        }
+
+
+        .random-results.show {
+
+            display:
+                block;
+
+        }
+
+
+        .random-results-header {
+
+            display:
+                flex;
+
+            align-items:
+                flex-end;
+
+            justify-content:
+                space-between;
+
+            gap:
+                20px;
+
+            margin-bottom:
+                25px;
+
+        }
+
+
+        .random-results-header h2 {
+
+            margin:
+                0;
+
+            font-size:
+                clamp(
+                    30px,
+                    4vw,
+                    48px
+                );
+
+            line-height:
+                1;
+
+        }
+
+
+        .random-results-header h2 span {
+
+            color:
+                #8b5cf6;
+
+        }
+
+
+        .random-results-meta {
+
+            color:
+                #777;
+
+            font-size:
+                12px;
+
+            text-align:
+                right;
+
+        }
+
+
+        /* =====================================================
+           PREVIEW WALL
+        ===================================================== */
+
+        .random-preview-box {
+
+            position:
+                relative;
+
+            padding:
+                30px;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                rgba(
+                    139,
+                    92,
+                    246,
+                    .40
+                );
+
+            border-radius:
+                22px;
+
+            background:
+
+                radial-gradient(
+                    circle at 50% 0%,
+                    rgba(
+                        124,
+                        58,
+                        237,
+                        .12
+                    ),
+                    transparent 45%
+                ),
+
+                #0b0b0b;
+
+            box-shadow:
+
+                inset 0 0 50px
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .04
+                ),
+
+                0 25px 70px
+                rgba(
+                    0,
+                    0,
+                    0,
+                    .40
+                );
+
+        }
+
+
+        .random-preview-box::before {
+
+            content:
+                "Z";
+
+            position:
+                absolute;
+
+            right:
+                25px;
+
+            top:
+                -45px;
+
+            color:
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .025
+                );
+
+            font-size:
+                250px;
+
+            font-weight:
+                900;
+
+            pointer-events:
+                none;
+
+        }
+
+
+        /* =====================================================
+           GRID
+        ===================================================== */
+
+        .random-grid {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    4,
+                    minmax(
+                        0,
+                        1fr
+                    )
+                );
+
+            align-items:
+                start;
+
+            gap:
+                24px;
+
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .random-card {
+
+            min-width:
+                0;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .35
+                );
+
+            border-radius:
+                15px;
+
+            background:
+
+                linear-gradient(
+                    145deg,
+                    rgba(
+                        124,
+                        58,
+                        237,
+                        .12
+                    ),
+                    #101010
+                );
+
+            transition:
+                .3s ease;
+
+        }
+
+
+        .random-card:hover {
+
+            transform:
+                translateY(-6px);
+
+            border-color:
+                #8b5cf6;
+
+            box-shadow:
+                0 18px 45px
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .15
+                );
+
+        }
+
+
+        /* =====================================================
+           IMAGE BOX
+
+           THIS IS THE IMPORTANT PART.
+
+           Vertical:
+           210 / 297
+
+           Horizontal:
+           297 / 210
+        ===================================================== */
+
+        .random-card-image {
+
+            position:
+                relative;
+
+            width:
+                100%;
+
+            overflow:
+                hidden;
+
+            background:
+                #111;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+        }
+
+
+        .random-card-image.is-vertical {
+
+            aspect-ratio:
+                210 / 297;
+
+        }
+
+
+        .random-card-image.is-horizontal {
+
+            aspect-ratio:
+                297 / 210;
+
+        }
+
+
+        /* =====================================================
+           IMAGE
+
+           NEVER CROP.
+           NEVER STRETCH.
+        ===================================================== */
+
+        .random-card-image img {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            max-width:
+                100%;
+
+            max-height:
+                100%;
+
+            display:
+                block;
+
+            object-fit:
+                contain;
+
+            object-position:
+                center;
+
+            user-select:
+                none;
+
+        }
+
+
+        .random-image-error {
+
+            width:
+                100%;
+
+            height:
+                100%;
+
+            min-height:
+                180px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            color:
+                #666;
+
+            font-size:
+                11px;
+
+        }
+
+
+        /* =====================================================
+           INFO
+        ===================================================== */
+
+        .random-card-info {
+
+            padding:
+                14px;
+
+        }
+
+
+        .random-card-category {
+
+            display:
+                block;
+
+            color:
+                #8b5cf6;
+
+            font-size:
+                9px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1.5px;
+
+            text-transform:
+                uppercase;
+
+        }
+
+
+        .random-card-info h3 {
+
+            margin:
+                6px 0 0;
+
+            color:
+                #fff;
+
+            font-size:
+                14px;
+
+        }
+
+
+        .random-card-subcategory {
+
+            margin-top:
+                5px;
+
+            color:
+                #666;
+
+            font-size:
+                10px;
+
+        }
+
+
+        .random-card-price {
+
+            margin-top:
+                9px;
+
+            color:
+                #ffd84d;
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        /* =====================================================
+           EMPTY
+        ===================================================== */
+
+        .random-empty {
+
+            grid-column:
+                1 / -1;
+
+            padding:
+                55px 20px;
+
+            text-align:
+                center;
+
+            border:
+                1px dashed
+                #292929;
+
+            border-radius:
+                14px;
+
+            color:
+                #666;
+
+        }
+
+
+        .random-empty strong {
+
+            display:
+                block;
+
+            margin-bottom:
+                8px;
+
+            color:
+                #aaa;
+
+            font-size:
+                18px;
+
+        }
+
+
+        /* =====================================================
+           ACTIONS
+        ===================================================== */
+
+        .random-actions {
+
+            display:
+                flex;
+
+            justify-content:
+                center;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                12px;
+
+            margin-top:
+                25px;
+
+        }
+
+
+        .random-secondary-btn {
+
+            border:
+                1px solid
+                #2e2e2e;
+
+            border-radius:
+                10px;
+
+            padding:
+                13px 20px;
+
+            background:
+                #111;
+
+            color:
+                #aaa;
+
+            cursor:
+                pointer;
+
+            transition:
+                .25s ease;
+
+        }
+
+
+        .random-secondary-btn:hover {
+
+            color:
+                #fff;
+
+            border-color:
+                #7c3aed;
+
+            background:
+                rgba(
+                    124,
+                    58,
+                    237,
+                    .08
+                );
+
+        }
+
+
+        .random-actions button:disabled {
+
+            opacity:
+                .45;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 1000px) {
+
+            .random-grid {
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                    );
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .random-page {
+
+                width:
+                    min(
+                        100% - 28px,
+                        600px
+                    );
+
+                padding:
+                    125px 0 70px;
+
+            }
+
+
+            .random-builder {
+
+                padding:
+                    22px;
+
+            }
+
+
+            .random-fields {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .random-results-header {
+
+                align-items:
+                    flex-start;
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .random-results-meta {
+
+                text-align:
+                    left;
+
+            }
+
+
+            .random-preview-box {
+
+                padding:
+                    16px;
+
+            }
+
+
+            .random-grid {
+
+                grid-template-columns:
+                    repeat(
+                        2,
+                        minmax(
+                            0,
+                            1fr
+                        )
+                    );
+
+                gap:
+                    14px;
+
+            }
+
+        }
+
+
+        @media (max-width: 450px) {
+
+            .random-header h1 {
+
+                letter-spacing:
+                    -2px;
+
+            }
+
+
+            .random-count-box {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    stretch;
+
+                justify-content:
+                    center;
+
+                gap:
+                    10px;
+
+                padding:
+                    12px;
+
+            }
+
+
+            .random-count-controls {
+
+                justify-content:
+                    center;
+
+            }
+
+
+            .random-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     NAVBAR
+===================================================== -->
+
+<header class="navbar">
+
+    <a
+        href="index.html"
+        class="brand"
+    >
+
+        <span class="brand-mark">
+            Z
+        </span>
+
+        <span class="brand-name">
+
+            ZAVYRO
+
+            <small>
+                POSTERS
+            </small>
+
+        </span>
+
+    </a>
+
+
+    <nav
+        class="nav-links"
+        id="navLinks"
+    >
+
+        <a href="index.html">
+            Home
+        </a>
+
+        <a href="shop.html">
+            Shop
+        </a>
+
+        <a href="shop.html#categories">
+            Categories
+        </a>
+
+        <a
+            href="offers.html"
+            class="offers-nav-link"
+        >
+            🔥 Offers
+        </a>
+
+        <a href="customize.html">
+            Customize
+        </a>
+
+        <a
+            href="random.html"
+            class="active surprise-link"
+        >
+
+            Random
+
+            <span
+                id="surpriseCountBadge"
+            >
+                1
+            </span>
+
+        </a>
+
+        <a href="track-order.html">
+            Track Orders
+        </a>
+
+        <a href="index.html#about">
+            About
+        </a>
+
+    </nav>
+
+
+    <a
+        href="cart.html"
+        class="cart-button"
+    >
+
+        <span>
+            🛒
+        </span>
+
+        <span>
+            Cart
+        </span>
+
+        <b id="cartCount">
+            0
+        </b>
+
+    </a>
+
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open menu"
+    >
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main class="random-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <section class="random-header">
+
+        <p class="section-label">
+            RANDOM POSTER PICKER
+        </p>
+
+
+        <h1>
+
+            PICK YOUR<br>
+
+            <span>
+                RANDOM.
+            </span>
+
+        </h1>
+
+
+        <p>
+
+            Choose your category,
+            subcategory, poster size
+            and quantity. Zavyro will
+            randomly select posters that
+            are actually available in your
+            chosen size.
+
+        </p>
+
+    </section>
+
+
+
+    <!-- =================================================
+         BUILDER
+    ================================================== -->
+
+    <section class="random-builder">
+
+
+        <div class="builder-top">
+
+            <small>
+                01 — 04
+            </small>
+
+            <h2>
+                Build Your Random Collection
+            </h2>
+
+        </div>
+
+
+
+        <div class="random-fields">
+
+
+            <!-- CATEGORY -->
+
+            <div class="random-field">
+
+                <label
+                    for="randomCategory"
+                >
+                    01 / CATEGORY
+                </label>
+
+
+                <select
+                    id="randomCategory"
+                >
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option value="anime">
+                        Anime
+                    </option>
+
+                    <option value="movies">
+                        Movies
+                    </option>
+
+                    <option value="music">
+                        Music
+                    </option>
+
+                    <option value="sports">
+                        Sports
+                    </option>
+
+                    <option value="cars">
+                        Cars
+                    </option>
+
+                    <option value="aesthetic">
+                        Aesthetic
+                    </option>
+
+                    <option value="devotional">
+                        Devotional
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SUBCATEGORY -->
+
+            <div class="random-field">
+
+                <label
+                    for="randomSubcategory"
+                >
+                    02 / SUBCATEGORY
+                </label>
+
+
+                <select
+                    id="randomSubcategory"
+                    disabled
+                >
+
+                    <option value="">
+                        Select Category First
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- SIZE -->
+
+            <div class="random-field">
+
+                <label
+                    for="randomSize"
+                >
+                    03 / POSTER SIZE
+                </label>
+
+
+                <select
+                    id="randomSize"
+                    disabled
+                >
+
+                    <option value="">
+                        Select Category First
+                    </option>
+
+                    <option value="A6">
+                        A6
+                    </option>
+
+                    <option value="A5">
+                        A5
+                    </option>
+
+                    <option value="A4">
+                        A4
+                    </option>
+
+                    <option value="A3">
+                        A3
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <!-- COUNT -->
+
+            <div class="random-field">
+
+                <label>
+                    04 / NUMBER OF POSTERS
+                </label>
+
+
+                <div class="random-count-box">
+
+                    <span
+                        class="random-count-label"
+                    >
+                        How many?
+                    </span>
+
+
+                    <div
+                        class="random-count-controls"
+                    >
+
+                        <button
+                            type="button"
+                            id="randomMinus"
+                            aria-label="Decrease quantity"
+                        >
+                            −
+                        </button>
+
+
+                        <strong
+                            id="randomCount"
+                        >
+                            1
+                        </strong>
+
+
+                        <button
+                            type="button"
+                            id="randomPlus"
+                            aria-label="Increase quantity"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- GENERATE -->
+
+        <div
+            class="random-generate-wrap"
+        >
+
+            <button
+                type="button"
+                id="generateRandom"
+                class="primary-btn"
+            >
+                GENERATE RANDOM →
+            </button>
+
+        </div>
+
+
+        <div
+            id="randomMessage"
+            class="random-message"
+        ></div>
+
+    </section>
+
+
+
+    <!-- =================================================
+         RESULTS
+    ================================================== -->
+
+    <section
+        id="randomResults"
+        class="random-results"
+    >
+
+
+        <div
+            class="random-results-header"
+        >
+
+            <div>
+
+                <p class="section-label">
+                    YOUR RANDOM PICKS
+                </p>
+
+
+                <h2>
+
+                    ZAVYRO
+
+                    <span>
+                        SELECTED.
+                    </span>
+
+                </h2>
+
+            </div>
+
+
+            <div
+                id="randomResultsMeta"
+                class="random-results-meta"
+            >
+                0 posters selected
+            </div>
+
+        </div>
+
+
+
+        <!-- PREVIEW -->
+
+        <div
+            class="random-preview-box"
+        >
+
+            <div
+                id="randomGrid"
+                class="random-grid"
+            ></div>
+
+        </div>
+
+
+
+        <!-- ACTIONS -->
+
+        <div
+            class="random-actions"
+        >
+
+            <button
+                type="button"
+                id="generateAgain"
+                class="random-secondary-btn"
+                disabled
+            >
+                🔄 Generate Again
+            </button>
+
+
+            <button
+                type="button"
+                id="addRandomToCart"
+                class="primary-btn"
+                disabled
+            >
+                ADD ALL TO CART →
+            </button>
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     SCRIPTS
+===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+></script>
+
+
+<script
+    src="../js/supabase.js"
+></script>
+
+
+<script
+    src="../js/random.js"
+></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Offer — Zavyro Posters</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        .offer-page {
+            min-height: 100vh;
+            padding: 130px 6% 70px;
+            background:
+                radial-gradient(circle at 10% 15%, rgba(124, 58, 237, .12), transparent 28%),
+                radial-gradient(circle at 90% 25%, rgba(139, 92, 246, .10), transparent 28%),
+                #080808;
+        }
+
+        .offer-container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #aaa;
+            text-decoration: none;
+            margin-bottom: 28px;
+        }
+
+        .back-link:hover {
+            color: #fff;
+        }
+
+        .offer-top {
+            display: grid;
+            grid-template-columns: 420px 1fr;
+            gap: 45px;
+            align-items: start;
+        }
+
+        .offer-main-image {
+            height: 500px;
+            border: 1px solid #5823a1;
+            border-radius: 18px;
+            overflow: hidden;
+            background: #101010;
+            box-shadow: 0 0 35px rgba(124, 58, 237, .15);
+        }
+
+        .offer-main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .offer-main-image.no-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: #8b5cf6;
+        }
+
+        .offer-info .badge {
+            display: inline-block;
+            padding: 7px 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(124, 58, 237, .45);
+            color: #b994ff;
+            background: rgba(124, 58, 237, .12);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .offer-info h1 {
+            margin: 0;
+            font-size: clamp(34px, 4vw, 55px);
+            line-height: 1.05;
+        }
+
+        .offer-description {
+            color: #999;
+            line-height: 1.7;
+            margin: 18px 0;
+        }
+
+        .offer-highlight {
+            padding: 16px;
+            border: 1px solid #32145f;
+            border-radius: 12px;
+            background: rgba(124, 58, 237, .08);
+            color: #d7c5ff;
+            margin-bottom: 25px;
+        }
+
+        .offer-section-title {
+            font-size: 14px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .size-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .size-btn {
+            min-width: 68px;
+            padding: 12px 17px;
+            border-radius: 9px;
+            border: 1px solid #303030;
+            background: #111;
+            color: #aaa;
+            cursor: pointer;
+            transition: .2s ease;
+        }
+
+        .size-btn:hover {
+            border-color: #7c3aed;
+            color: #fff;
+        }
+
+        .size-btn.active {
+            background: #7c3aed;
+            border-color: #8b5cf6;
+            color: white;
+            box-shadow: 0 0 20px rgba(124, 58, 237, .22);
+        }
+
+        .selection-note {
+            color: #777;
+            font-size: 12px;
+            margin-top: -18px;
+            margin-bottom: 22px;
+        }
+
+        .products-title {
+            margin: 35px 0 15px;
+            font-size: 18px;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .offer-product {
+            border: 1px solid #272727;
+            border-radius: 12px;
+            background: #101010;
+            overflow: hidden;
+        }
+
+        .offer-product.selected {
+            border-color: #7c3aed;
+            box-shadow: 0 0 25px rgba(124, 58, 237, .14);
+        }
+
+        .offer-product-image {
+            height: 220px;
+            background: #0b0b0b;
+        }
+
+        .offer-product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .offer-product-body {
+            padding: 14px;
+        }
+
+        .offer-product-body h3 {
+            margin: 0 0 8px;
+            font-size: 16px;
+        }
+
+        .offer-product-body p {
+            margin: 0 0 13px;
+            color: #777;
+            font-size: 12px;
+        }
+
+        .select-product-btn {
+            width: 100%;
+            border: 1px solid #343434;
+            background: #161616;
+            color: #aaa;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .offer-product.selected .select-product-btn {
+            background: #7c3aed;
+            color: #fff;
+            border-color: #7c3aed;
+        }
+
+        .offer-bottom {
+            margin-top: 35px;
+            padding: 22px;
+            border: 1px solid #2d1551;
+            border-radius: 14px;
+            background: #0e0e0e;
+        }
+
+        .selection-count {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .selection-count strong {
+            color: #fff;
+        }
+
+        .offer-price-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .offer-price {
+            color: #ffd84d;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .offer-price-label {
+            color: #777;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .add-offer-btn {
+            border: 0;
+            border-radius: 10px;
+            padding: 14px 24px;
+            background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .add-offer-btn:disabled {
+            opacity: .45;
+            cursor: not-allowed;
+        }
+
+        .status-message {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .status-message.error {
+            color: #ff8585;
+        }
+
+        .status-message.success {
+            color: #73e6a0;
+        }
+
+        .offer-loading,
+        .offer-error {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+
+        .offer-error {
+            color: #ff8585;
+        }
+
+        @media (max-width: 950px) {
+            .offer-top {
+                grid-template-columns: 1fr;
+            }
+
+            .offer-main-image {
+                max-width: 500px;
+                width: 100%;
+                margin: auto;
+            }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .offer-page {
+                padding: 115px 16px 50px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .offer-main-image {
+                height: 400px;
+            }
+
+            .offer-price-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .add-offer-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+
+    <a href="index.html" class="brand">
+        <div class="brand-mark">Z</div>
+
+        <div class="brand-name">
+            ZAVYRO
+            <small>POSTERS</small>
+        </div>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="offers.html">Offers</a>
+        <a href="customize.html">Customize</a>
+        <a href="cart.html">Cart</a>
+    </div>
+
+    <button id="menuToggle" class="menu-toggle">
+        ☰
+    </button>
+
+</nav>
+
+
+<main class="offer-page">
+
+    <div class="offer-container">
+
+        <a href="offers.html" class="back-link">
+            ← Back to Offers
+        </a>
+
+        <div id="offerLoading" class="offer-loading">
+            Loading offer...
+        </div>
+
+        <div id="offerError" class="offer-error" hidden></div>
+
+
+        <section id="offerContent" hidden>
+
+            <div class="offer-top">
+
+                <div id="offerMainImage" class="offer-main-image"></div>
+
+                <div class="offer-info">
+
+                    <span id="offerBadge" class="badge">
+                        OFFER
+                    </span>
+
+                    <h1 id="offerTitle"></h1>
+
+                    <p id="offerDescription" class="offer-description"></p>
+
+                    <div id="offerHighlight" class="offer-highlight"></div>
+
+
+                    <div class="offer-section-title">
+                        Choose Size
+                    </div>
+
+                    <div id="sizeButtons" class="size-buttons"></div>
+
+                    <div class="selection-note">
+                        All posters in this offer must use the same size.
+                    </div>
+
+                    <h2 class="products-title">
+                        Choose Your Posters
+                    </h2>
+
+                    <div id="productsGrid" class="products-grid"></div>
+
+                </div>
+
+            </div>
+
+
+            <div class="offer-bottom">
+
+                <div class="selection-count">
+                    Selected:
+                    <strong id="selectionCount">0</strong>
+                    posters
+                </div>
+
+                <div class="offer-price-row">
+
+                    <div>
+                        <div id="offerPrice" class="offer-price">
+                            Special Deal
+                        </div>
+
+                        <div id="offerPriceLabel" class="offer-price-label">
+                            Offer price
+                        </div>
+                    </div>
+
+                    <button
+                        id="addOfferBtn"
+                        class="add-offer-btn"
+                        disabled
+                    >
+                        ADD OFFER TO CART
+                    </button>
+
+                </div>
+
+                <div
+                    id="statusMessage"
+                    class="status-message"
+                ></div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../js/supabase.js"></script>
+<script src="../js/offer.js"></script>
+
+</body>
+</html>

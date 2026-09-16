@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Zavyro — Poster Editor</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+
+        :root {
+            --bg:#070707;
+            --panel:#101010;
+            --panel2:#151515;
+            --border:#292929;
+            --text:#f5f5f5;
+            --muted:#8d8d8d;
+            --purple:#7c3aed;
+            --purple2:#8b5cf6;
+        }
+
+        * {
+            box-sizing:border-box;
+        }
+
+        html,
+        body {
+            margin:0;
+            min-height:100%;
+            background:var(--bg);
+            color:var(--text);
+        }
+
+        body {
+            font-family:Arial,Helvetica,sans-serif;
+            overflow-x:hidden;
+        }
+
+        button,
+        input {
+            font:inherit;
+        }
+
+        button {
+            cursor:pointer;
+        }
+
+
+        /* ================= TOP ================= */
+
+        .editor-topbar {
+            height:72px;
+            padding:0 22px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            border-bottom:1px solid var(--border);
+            background:rgba(7,7,7,.96);
+            position:sticky;
+            top:0;
+            z-index:100;
+        }
+
+        .editor-brand {
+            display:flex;
+            align-items:center;
+            gap:11px;
+        }
+
+        .editor-brand-mark {
+            width:40px;
+            height:40px;
+            display:grid;
+            place-items:center;
+            border-radius:11px;
+            background:linear-gradient(
+                135deg,
+                var(--purple),
+                var(--purple2)
+            );
+            font-size:22px;
+            font-weight:900;
+            box-shadow:0 0 25px rgba(124,58,237,.3);
+        }
+
+        .editor-brand-title {
+            font-weight:900;
+            letter-spacing:.08em;
+        }
+
+        .editor-brand-subtitle {
+            margin-top:3px;
+            color:#777;
+            font-size:10px;
+            letter-spacing:.08em;
+        }
+
+        .back-btn {
+            padding:10px 16px;
+            border:1px solid var(--border);
+            border-radius:10px;
+            background:#111;
+            color:white;
+        }
+
+        .back-btn:hover {
+            border-color:var(--purple);
+        }
+
+
+        /* ================= LAYOUT ================= */
+
+        .editor-layout {
+            display:grid;
+            grid-template-columns:245px minmax(0,1fr) 245px;
+            min-height:calc(100vh - 72px);
+        }
+
+        .editor-sidebar,
+        .editor-rightbar {
+            min-width:0;
+            padding:18px 16px;
+            background:#0c0c0c;
+        }
+
+        .editor-sidebar {
+            border-right:1px solid var(--border);
+        }
+
+        .editor-rightbar {
+            border-left:1px solid var(--border);
+        }
+
+        .editor-center {
+            min-width:0;
+            min-height:calc(100vh - 72px);
+            padding:25px;
+            display:flex;
+            flex-direction:column;
+        }
+
+
+        /* ================= SECTION ================= */
+
+        .editor-section {
+            width:100%;
+            margin-bottom:23px;
+        }
+
+        .editor-section-title {
+            margin-bottom:10px;
+            color:#8e8e8e;
+            font-size:10px;
+            font-weight:800;
+            letter-spacing:.15em;
+            text-transform:uppercase;
+        }
+
+
+        /* ================= SIZE ================= */
+
+        .size-grid {
+            display:grid;
+            grid-template-columns:repeat(2,minmax(0,1fr));
+            gap:10px;
+            width:100%;
+        }
+
+        .size-btn {
+            width:100%;
+            min-width:0;
+            min-height:68px;
+
+            padding:10px 5px;
+
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+
+            border:1px solid var(--border);
+            border-radius:11px;
+
+            background:#111;
+            color:white;
+
+            overflow:hidden;
+        }
+
+        .size-btn:hover,
+        .size-btn.active {
+            border-color:var(--purple);
+            background:rgba(124,58,237,.15);
+        }
+
+        .size-btn strong {
+            display:block;
+            font-size:15px;
+            line-height:1;
+        }
+
+        .size-btn span {
+            display:block;
+            margin-top:6px;
+            color:#777;
+            font-size:9px;
+            line-height:1;
+            white-space:nowrap;
+        }
+
+
+        /* ================= ORIENTATION ================= */
+
+        .orientation-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:8px;
+        }
+
+        .orientation-btn {
+            padding:12px 5px;
+            border:1px solid var(--border);
+            border-radius:10px;
+            background:#111;
+            color:white;
+        }
+
+        .orientation-btn.active {
+            border-color:var(--purple);
+            background:rgba(124,58,237,.16);
+        }
+
+
+        /* ================= IMAGE ================= */
+
+        .upload-box {
+            border:1px dashed #3b3b3b;
+            border-radius:11px;
+            padding:11px;
+            background:#0d0d0d;
+        }
+
+        .upload-box label {
+            display:block;
+            padding:12px;
+            text-align:center;
+            border:1px solid #292929;
+            border-radius:9px;
+            background:#151515;
+            cursor:pointer;
+            font-size:11px;
+            font-weight:700;
+        }
+
+        .upload-box label:hover {
+            border-color:var(--purple);
+        }
+
+        #imageInput {
+            display:none;
+        }
+
+
+        /* ================= TOOLS ================= */
+
+        .tool-grid {
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:8px;
+        }
+
+        .tool-btn {
+            min-height:40px;
+            padding:9px 6px;
+            border:1px solid var(--border);
+            border-radius:9px;
+            background:#111;
+            color:white;
+            font-size:11px;
+            font-weight:700;
+        }
+
+        .tool-btn:hover {
+            border-color:var(--purple);
+        }
+
+        .tool-btn.primary {
+            border-color:transparent;
+            background:linear-gradient(
+                135deg,
+                var(--purple),
+                var(--purple2)
+            );
+        }
+
+        .tool-btn.danger {
+            color:#fca5a5;
+        }
+
+
+        /* ================= SLIDERS ================= */
+
+        .slider-row {
+            margin-top:16px;
+        }
+
+        .slider-row label {
+            display:flex;
+            justify-content:space-between;
+            margin-bottom:7px;
+            color:#888;
+            font-size:10px;
+        }
+
+        .slider-row label span:last-child {
+            color:#b18aff;
+            font-weight:700;
+        }
+
+        input[type="range"] {
+            width:100%;
+            accent-color:var(--purple);
+            cursor:pointer;
+        }
+
+
+        /* ================= HEADING ================= */
+
+        .product-heading {
+            width:100%;
+            margin-bottom:18px;
+        }
+
+        .product-heading small {
+            color:#888;
+            font-size:10px;
+            text-transform:uppercase;
+            letter-spacing:.15em;
+        }
+
+        .product-heading h1 {
+            margin:6px 0 0;
+            font-size:30px;
+        }
+
+
+        /* ================= PREVIEW ================= */
+
+        .preview-stage {
+            position:relative;
+            flex:1;
+            min-height:500px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            overflow:hidden;
+
+            border:1px solid #222;
+            border-radius:18px;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #191919,
+                    #0b0b0b 60%,
+                    #070707
+                );
+        }
+
+        .preview-stage::before {
+            content:"";
+            position:absolute;
+            inset:0;
+            opacity:.14;
+            pointer-events:none;
+
+            background-image:
+                linear-gradient(
+                    45deg,
+                    #fff 25%,
+                    transparent 25%
+                ),
+                linear-gradient(
+                    -45deg,
+                    #fff 25%,
+                    transparent 25%
+                ),
+                linear-gradient(
+                    45deg,
+                    transparent 75%,
+                    #fff 75%
+                ),
+                linear-gradient(
+                    -45deg,
+                    transparent 75%,
+                    #fff 75%
+                );
+
+            background-size:24px 24px;
+
+            background-position:
+                0 0,
+                0 12px,
+                12px -12px,
+                -12px 0;
+        }
+
+        #posterFrame {
+            position:relative;
+            overflow:hidden;
+            flex-shrink:0;
+
+            background:#151515;
+
+            box-shadow:
+                0 25px 70px rgba(0,0,0,.65),
+                0 0 0 1px rgba(255,255,255,.08);
+
+            z-index:2;
+
+            touch-action:none;
+        }
+
+        #posterImage {
+            position:absolute;
+
+            left:50%;
+            top:50%;
+
+            width:auto;
+            height:auto;
+
+            max-width:none;
+            max-height:none;
+
+            display:block;
+
+            user-select:none;
+            -webkit-user-drag:none;
+
+            transform-origin:center center;
+
+            cursor:grab;
+            pointer-events:auto;
+        }
+
+        #posterImage.dragging {
+            cursor:grabbing;
+        }
+
+        #emptyPreview {
+            position:absolute;
+            inset:0;
+
+            display:none;
+
+            align-items:center;
+            justify-content:center;
+
+            flex-direction:column;
+            gap:7px;
+
+            color:#777;
+
+            z-index:4;
+
+            text-align:center;
+        }
+
+        #emptyPreview strong {
+            color:#bbb;
+        }
+
+
+        /* ================= INFO ================= */
+
+        .preview-info {
+            width:100%;
+
+            display:flex;
+            justify-content:space-between;
+
+            gap:15px;
+
+            margin-top:12px;
+
+            color:#777;
+            font-size:10px;
+        }
+
+        .preview-info strong {
+            color:white;
+        }
+
+
+        /* ================= RIGHT / SIZE VERSIONS ================= */
+
+        .variant-status-list {
+            width:100%;
+
+            display:flex !important;
+            flex-direction:column !important;
+
+            gap:10px !important;
+        }
+
+        .variant-status {
+            width:100% !important;
+
+            height:46px !important;
+            min-height:46px !important;
+            max-height:46px !important;
+
+            padding:0 12px !important;
+            margin:0 !important;
+
+            display:grid !important;
+
+            grid-template-columns:
+                minmax(0,1fr)
+                auto !important;
+
+            align-items:center !important;
+
+            position:relative !important;
+
+            border:1px solid #242424 !important;
+            border-radius:9px !important;
+
+            background:#111 !important;
+            color:#fff !important;
+
+            font-size:11px !important;
+            line-height:1 !important;
+
+            overflow:hidden !important;
+        }
+
+        .variant-status.current {
+            border-color:var(--purple) !important;
+        }
+
+        .variant-status > span:first-child {
+            display:flex !important;
+            align-items:center !important;
+
+            width:auto !important;
+            height:auto !important;
+
+            margin:0 !important;
+            padding:0 !important;
+
+            position:static !important;
+
+            color:#fff !important;
+
+            font-size:11px !important;
+            line-height:1 !important;
+
+            white-space:nowrap !important;
+        }
+
+        .variant-status > span:last-child {
+            display:block !important;
+
+            width:auto !important;
+            height:auto !important;
+
+            margin:0 !important;
+            padding:0 !important;
+
+            position:static !important;
+
+            color:#777 !important;
+
+            font-size:10px !important;
+            line-height:1 !important;
+
+            white-space:nowrap !important;
+        }
+
+        .variant-status .dot {
+            display:inline-block !important;
+
+            width:7px !important;
+            height:7px !important;
+
+            min-width:7px !important;
+            min-height:7px !important;
+
+            margin:0 7px 0 0 !important;
+            padding:0 !important;
+
+            border-radius:50% !important;
+
+            background:#555 !important;
+
+            position:static !important;
+        }
+
+        .variant-status.ready .dot {
+            background:#4ade80 !important;
+        }
+
+
+        /* ================= SAVE ================= */
+
+        .save-btn,
+        .secondary-btn {
+            width:100%;
+            border-radius:10px;
+            color:white;
+        }
+
+        .save-btn {
+            padding:13px;
+
+            border:0;
+
+            font-weight:800;
+
+            background:linear-gradient(
+                135deg,
+                var(--purple),
+                var(--purple2)
+            );
+        }
+
+        .secondary-btn {
+            margin-top:9px;
+
+            padding:11px;
+
+            border:1px solid var(--border);
+
+            background:#111;
+
+            font-size:11px;
+        }
+
+        .secondary-btn:hover {
+            border-color:var(--purple);
+        }
+
+
+        /* ================= MESSAGE ================= */
+
+        #message {
+            position:fixed;
+
+            left:50%;
+            bottom:25px;
+
+            z-index:9999;
+
+            padding:11px 17px;
+
+            border:1px solid #333;
+            border-radius:10px;
+
+            background:#171717;
+            color:white;
+
+            opacity:0;
+
+            pointer-events:none;
+
+            transform:translate(-50%,20px);
+
+            transition:.25s;
+
+            font-size:12px;
+        }
+
+        #message.show {
+            opacity:1;
+            transform:translate(-50%,0);
+        }
+
+        #message.success {
+            border-color:#22c55e;
+        }
+
+        #message.error {
+            border-color:#ef4444;
+        }
+
+
+        /* ================= LOADING ================= */
+
+        #loadingScreen {
+            position:fixed;
+            inset:0;
+
+            z-index:99999;
+
+            display:flex;
+
+            align-items:center;
+            justify-content:center;
+
+            background:#070707;
+        }
+
+        #loadingScreen.hidden {
+            display:none;
+        }
+
+        .loading-content {
+            text-align:center;
+        }
+
+        .loading-logo {
+            width:58px;
+            height:58px;
+
+            margin:0 auto 15px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:17px;
+
+            background:linear-gradient(
+                135deg,
+                var(--purple),
+                var(--purple2)
+            );
+
+            font-size:28px;
+            font-weight:900;
+        }
+
+        .loading-content p {
+            color:#777;
+            font-size:12px;
+        }
+
+
+        /* ================= MOBILE ================= */
+
+        @media(max-width:1100px) {
+
+            .editor-layout {
+                grid-template-columns:
+                    220px
+                    minmax(0,1fr);
+            }
+
+            .editor-rightbar {
+                display:none;
+            }
+        }
+
+        @media(max-width:760px) {
+
+            .editor-topbar {
+                padding:0 12px;
+            }
+
+            .editor-layout {
+                display:block;
+            }
+
+            .editor-sidebar {
+                border-right:0;
+                border-bottom:1px solid var(--border);
+            }
+
+            .editor-center {
+                min-height:600px;
+                padding:14px;
+            }
+
+            .preview-stage {
+                min-height:480px;
+            }
+
+            .editor-brand-subtitle {
+                display:none;
+            }
+
+            .preview-info {
+                flex-wrap:wrap;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ================= LOADING ================= -->
+
+<div id="loadingScreen">
+
+    <div class="loading-content">
+
+        <div class="loading-logo">
+            Z
+        </div>
+
+        <strong>
+            Loading Poster Editor
+        </strong>
+
+        <p>
+            Preparing your poster...
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ================= TOP BAR ================= -->
+
+<header class="editor-topbar">
+
+    <div class="editor-brand">
+
+        <div class="editor-brand-mark">
+            Z
+        </div>
+
+        <div>
+
+            <div class="editor-brand-title">
+                ZAVYRO
+            </div>
+
+            <div class="editor-brand-subtitle">
+                POSTER VARIANT EDITOR
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <button
+        type="button"
+        class="back-btn"
+        id="backBtn"
+    >
+        ← Manage Posters
+    </button>
+
+</header>
+
+
+<!-- ================= MAIN ================= -->
+
+<main class="editor-layout">
+
+
+    <!-- ================= LEFT SIDEBAR ================= -->
+
+    <aside class="editor-sidebar">
+
+
+        <!-- SIZE -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Poster Size
+            </div>
+
+            <div class="size-grid">
+
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="A6"
+                >
+
+                    <strong>
+                        A6
+                    </strong>
+
+                    <span>
+                        105 × 148 mm
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="A5"
+                >
+
+                    <strong>
+                        A5
+                    </strong>
+
+                    <span>
+                        148 × 210 mm
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="size-btn active"
+                    data-size="A4"
+                >
+
+                    <strong>
+                        A4
+                    </strong>
+
+                    <span>
+                        210 × 297 mm
+                    </span>
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="A3"
+                >
+
+                    <strong>
+                        A3
+                    </strong>
+
+                    <span>
+                        297 × 420 mm
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ORIENTATION -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Orientation
+            </div>
+
+            <div class="orientation-grid">
+
+
+                <button
+                    type="button"
+                    class="orientation-btn active"
+                    data-orientation="vertical"
+                >
+                    ↕ Vertical
+                </button>
+
+
+                <button
+                    type="button"
+                    class="orientation-btn"
+                    data-orientation="horizontal"
+                >
+                    ↔ Horizontal
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- IMAGE -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Image
+            </div>
+
+            <div class="upload-box">
+
+                <label for="imageInput">
+                    Replace Image
+                </label>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                >
+
+            </div>
+
+        </section>
+
+
+
+        <!-- TOOLS -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Image Tools
+            </div>
+
+
+            <div class="tool-grid">
+
+
+                <button
+                    type="button"
+                    class="tool-btn primary"
+                    id="fitBtn"
+                >
+                    Fit
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tool-btn primary"
+                    id="fillBtn"
+                >
+                    Fill
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tool-btn"
+                    id="centerBtn"
+                >
+                    Center
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tool-btn danger"
+                    id="resetBtn"
+                >
+                    Reset
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tool-btn"
+                    id="rotateLeftBtn"
+                >
+                    ↶ Rotate
+                </button>
+
+
+                <button
+                    type="button"
+                    class="tool-btn"
+                    id="rotateRightBtn"
+                >
+                    ↷ Rotate
+                </button>
+
+
+            </div>
+
+
+
+            <!-- ZOOM -->
+
+            <div class="slider-row">
+
+                <label>
+
+                    <span>
+                        Zoom
+                    </span>
+
+                    <span id="zoomValue">
+                        100%
+                    </span>
+
+                </label>
+
+
+                <input
+                    type="range"
+                    id="zoomSlider"
+                    min="100"
+                    max="300"
+                    value="100"
+                    step="1"
+                >
+
+            </div>
+
+
+
+            <!-- ROTATION -->
+
+            <div class="slider-row">
+
+                <label>
+
+                    <span>
+                        Rotation
+                    </span>
+
+                    <span id="rotationValue">
+                        0°
+                    </span>
+
+                </label>
+
+
+                <input
+                    type="range"
+                    id="rotationSlider"
+                    min="-180"
+                    max="180"
+                    value="0"
+                    step="1"
+                >
+
+            </div>
+
+
+        </section>
+
+
+    </aside>
+
+
+
+    <!-- ================= CENTER ================= -->
+
+    <section class="editor-center">
+
+
+        <div class="product-heading">
+
+            <small>
+                Editing Poster
+            </small>
+
+            <h1 id="productTitle">
+                Loading...
+            </h1>
+
+        </div>
+
+
+
+        <div class="preview-stage">
+
+
+            <div id="posterFrame">
+
+
+                <img
+                    id="posterImage"
+                    alt="Poster preview"
+                    draggable="false"
+                >
+
+
+                <div id="emptyPreview">
+
+                    <strong>
+                        No image available
+                    </strong>
+
+                    <span>
+                        Upload an image to this size.
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="preview-info">
+
+
+            <div>
+
+                Size:
+
+                <strong id="currentSize">
+                    A4
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                Dimensions:
+
+                <strong id="currentDimensions">
+                    210 × 297 mm
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <strong id="variantStatus">
+                    Original
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- ================= RIGHT SIDEBAR ================= -->
+
+    <aside class="editor-rightbar">
+
+
+        <!-- SIZE VERSIONS -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Size Versions
+            </div>
+
+
+            <div class="variant-status-list">
+
+
+                <div
+                    class="variant-status"
+                    id="statusA6"
+                >
+
+                    <span>
+
+                        <span class="dot"></span>
+
+                        A6
+
+                    </span>
+
+
+                    <span>
+                        Original
+                    </span>
+
+                </div>
+
+
+
+                <div
+                    class="variant-status"
+                    id="statusA5"
+                >
+
+                    <span>
+
+                        <span class="dot"></span>
+
+                        A5
+
+                    </span>
+
+
+                    <span>
+                        Original
+                    </span>
+
+                </div>
+
+
+
+                <div
+                    class="variant-status current"
+                    id="statusA4"
+                >
+
+                    <span>
+
+                        <span class="dot"></span>
+
+                        A4
+
+                    </span>
+
+
+                    <span>
+                        Original
+                    </span>
+
+                </div>
+
+
+
+                <div
+                    class="variant-status"
+                    id="statusA3"
+                >
+
+                    <span>
+
+                        <span class="dot"></span>
+
+                        A3
+
+                    </span>
+
+
+                    <span>
+                        Original
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- SAVE -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Save
+            </div>
+
+
+            <button
+                type="button"
+                class="save-btn"
+                id="saveVariantBtn"
+            >
+                Save A4 Variant
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-btn"
+                id="downloadVariantBtn"
+            >
+                Download Current
+            </button>
+
+
+            <button
+                type="button"
+                class="secondary-btn"
+                id="downloadAllBtn"
+            >
+                Download All Variants
+            </button>
+
+
+        </section>
+
+
+
+        <!-- INFO -->
+
+        <section class="editor-section">
+
+            <div class="editor-section-title">
+                Editor Info
+            </div>
+
+
+            <div
+                style="
+                    color:#777;
+                    font-size:11px;
+                    line-height:1.7;
+                "
+            >
+
+                Each size is saved separately.
+
+                <br><br>
+
+                Drag the image directly inside
+                the poster to adjust its position.
+
+                <br><br>
+
+                Fit shows the complete image.
+                Fill covers the complete poster.
+
+                <br><br>
+
+                A6, A5, A4 and A3 can each have
+                their own crop, zoom, position
+                and rotation.
+
+            </div>
+
+        </section>
+
+
+    </aside>
+
+
+</main>
+
+
+
+<!-- ================= MESSAGE ================= -->
+
+<div id="message"></div>
+
+
+
+<!-- ================= SCRIPTS ================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/admin-poster-editor.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1024 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Customize Your Poster — Zavyro Posters</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        .customize-page {
+            padding: 120px 20px 40px;
+            min-height: 100vh;
+        }
+
+        .customize-container {
+            width: min(1200px, 100%);
+            margin: auto;
+        }
+
+        .customize-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .customize-header h1 {
+            font-size: clamp(32px, 5vw, 58px);
+            margin-bottom: 10px;
+        }
+
+        .customize-header p {
+            color: #999;
+        }
+
+        /* =========================
+           UPLOAD
+        ========================= */
+
+        .upload-box {
+            border: 1px dashed #6d28d9;
+            background: #101010;
+            border-radius: 18px;
+            padding: 30px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .upload-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 24px;
+            border-radius: 10px;
+            background: #7c3aed;
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+        }
+
+        .upload-info {
+            margin-top: 12px;
+            color: #888;
+            font-size: 14px;
+        }
+
+        /* =========================
+           APPLY SAME SIZE
+        ========================= */
+
+        .batch-control {
+            display: block !important;
+            width: 100%;
+            box-sizing: border-box;
+            background: #111111;
+            border: 1px solid #35205f;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 0 0 25px 0;
+            box-shadow: 0 0 25px rgba(124, 58, 237, 0.08);
+        }
+
+        .batch-title {
+            color: #ffffff;
+            font-size: 17px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .batch-subtitle {
+            color: #888888;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        .apply-size-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .apply-size-btn {
+            min-width: 65px;
+            padding: 10px 18px;
+            border: 1px solid #393939;
+            border-radius: 9px;
+            background: #171717;
+            color: #dddddd;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+        }
+
+        .apply-size-btn:hover {
+            border-color: #7c3aed;
+            color: #ffffff;
+        }
+
+        .apply-size-btn.active {
+            background: #7c3aed;
+            border-color: #8b5cf6;
+            color: #ffffff;
+            box-shadow: 0 0 15px rgba(124, 58, 237, 0.25);
+        }
+
+        /* =========================
+           WORKSPACE
+        ========================= */
+
+        .workspace {
+            display: grid;
+            grid-template-columns: 360px minmax(0, 1fr);
+            gap: 25px;
+            align-items: start;
+        }
+
+        .photos-panel,
+        .preview-panel {
+            background: #0f0f0f;
+            border: 1px solid #222;
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        .panel-title {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        /* =========================
+           PHOTO LIST
+        ========================= */
+
+        .photo-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 650px;
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            color: #777;
+            text-align: center;
+            padding: 40px 15px;
+        }
+
+        .photo-item {
+            position: relative;
+            display: grid;
+            grid-template-columns: 58px minmax(0, 1fr) auto;
+            gap: 11px;
+            align-items: center;
+            background: #141414;
+            border: 1px solid #242424;
+            border-radius: 12px;
+            padding: 9px;
+            cursor: pointer;
+        }
+
+        .photo-item.active {
+            border-color: #7c3aed;
+            box-shadow: 0 0 0 1px rgba(124, 58, 237, .25);
+        }
+
+        .photo-thumb {
+            width: 58px;
+            height: 70px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #080808;
+        }
+
+        .photo-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-item-info {
+            min-width: 0;
+        }
+
+        .photo-item-name {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .photo-item-size {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .photo-item-price {
+            font-weight: 800;
+            color: #f5c542;
+            padding-right: 28px;
+        }
+
+        .remove-photo {
+            position: absolute;
+            right: 7px;
+            top: 6px;
+            width: 22px;
+            height: 22px;
+            border: 0;
+            border-radius: 50%;
+            background: #252525;
+            color: #aaa;
+            cursor: pointer;
+        }
+
+        .remove-photo:hover {
+            color: #fff;
+            background: #7c3aed;
+        }
+
+        /* =========================
+           PREVIEW
+        ========================= */
+
+        .preview-area {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            padding: 25px;
+            background: #090909;
+            border-radius: 16px;
+        }
+
+        .poster-preview {
+            position: relative;
+            width: 260px;
+            height: 368px;
+
+            background:
+                radial-gradient(
+                    circle at 50% 35%,
+                    #211239 0%,
+                    #120b1d 38%,
+                    #080808 100%
+                );
+
+            border: 1px solid #3b2168;
+            overflow: hidden;
+
+            touch-action: none;
+            cursor: grab;
+            user-select: none;
+
+            box-shadow:
+                0 0 0 1px rgba(124, 58, 237, 0.25),
+                0 20px 50px rgba(0, 0, 0, 0.55),
+                0 0 30px rgba(124, 58, 237, 0.12);
+        }
+
+        .poster-preview.a3 {
+            width: 280px;
+            height: 395px;
+        }
+
+        .poster-preview.a4 {
+            width: 260px;
+            height: 368px;
+        }
+
+        .poster-preview.a5 {
+            width: 220px;
+            height: 310px;
+        }
+
+        .poster-preview.a6 {
+            width: 170px;
+            height: 240px;
+        }
+
+        .poster-preview.dragging {
+            cursor: grabbing;
+        }
+
+        #previewImage {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: auto;
+            height: auto;
+            max-width: none;
+            max-height: none;
+            display: none;
+            pointer-events: none;
+            transform-origin: center center;
+            user-select: none;
+        }
+
+        .preview-empty {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            text-align: center;
+            color: #777;
+        }
+
+        .preview-info {
+            text-align: center;
+            color: #888;
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        /* =========================
+           CONTROLS
+        ========================= */
+
+        #editorControls {
+            display: none;
+            margin-top: 25px;
+        }
+
+        .control-group {
+            margin-bottom: 20px;
+        }
+
+        .control-label {
+            display: block;
+            margin-bottom: 9px;
+            font-size: 13px;
+            color: #aaa;
+            font-weight: 700;
+        }
+
+        .action-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .action-row button {
+            border: 1px solid #333;
+            background: #151515;
+            color: #ddd;
+            border-radius: 9px;
+            padding: 9px 14px;
+            cursor: pointer;
+        }
+
+        .size-buttons,
+        .fit-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn,
+        .fit-btn {
+            border: 1px solid #333;
+            background: #151515;
+            color: #ddd;
+            border-radius: 9px;
+            padding: 9px 15px;
+            cursor: pointer;
+        }
+
+        .size-btn:hover,
+        .fit-btn:hover {
+            border-color: #7c3aed;
+        }
+
+        .size-btn.active,
+        .fit-btn.active {
+            background: #7c3aed;
+            border-color: #8b5cf6;
+            color: #fff;
+        }
+
+        .zoom-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        #zoomRange {
+            flex: 1;
+        }
+
+        .zoom-value {
+            min-width: 50px;
+            text-align: right;
+            color: #f5c542;
+            font-weight: 700;
+        }
+
+        .quantity-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .quantity-row button {
+            width: 38px;
+            height: 38px;
+            border-radius: 9px;
+            border: 1px solid #333;
+            background: #151515;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        #quantityValue {
+            min-width: 30px;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        /* =========================
+           ORDER FOOTER
+        ========================= */
+
+        .order-footer {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            border: 1px solid #2d1a54;
+            background: #111;
+            border-radius: 16px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .grand-total-label {
+            color: #999;
+            font-size: 13px;
+        }
+
+        #grandTotal {
+            color: #f5c542;
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        #addAllBtn {
+            border: 0;
+            border-radius: 10px;
+            padding: 13px 22px;
+            background: #7c3aed;
+            color: #fff;
+            font-weight: 800;
+            cursor: pointer;
+        }
+
+        #addAllBtn:disabled {
+            opacity: .7;
+            cursor: default;
+        }
+
+        #customMessage {
+            width: 100%;
+            margin-top: 8px;
+            color: #a78bfa;
+            font-size: 13px;
+        }
+
+        @media (max-width: 900px) {
+
+            .workspace {
+                grid-template-columns: 1fr;
+            }
+
+            .photos-panel {
+                order: 2;
+            }
+
+            .preview-panel {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+    <div class="nav-container">
+
+        <a href="index.html" class="brand">
+
+            <span class="brand-mark">
+                Z
+            </span>
+
+            <span class="brand-name">
+                ZAVYRO
+                <small>POSTERS</small>
+            </span>
+
+        </a>
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+        <nav
+            class="nav-links"
+            id="navLinks"
+        >
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="shop.html">
+                Shop
+            </a>
+
+            <a href="shop.html#categories">
+                Categories
+            </a>
+
+            <a
+                href="offers.html"
+                class="offers-nav-link"
+            >
+                🔥 Offers
+            </a>
+
+            <a
+                href="customize.html"
+                class="active"
+            >
+                Customize
+            </a>
+
+            <a
+                href="random.html"
+                class="surprise-link"
+            >
+                Surprise Me
+                <span id="surpriseCountBadge">0</span>
+            </a>
+
+            <a href="track-order.html">
+                Track Orders
+            </a>
+
+            <a href="index.html#about">
+                About
+            </a>
+
+            <a
+                href="cart.html"
+                class="cart-link"
+            >
+                Cart
+                <span id="cartCount">0</span>
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main class="customize-page">
+
+    <div class="customize-container">
+
+
+        <!-- HEADER -->
+
+        <section class="customize-header">
+
+            <h1>
+                Customize Your Poster
+            </h1>
+
+            <p>
+                Upload your photos, choose the size,
+                adjust the image and create your own wall poster.
+            </p>
+
+        </section>
+
+
+        <!-- UPLOAD -->
+
+        <section class="upload-box">
+
+            <label
+                for="photoInput"
+                class="upload-button"
+            >
+                + Upload Photos
+            </label>
+
+            <input
+                id="photoInput"
+                type="file"
+                accept=".jpg,.jpeg,.png,.webp,.avif,image/*"
+                multiple
+            >
+
+            <div class="upload-info">
+                You can upload multiple photos.
+                Each photo can have its own size and quantity.
+            </div>
+
+            <div
+                id="photoCount"
+                class="upload-info"
+            >
+                0 photos selected
+            </div>
+
+        </section>
+
+
+        <!-- APPLY SAME SIZE
+             DIRECTLY BELOW UPLOAD -->
+
+        <section
+            class="batch-control"
+            id="batchControl"
+        >
+
+            <div class="batch-title">
+                Apply Same Size to All
+            </div>
+
+            <div class="batch-subtitle">
+                Choose one size and apply it to every uploaded photo.
+            </div>
+
+            <div class="apply-size-buttons">
+
+                <button
+                    type="button"
+                    class="apply-size-btn"
+                    data-apply-size="A3"
+                >
+                    A3
+                </button>
+
+                <button
+                    type="button"
+                    class="apply-size-btn"
+                    data-apply-size="A4"
+                >
+                    A4
+                </button>
+
+                <button
+                    type="button"
+                    class="apply-size-btn"
+                    data-apply-size="A5"
+                >
+                    A5
+                </button>
+
+                <button
+                    type="button"
+                    class="apply-size-btn"
+                    data-apply-size="A6"
+                >
+                    A6
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- WORKSPACE -->
+
+        <section class="workspace">
+
+
+            <!-- PHOTOS -->
+
+            <div class="photos-panel">
+
+                <div class="panel-title">
+                    Your Photos
+                </div>
+
+                <div
+                    id="photoList"
+                    class="photo-list"
+                >
+
+                    <div class="empty-state">
+                        Your uploaded photos will appear here.
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PREVIEW -->
+
+            <div class="preview-panel">
+
+                <div class="panel-title">
+                    Live Preview
+                </div>
+
+                <div class="preview-area">
+
+                    <div
+                        id="posterPreview"
+                        class="poster-preview a4"
+                    >
+
+                        <img
+                            id="previewImage"
+                            src=""
+                            alt="Poster preview"
+                            draggable="false"
+                        >
+
+                        <div
+                            id="previewEmpty"
+                            class="preview-empty"
+                        >
+                            Upload a photo to see the preview.
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div
+                    id="previewInfo"
+                    class="preview-info"
+                >
+                    Upload a photo to see the preview.
+                </div>
+
+
+                <!-- EDITOR -->
+
+                <div id="editorControls">
+
+
+                    <!-- SIZE -->
+
+                    <div class="control-group">
+
+                        <span class="control-label">
+                            Poster Size
+                        </span>
+
+                        <div class="size-buttons">
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="A3"
+                            >
+                                A3
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn active"
+                                data-size="A4"
+                            >
+                                A4
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="A5"
+                            >
+                                A5
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="A6"
+                            >
+                                A6
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- FIT FILL -->
+
+                    <div class="control-group">
+
+                        <span class="control-label">
+                            Image Mode
+                        </span>
+
+                        <div class="fit-buttons">
+
+                            <button
+                                type="button"
+                                class="fit-btn active"
+                                data-fit="fill"
+                            >
+                                Fill
+                            </button>
+
+                            <button
+                                type="button"
+                                class="fit-btn"
+                                data-fit="fit"
+                            >
+                                Fit
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ROTATE -->
+
+                    <div class="control-group">
+
+                        <span class="control-label">
+                            Rotate
+                        </span>
+
+                        <div class="action-row">
+
+                            <button
+                                type="button"
+                                id="rotateLeftBtn"
+                            >
+                                ↶ Rotate Left
+                            </button>
+
+                            <button
+                                type="button"
+                                id="rotateRightBtn"
+                            >
+                                ↷ Rotate Right
+                            </button>
+
+                            <button
+                                type="button"
+                                id="resetPositionBtn"
+                            >
+                                Reset
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ZOOM -->
+
+                    <div class="control-group">
+
+                        <span class="control-label">
+                            Zoom / Crop
+                        </span>
+
+                        <div class="zoom-line">
+
+                            <input
+                                id="zoomRange"
+                                type="range"
+                                min="1"
+                                max="3"
+                                step="0.01"
+                                value="1"
+                            >
+
+                            <span
+                                id="zoomValue"
+                                class="zoom-value"
+                            >
+                                100%
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="control-group">
+
+                        <span class="control-label">
+                            Quantity
+                        </span>
+
+                        <div class="quantity-row">
+
+                            <button
+                                type="button"
+                                id="minusBtn"
+                            >
+                                −
+                            </button>
+
+                            <span id="quantityValue">
+                                1
+                            </span>
+
+                            <button
+                                type="button"
+                                id="plusBtn"
+                            >
+                                +
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="preview-info">
+                        Drag the image directly inside the poster
+                        to adjust its position.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TOTAL -->
+
+        <section
+            id="orderFooter"
+            class="order-footer"
+        >
+
+            <div>
+
+                <div class="grand-total-label">
+                    Total
+                </div>
+
+                <div id="grandTotal">
+                    ₹0
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                id="addAllBtn"
+            >
+                ADD ALL TO CART
+            </button>
+
+            <div id="customMessage"></div>
+
+        </section>
+
+    </div>
+
+</main>
+
+
+<script src="../js/script.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script src="../js/supabase.js"></script>
+
+<script src="../js/customize.js"></script>
+
+</body>
+</html>
+

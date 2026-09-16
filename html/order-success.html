@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Confirmed — Zavyro Posters</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        .success-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            background:
+                radial-gradient(circle at top, rgba(124,58,237,.18), transparent 40%),
+                #080808;
+        }
+
+        .success-card {
+            width: min(620px, 100%);
+            background: #111;
+            border: 1px solid #292929;
+            border-radius: 24px;
+            padding: 45px 35px;
+            text-align: center;
+            box-shadow: 0 0 60px rgba(124,58,237,.12);
+        }
+
+        .success-icon {
+            width: 82px;
+            height: 82px;
+            margin: 0 auto 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(124,58,237,.12);
+            border: 1px solid #7c3aed;
+            color: #8b5cf6;
+            font-size: 38px;
+        }
+
+        .success-card h1 {
+            font-size: 38px;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .success-card > p {
+            color: #aaa;
+            line-height: 1.7;
+            margin-bottom: 30px;
+        }
+
+        .order-box {
+            text-align: left;
+            background: #0b0b0b;
+            border: 1px solid #242424;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .order-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 0;
+            border-bottom: 1px solid #202020;
+        }
+
+        .order-row:last-child {
+            border-bottom: 0;
+        }
+
+        .order-row span:first-child {
+            color: #888;
+        }
+
+        .order-row span:last-child {
+            color: #fff;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .success-actions {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .success-btn {
+            display: inline-block;
+            padding: 14px 24px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: .2s ease;
+        }
+
+        .success-btn.primary {
+            background: #7c3aed;
+            color: #fff;
+        }
+
+        .success-btn.primary:hover {
+            background: #8b5cf6;
+            transform: translateY(-2px);
+        }
+
+        .success-btn.secondary {
+            color: #fff;
+            border: 1px solid #333;
+        }
+
+        .success-btn.secondary:hover {
+            border-color: #7c3aed;
+        }
+
+        .success-note {
+            margin-top: 25px;
+            color: #666;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .success-card {
+                padding: 35px 20px;
+            }
+
+            .success-card h1 {
+                font-size: 30px;
+            }
+
+            .order-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .order-row span:last-child {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="success-page">
+
+        <section class="success-card">
+
+            <div class="success-icon">
+                ✓
+            </div>
+
+            <h1>Order Confirmed!</h1>
+
+            <p>
+                Your payment was successful and your Zavyro Posters
+                order has been placed successfully.
+            </p>
+
+            <div class="order-box">
+
+                <div class="order-row">
+                    <span>Order Number</span>
+                    <span id="orderNumber">—</span>
+                </div>
+
+                <div class="order-row">
+                    <span>Payment Status</span>
+                    <span id="paymentStatus">Paid</span>
+                </div>
+
+                <div class="order-row">
+                    <span>Total Amount</span>
+                    <span id="orderAmount">—</span>
+                </div>
+
+                <div class="order-row">
+                    <span>Payment ID</span>
+                    <span id="paymentId">—</span>
+                </div>
+
+            </div>
+
+            <div class="success-actions">
+
+                <a
+                    href="shop.html"
+                    class="success-btn primary"
+                >
+                    Continue Shopping
+                </a>
+
+                <a
+                    href="track-order.html"
+                    class="success-btn secondary"
+                >
+                    Track Your Order
+                </a>
+
+                <a
+                    href="index.html"
+                    class="success-btn secondary"
+                >
+                    Back to Home
+                </a>
+
+            </div>
+
+            <div class="success-note">
+                Keep your order number for future reference.
+            </div>
+
+        </section>
+
+    </main>
+
+    <script src="../js/order-success.js"></script>
+
+</body>
+</html>

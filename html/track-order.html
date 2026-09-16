@@ -1,0 +1,383 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Track Order — Zavyro Posters</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+    <style>
+        .track-page {
+            min-height: 100vh;
+            padding: 120px 20px 60px;
+            background:
+                radial-gradient(circle at top, rgba(124,58,237,.16), transparent 40%),
+                #080808;
+        }
+
+        .track-container {
+            width: min(650px, 100%);
+            margin: auto;
+        }
+
+        .track-title {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .track-title h1 {
+            color: #fff;
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+
+        .track-title p {
+            color: #888;
+        }
+
+        .track-card {
+            background: #111;
+            border: 1px solid #282828;
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 0 50px rgba(124,58,237,.08);
+        }
+
+        .track-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .track-form label {
+            color: #bbb;
+            font-size: 14px;
+        }
+
+        .track-form input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 14px 15px;
+            margin-top: 7px;
+            background: #0b0b0b;
+            color: #fff;
+            border: 1px solid #303030;
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .track-form input:focus {
+            border-color: #7c3aed;
+        }
+
+        .track-btn {
+            margin-top: 8px;
+            border: 0;
+            padding: 15px;
+            border-radius: 11px;
+            background: #7c3aed;
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .track-btn:hover {
+            background: #8b5cf6;
+        }
+
+        .track-btn:disabled {
+            opacity: .6;
+            cursor: wait;
+        }
+
+        .track-message {
+            margin-top: 18px;
+            text-align: center;
+            color: #ff6b6b;
+            font-size: 14px;
+        }
+
+        .result {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-header {
+            padding-bottom: 20px;
+            border-bottom: 1px solid #252525;
+            margin-bottom: 20px;
+        }
+
+        .result-header h2 {
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .result-header p {
+            color: #888;
+            margin: 0;
+        }
+
+        .status-bar {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 25px 0;
+        }
+
+        .status-step {
+            text-align: center;
+            padding: 12px 5px;
+            border: 1px solid #292929;
+            border-radius: 10px;
+            color: #666;
+            font-size: 11px;
+        }
+
+        .status-step.active {
+            border-color: #7c3aed;
+            color: #fff;
+            background: rgba(124,58,237,.12);
+        }
+
+        .status-step.done {
+            border-color: #5b21b6;
+            color: #aaa;
+        }
+
+        .order-details {
+            background: #0b0b0b;
+            border-radius: 14px;
+            padding: 18px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 11px 0;
+            border-bottom: 1px solid #202020;
+        }
+
+        .detail-row:last-child {
+            border-bottom: 0;
+        }
+
+        .detail-row span:first-child {
+            color: #777;
+        }
+
+        .detail-row span:last-child {
+            color: #fff;
+            text-align: right;
+        }
+
+        /* GO HOME BUTTON */
+        .go-home-btn {
+            display: block;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 18px;
+            padding: 14px 20px;
+            border: 1px solid #303030;
+            border-radius: 11px;
+            background: #0b0b0b;
+            color: #aaa;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.25s ease;
+        }
+
+        .go-home-btn:hover {
+            color: #fff;
+            border-color: #7c3aed;
+            background: rgba(124,58,237,.08);
+        }
+
+        @media (max-width: 600px) {
+            .track-title h1 {
+                font-size: 30px;
+            }
+
+            .track-card {
+                padding: 22px;
+            }
+
+            .status-bar {
+                grid-template-columns: 1fr;
+            }
+
+            .status-step {
+                text-align: left;
+            }
+
+            .detail-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+
+            .detail-row span:last-child {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <main class="track-page">
+
+        <div class="track-container">
+
+            <div class="track-title">
+                <h1>Track Your Order</h1>
+                <p>
+                    Enter your order number and phone number
+                    to check your order status.
+                </p>
+            </div>
+
+            <div class="track-card">
+
+                <form id="trackForm" class="track-form">
+
+                    <label>
+                        Order Number
+                        <input
+                            type="text"
+                            id="orderNumber"
+                            placeholder="ZP-20260913-0001"
+                            required
+                        >
+                    </label>
+
+                    <label>
+                        Phone Number
+                        <input
+                            type="tel"
+                            id="phone"
+                            maxlength="10"
+                            placeholder="10-digit phone number"
+                            required
+                        >
+                    </label>
+
+                    <button
+                        type="submit"
+                        id="trackBtn"
+                        class="track-btn"
+                    >
+                        TRACK ORDER
+                    </button>
+
+                </form>
+
+                <div
+                    id="trackMessage"
+                    class="track-message"
+                ></div>
+
+                <div
+                    id="result"
+                    class="result"
+                >
+
+                    <div class="result-header">
+                        <h2 id="resultTitle">
+                            Order Found
+                        </h2>
+
+                        <p id="resultSubtitle"></p>
+                    </div>
+
+                    <div class="status-bar">
+
+                        <div
+                            class="status-step"
+                            data-status="confirmed"
+                        >
+                            Confirmed
+                        </div>
+
+                        <div
+                            class="status-step"
+                            data-status="processing"
+                        >
+                            Processing
+                        </div>
+
+                        <div
+                            class="status-step"
+                            data-status="shipped"
+                        >
+                            Shipped
+                        </div>
+
+                        <div
+                            class="status-step"
+                            data-status="out_for_delivery"
+                        >
+                            Out for Delivery
+                        </div>
+
+                        <div
+                            class="status-step"
+                            data-status="delivered"
+                        >
+                            Delivered
+                        </div>
+
+                    </div>
+
+                    <div class="order-details">
+
+                        <div class="detail-row">
+                            <span>Order Number</span>
+                            <span id="showOrderNumber">—</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Payment</span>
+                            <span id="showPayment">—</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Total</span>
+                            <span id="showTotal">—</span>
+                        </div>
+
+                        <div class="detail-row">
+                            <span>Order Status</span>
+                            <span id="showStatus">—</span>
+                        </div>
+
+                    </div>
+
+                    <div id="reviewSection"></div>
+
+                </div>
+
+            </div>
+
+            <a href="index.html" class="go-home-btn">
+                ← GO TO HOME
+            </a>
+
+        </div>
+
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../js/supabase.js"></script>
+<script src="../js/reviews.js"></script>
+<script src="../js/track-order.js"></script>
+</body>
+</html>
