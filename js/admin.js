@@ -970,38 +970,38 @@ function resetDefaults() {
 
     document.getElementById(
         "mrp_a6"
-    ).value = 199;
+    ).value = 59;
 
     document.getElementById(
         "offer_a6"
-    ).value = 99;
+    ).value = 29;
 
 
     document.getElementById(
         "mrp_a5"
-    ).value = 249;
+    ).value = 79;
 
     document.getElementById(
         "offer_a5"
-    ).value = 129;
+    ).value = 39;
 
 
     document.getElementById(
         "mrp_a4"
-    ).value = 299;
+    ).value = 99;
 
     document.getElementById(
         "offer_a4"
-    ).value = 179;
+    ).value = 49;
 
 
     document.getElementById(
         "mrp_a3"
-    ).value = 399;
+    ).value = 149;
 
     document.getElementById(
         "offer_a3"
-    ).value = 249;
+    ).value = 79;
 
 
     document.getElementById(
