@@ -1,50 +1,29 @@
 /* =========================================================
    ZAVYRO POSTERS
-   RESPONSIVE CSS — MOBILE OVERHAUL
-   =========================================================
-   IMPORTANT:
-   - Does NOT change Poster Editor behavior
-   - Keeps horizontal/vertical posters uncropped
-   - Optimized for product page first
-   - Works with existing style.css
+   MOBILE / TABLET RESPONSIVE
+   COMPACT VERSION
    ========================================================= */
 
 
 /* =========================================================
-   GLOBAL RESPONSIVE FOUNDATION
+   GLOBAL
    ========================================================= */
 
 html,
 body {
-    width: 100%;
     max-width: 100%;
     overflow-x: hidden;
 }
 
-body {
-    min-width: 0;
-}
-
-img,
-video,
-canvas {
+img {
     max-width: 100%;
 }
 
 button,
-a,
 input,
 select,
 textarea {
     max-width: 100%;
-}
-
-section,
-main,
-header,
-footer,
-div {
-    min-width: 0;
 }
 
 
@@ -52,107 +31,23 @@ div {
    TABLET
    ========================================================= */
 
-@media (max-width: 1100px) {
-
-    .navbar {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
+@media (max-width: 1000px) {
 
     .nav-links {
-        gap: 18px;
-    }
-
-    .hero {
-        padding-left: 35px;
-        padding-right: 35px;
-    }
-
-    .trending-section,
-    .style-section,
-    .surprise-section,
-    .sizes-section,
-    .custom-section,
-    .about-section {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    .about-content {
-        gap: 50px;
-    }
-
-    .shop-hero {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    .shop-controls,
-    .shop-search,
-    .quick-categories {
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
-}
-
-
-/* =========================================================
-   TABLET / SMALL LAPTOP
-   ========================================================= */
-
-@media (max-width: 900px) {
-
-    /* ---------------- NAVBAR ---------------- */
-
-    .navbar {
-        height: 68px;
-        padding: 0 20px;
-    }
-
-    .nav-links {
-        gap: 15px;
-    }
-
-    .nav-links a {
-        font-size: 11px;
-    }
-
-    .cart-button {
-        padding: 8px 12px;
-    }
-
-
-    /* ---------------- HERO ---------------- */
-
-    .hero {
-        min-height: auto;
-        padding-top: 110px;
-        padding-bottom: 70px;
+        gap: 16px;
     }
 
     .hero-content {
-        gap: 25px;
-    }
-
-    .hero h1 {
-        font-size: clamp(48px, 7vw, 75px);
-    }
-
-    .hero-poster-area {
-        height: 470px;
+        grid-template-columns: 1fr 1fr;
     }
 
     .hero-poster {
-        width: 270px;
-        height: 390px;
+        width: 260px;
+        height: 380px;
     }
 
-
-    /* ---------------- GRIDS ---------------- */
-
     .poster-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .style-grid {
@@ -164,273 +59,261 @@ div {
     }
 
 
-    /* ---------------- CUSTOM ---------------- */
-
-    .custom-box {
-        padding: 45px;
-    }
-
-
-    /* ---------------- SHOP ---------------- */
+    /* SHOP */
 
     .shop-controls {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .shop-search {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .quick-categories {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    .shop-products {
+        margin-left: 20px;
+        margin-right: 20px;
     }
 
     .shop-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
     }
-
 }
 
 
 /* =========================================================
-   MOBILE — 700PX
+   MOBILE MAIN
    ========================================================= */
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
 
-    /* =====================================================
-       GLOBAL
-       ===================================================== */
-
-    html {
-        scroll-padding-top: 70px;
-    }
+    /* -----------------------------------------------------
+       BODY
+    ----------------------------------------------------- */
 
     body {
-        font-size: 14px;
+        width: 100%;
+        overflow-x: hidden;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        NAVBAR
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .navbar {
-        height: 64px;
-        padding: 0 15px;
+        height: 62px;
+        min-height: 62px;
+        padding: 0 14px;
     }
 
     .brand {
-        gap: 8px;
         min-width: 0;
     }
 
     .brand-mark {
-        width: 32px;
-        height: 32px;
-        font-size: 18px;
-        flex-shrink: 0;
+        width: 34px;
+        height: 34px;
+        font-size: 16px;
     }
 
     .brand-name {
-        font-size: 14px;
-        letter-spacing: 1.5px;
+        font-size: 11px;
+        letter-spacing: 1px;
     }
 
-    .brand-name small {
+    .brand-name small,
+    .brand-name span {
         font-size: 6px;
-        letter-spacing: 2px;
     }
 
-    .nav-links {
-        display: none;
+    .cart-button {
+        margin-left: auto;
+        margin-right: 8px;
+        padding: 8px 11px;
+        min-height: 34px;
     }
 
     .menu-toggle {
         display: block;
-        flex-shrink: 0;
-    }
-
-    .menu-toggle span {
-        width: 23px;
-    }
-
-    .cart-button {
-        padding: 7px 10px;
-        gap: 5px;
-        font-size: 10px;
-    }
-
-    .cart-button b {
-        min-width: 17px;
-        height: 17px;
-        font-size: 8px;
+        width: 36px;
+        height: 36px;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        MOBILE MENU
-       ===================================================== */
+    ----------------------------------------------------- */
 
-    .nav-links.active {
-        position: absolute;
+    .nav-links {
+        position: fixed;
 
-        display: flex;
-
-        top: 64px;
+        top: 62px;
         left: 10px;
         right: 10px;
 
-        padding: 14px;
+        width: auto;
+
+        max-height:
+            calc(100vh - 72px);
+
+        overflow-y: auto;
+
+        padding: 15px;
+
+        background:
+            rgba(8, 8, 8, 0.98);
+
+        border:
+            1px solid
+            var(--border);
+
+        border-radius:
+            0 0 14px 14px;
+
+        display: none;
 
         flex-direction: column;
+
         align-items: stretch;
 
         gap: 0;
 
-        background:
-            rgba(10, 10, 10, 0.98);
-
-        border:
-            1px solid
-            rgba(255,255,255,.08);
-
-        border-radius: 12px;
+        z-index: 9999;
 
         box-shadow:
-            0 20px 50px
-            rgba(0,0,0,.7);
-
-        backdrop-filter: blur(18px);
-
-        z-index: 9999;
+            0 15px 40px
+            rgba(0, 0, 0, 0.45);
     }
 
-    .nav-links.active a {
+    .nav-links.active {
         display: flex;
+    }
+
+    .nav-links a {
+        display: flex;
+
         align-items: center;
 
-        min-height: 46px;
+        min-height: 42px;
 
-        padding: 0 12px;
+        padding: 8px 10px;
 
-        font-size: 12px;
+        border-radius: 8px;
 
-        border-radius: 7px;
+        font-size: 13px;
     }
 
-    .nav-links.active a:hover,
-    .nav-links.active a.active {
-        background: rgba(124,58,237,.10);
-        color: white;
+    .nav-links a:hover {
+        background:
+            rgba(139, 92, 246, 0.08);
     }
 
-    .nav-links.active a.active::after {
+    .nav-links a.active::after {
         display: none;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        HERO
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .hero {
         min-height: auto;
 
         padding:
-            100px 18px 55px;
+            92px 18px 48px;
     }
 
     .hero-content {
-        display: flex;
-        flex-direction: column;
+        grid-template-columns: 1fr;
 
-        gap: 35px;
-
-        text-align: center;
+        gap: 25px;
     }
 
     .hero-copy {
-        width: 100%;
+        max-width: 100%;
     }
 
     .hero-label {
-        margin-bottom: 18px;
-        font-size: 8px;
-        letter-spacing: 1.7px;
+        font-size: 9px;
+        letter-spacing: 2px;
     }
 
     .hero h1 {
         font-size:
-            clamp(46px, 14vw, 68px);
+            clamp(42px, 14vw, 66px);
 
-        letter-spacing: -3px;
+        line-height: 0.95;
+
+        letter-spacing:
+            -3px;
+
+        margin:
+            10px 0 15px;
     }
 
     .hero-description {
-        margin:
-            20px auto 0;
+        font-size: 12px;
 
-        max-width: 480px;
+        line-height: 1.6;
 
-        font-size: 13px;
-        line-height: 1.65;
+        max-width:
+            430px;
     }
 
     .hero-buttons {
-        justify-content: center;
+        flex-direction: row;
+
         flex-wrap: wrap;
 
-        margin-top: 24px;
+        gap: 10px;
+
+        margin-top: 20px;
     }
 
     .primary-btn,
     .secondary-btn {
-        min-height: 44px;
-        padding: 12px 16px;
-    }
+        text-align: center;
 
-    .hero-stats {
-        justify-content: center;
-        margin-top: 30px;
-    }
+        min-height: 42px;
 
-    .hero-stats div {
-        padding-right: 14px;
-        margin-right: 14px;
-    }
+        padding:
+            11px 15px;
 
-    .hero-stats strong {
-        font-size: 12px;
-    }
-
-    .hero-stats span {
-        font-size: 8px;
+        font-size: 11px;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        HERO POSTER
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .hero-poster-area {
-        width: 100%;
-        height: 390px;
+        height: 350px;
+
+        margin-top: 5px;
     }
 
     .hero-poster {
-        width: min(245px, 65vw);
-        height: min(350px, 92vw);
-
-        padding: 20px;
+        width: 210px;
+        height: 300px;
     }
 
     .hero-z {
-        top: 85px;
-        font-size: 120px;
+        font-size: 100px;
     }
 
     .hero-poster-title {
-        top: 235px;
-        font-size: 16px;
-    }
-
-    .poster-bottom {
-        left: 20px;
-        right: 20px;
-        bottom: 15px;
+        top: 198px;
+        font-size: 14px;
     }
 
     .floating-tag {
@@ -442,20 +325,59 @@ div {
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
+       HERO STATS
+    ----------------------------------------------------- */
+
+    .hero-stats {
+        display: grid;
+
+        grid-template-columns:
+            repeat(3, 1fr);
+
+        gap: 8px;
+
+        margin-top: 25px;
+    }
+
+    .hero-stats div {
+        padding:
+            8px 5px;
+
+        margin:
+            0;
+
+        text-align: center;
+    }
+
+    .hero-stats strong {
+        display: block;
+
+        font-size: 11px;
+    }
+
+    .hero-stats span {
+        font-size: 7px;
+    }
+
+
+    /* -----------------------------------------------------
        CATEGORY STRIP
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .category-strip {
-        min-height: 54px;
-        justify-content: flex-start;
-
-        gap: 25px;
-
-        padding:
-            0 18px;
+        justify-content:
+            flex-start;
 
         overflow-x: auto;
+
+        white-space: nowrap;
+
+        padding:
+            10px 16px;
+
+        gap: 12px;
+
         scrollbar-width: none;
     }
 
@@ -463,15 +385,10 @@ div {
         display: none;
     }
 
-    .category-strip a {
-        font-size: 8px;
-        letter-spacing: 2px;
-    }
 
-
-    /* =====================================================
-       GENERAL SECTIONS
-       ===================================================== */
+    /* -----------------------------------------------------
+       ALL HOME SECTIONS
+    ----------------------------------------------------- */
 
     .trending-section,
     .style-section,
@@ -479,1068 +396,1177 @@ div {
     .sizes-section,
     .custom-section,
     .about-section {
+
         padding:
-            65px 18px;
+            48px 16px;
     }
+
 
     .section-heading {
-        display: block;
-        margin-bottom: 28px;
+        align-items: flex-start;
+
+        flex-direction: row;
+
+        justify-content:
+            space-between;
+
+        gap: 12px;
+
+        margin-bottom: 22px;
     }
 
-    .section-heading h2 {
-        font-size:
-            clamp(32px, 10vw, 48px);
-
-        letter-spacing: -2px;
-    }
-
-    .section-heading > p {
-        max-width: 100%;
-        margin-top: 15px;
-        font-size: 12px;
-        line-height: 1.6;
+    .section-label {
+        font-size: 9px;
     }
 
     .view-all {
-        display: inline-block;
-        margin-top: 15px;
+        font-size: 10px;
+
+        white-space: nowrap;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        HOME POSTER GRID
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .poster-grid {
+
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 20px 12px;
+        gap:
+            10px;
+    }
+
+    .poster-card {
+        min-width: 0;
     }
 
     .poster-image {
-        aspect-ratio: 3 / 4;
-        border-radius: 8px;
+        min-height: 0;
     }
 
     .poster-info {
-        display: block;
-        padding-top: 9px;
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 4px;
+
+        padding: 8px;
+    }
+
+    .poster-info h3 {
+        font-size: 10px;
+
+        line-height: 1.3;
     }
 
     .poster-info small {
         font-size: 7px;
-        letter-spacing: 1.5px;
-    }
-
-    .poster-info h3 {
-        font-size: 11px;
-        line-height: 1.35;
     }
 
     .poster-price {
-        display: block;
-        margin-top: 6px;
-        font-size: 12px;
-    }
-
-    .poster-badge {
-        top: 8px;
-        left: 8px;
-        font-size: 6px;
-        padding: 4px 6px;
+        font-size: 10px;
     }
 
 
-    /* =====================================================
-       STYLE GRID
-       ===================================================== */
+    /* -----------------------------------------------------
+       STYLE / CATEGORY CARDS
+    ----------------------------------------------------- */
 
     .style-grid {
+
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
-        gap: 12px;
+        gap:
+            10px;
+    }
+
+    .style-card {
+        min-width: 0;
     }
 
     .style-image {
-        height: 135px;
-    }
-
-    .style-image span {
-        font-size: 20px;
-        letter-spacing: 3px;
+        height: 125px;
     }
 
     .style-info {
-        padding: 12px;
+        padding: 10px;
     }
 
-    .style-info strong {
-        font-size: 12px;
-    }
-
-    .style-info span {
-        font-size: 9px;
-    }
-
-
-    /* =====================================================
-       SURPRISE SECTION
-       ===================================================== */
-
-    .surprise-content {
-        padding:
-            35px 20px;
-
-        flex-direction: column;
-        align-items: stretch;
-
-        gap: 28px;
-
-        border-radius: 15px;
-    }
-
-    .surprise-content h2 {
-        font-size:
-            clamp(38px, 12vw, 58px);
-
-        letter-spacing: -2px;
-    }
-
-    .surprise-content p:not(.section-label) {
-        font-size: 12px;
-    }
-
-    .surprise-box {
-        width: 100%;
-        min-width: 0;
-        padding: 20px;
-    }
-
-
-    /* =====================================================
-       SIZES
-       ===================================================== */
-
-    .sizes-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-
-        gap: 10px;
-    }
-
-    .size-card {
-        padding: 20px 15px;
-    }
-
-    .size-card span {
-        font-size: 22px;
-    }
-
-    .size-card strong {
-        margin-top: 10px;
+    .style-info h3 {
         font-size: 11px;
     }
 
-    .size-card small {
+    .style-info p {
+        font-size: 8px;
+        line-height: 1.4;
+    }
+
+
+    /* -----------------------------------------------------
+       OFFERS PREVIEW
+    ----------------------------------------------------- */
+
+    .zavyro-offers-preview-box {
+        padding: 25px 18px;
+
+        grid-template-columns:
+            1fr;
+
+        gap: 20px;
+    }
+
+    .zavyro-offers-title {
+        font-size: 25px;
+    }
+
+    .zavyro-offers-text {
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+    .zavyro-offers-buttons {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 8px;
+    }
+
+    .zavyro-offers-visual {
+        min-height: 130px;
+    }
+
+
+    /* -----------------------------------------------------
+       SURPRISE SECTION
+    ----------------------------------------------------- */
+
+    .surprise-content {
+
+        padding:
+            28px 18px;
+
+        flex-direction:
+            column;
+
+        align-items:
+            stretch;
+
+        gap:
+            20px;
+    }
+
+    .surprise-box {
+        min-width: 0;
+
+        width: 100%;
+    }
+
+    .surprise-count {
+        font-size: 42px;
+    }
+
+    .count-controls {
+        gap: 8px;
+    }
+
+
+    /* -----------------------------------------------------
+       SIZES
+    ----------------------------------------------------- */
+
+    .sizes-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            10px;
+    }
+
+    .size-card {
+        padding:
+            16px 12px;
+    }
+
+    .size-card h3 {
+        font-size: 14px;
+    }
+
+    .size-card p {
         font-size: 9px;
     }
 
 
-    /* =====================================================
-       CUSTOM
-       ===================================================== */
+    /* -----------------------------------------------------
+       CUSTOM SECTION
+    ----------------------------------------------------- */
 
     .custom-box {
-        min-height: auto;
 
         padding:
-            35px 20px;
+            25px 18px;
 
-        grid-template-columns: 1fr;
+        grid-template-columns:
+            1fr;
 
-        gap: 45px;
-
-        border-radius: 15px;
+        gap:
+            25px;
     }
 
-    .custom-box h2 {
-        font-size:
-            clamp(40px, 12vw, 58px);
-    }
-
-    .custom-box p:not(.section-label) {
-        font-size: 12px;
-        line-height: 1.6;
+    .custom-preview {
+        order: -1;
     }
 
     .custom-frame {
-        width: 180px;
-        height: 245px;
+        max-width: 220px;
+
+        margin:
+            0 auto;
     }
 
-    .custom-frame-z {
-        font-size: 85px;
-    }
 
-
-    /* =====================================================
+    /* -----------------------------------------------------
        ABOUT
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .about-content {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
 
-    .about-content h2 {
-        font-size:
-            clamp(40px, 12vw, 58px);
+        grid-template-columns:
+            1fr;
+
+        gap:
+            22px;
     }
 
     .about-text {
         font-size: 12px;
-        line-height: 1.7;
-    }
 
-    .about-text p + p {
-        margin-top: 18px;
+        line-height: 1.6;
     }
 
 
-    /* =====================================================
+    /* -----------------------------------------------------
        FOOTER
-       ===================================================== */
+    ----------------------------------------------------- */
 
     .footer {
         padding:
-            30px 18px;
+            28px 16px;
     }
 
-    .footer-top {
-        display: block;
-    }
-
-    .footer-top > p {
-        margin-top: 20px;
-        font-size: 7px;
-    }
-
+    .footer-top,
     .footer-bottom {
-        display: block;
-        line-height: 1.8;
-    }
 
-    .footer-bottom a {
-        display: inline-block;
-        margin-top: 8px;
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
+
+        gap:
+            15px;
     }
 
 
     /* =====================================================
        SHOP PAGE
-       ===================================================== */
+    ===================================================== */
 
     .shop-page {
-        padding-top: 64px;
+        padding-top:
+            62px;
     }
 
     .shop-hero {
         padding:
-            70px 18px 40px;
+            55px 16px 30px;
     }
 
     .shop-hero h1 {
         font-size:
-            clamp(45px, 13vw, 70px);
+            clamp(40px, 13vw, 58px);
 
-        letter-spacing: -3px;
+        line-height:
+            0.95;
+
+        letter-spacing:
+            -3px;
     }
 
     .shop-description {
-        margin-top: 18px;
-        font-size: 12px;
-        line-height: 1.65;
+        font-size: 11px;
+
+        line-height: 1.5;
     }
 
 
-    /* =====================================================
-       SHOP FILTERS
-       ===================================================== */
+    /* SHOP FILTERS */
 
     .shop-controls {
-        grid-template-columns: 1fr;
 
-        margin:
-            0 14px;
-
-        padding: 14px;
-
-        gap: 10px;
-    }
-
-    .filter-block label {
-        font-size: 7px;
-    }
-
-    .filter-block select {
-        height: 42px;
-        font-size: 12px;
-    }
-
-
-    /* =====================================================
-       SHOP SEARCH
-       ===================================================== */
-
-    .shop-search {
-        margin:
-            15px 14px 0;
-
-        display: flex;
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 10px;
-    }
-
-    .search-box {
-        height: 45px;
-    }
-
-    .result-count {
-        text-align: right;
-        font-size: 8px;
-    }
-
-
-    /* =====================================================
-       QUICK CATEGORIES
-       ===================================================== */
-
-    .quick-categories {
-        margin:
-            20px 14px 0;
-
-        padding-bottom: 5px;
-    }
-
-    .quick-category {
-        padding: 9px 13px;
-        font-size: 9px;
-    }
-
-
-    /* =====================================================
-       SHOP PRODUCTS
-       ===================================================== */
-
-    .shop-products {
-        margin:
-            25px auto 65px;
-
-        padding:
-            0 12px;
-    }
-
-    .shop-grid {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
 
         gap:
-            20px 10px;
+            8px;
+
+        margin:
+            0 14px;
     }
 
-    /*
-       IMPORTANT:
-       Remove desktop artificial minimum heights.
-       The actual poster image controls the height.
-    */
-
-    .shop-product-card:nth-child(8n + 1)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 3)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 6)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 8)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 2)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 4)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 5)
-    .shop-product-image,
-
-    .shop-product-card:nth-child(8n + 7)
-    .shop-product-image {
-        min-height: 0 !important;
+    .filter-block {
+        min-width: 0;
     }
 
-    .shop-product-image {
-        height: auto !important;
-        min-height: 0 !important;
-
-        border-radius: 8px;
-    }
-
-    .shop-product-image img {
+    .filter-block select {
         width: 100%;
-        height: auto !important;
 
-        object-fit: contain !important;
+        min-height: 38px;
+
+        font-size: 10px;
     }
 
-    .shop-product-view {
+
+    /* SEARCH */
+
+    .shop-search {
+
+        margin:
+            10px 14px;
+
+        gap:
+            8px;
+    }
+
+    .shop-search input {
+        min-height: 40px;
+
+        font-size: 11px;
+    }
+
+    .result-count {
+        font-size: 9px;
+    }
+
+
+    /* QUICK CATEGORIES */
+
+    .quick-categories {
+
+        margin:
+            10px 14px;
+
+        display: flex;
+
+        overflow-x: auto;
+
+        gap:
+            7px;
+
+        padding-bottom:
+            4px;
+
+        scrollbar-width: none;
+    }
+
+    .quick-categories::-webkit-scrollbar {
         display: none;
     }
 
-    .shop-product-badge {
-        top: 7px;
-        left: 7px;
+    .quick-category {
+        flex:
+            0 0 auto;
 
-        padding: 4px 6px;
+        white-space:
+            nowrap;
 
-        font-size: 6px;
+        padding:
+            8px 11px;
+
+        font-size: 9px;
+    }
+
+
+    /* SHOP PRODUCTS */
+
+    .shop-products {
+
+        margin:
+            0;
+
+        padding:
+            0 14px;
+    }
+
+    .shop-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            14px 9px;
+    }
+
+    .shop-product-card {
+        min-width: 0;
+    }
+
+    .shop-product-image {
+        min-height:
+            150px !important;
+
+        max-height:
+            230px;
+
+        overflow: hidden;
     }
 
     .shop-product-details {
         display: block;
 
-        padding-top: 9px;
-    }
-
-    .shop-product-details small {
-        font-size: 7px;
-        letter-spacing: 1.4px;
+        padding:
+            8px 4px;
     }
 
     .shop-product-details h3 {
-        margin-top: 4px;
+        font-size:
+            10px;
 
-        font-size: 11px;
-        line-height: 1.35;
-    }
-
-    .shop-product-details p {
-        font-size: 9px;
+        line-height:
+            1.3;
     }
 
     .shop-product-details strong {
-        display: block;
+        display:
+            block;
 
-        margin-top: 6px;
+        margin-top:
+            4px;
 
-        font-size: 12px;
-    }
-
-    .shop-product-bottom {
-        margin-top: 7px;
-        gap: 4px;
-    }
-
-    .shop-product-bottom span {
-        min-width: 23px;
-        padding: 3px 5px;
-        font-size: 6px;
+        font-size:
+            10px;
     }
 
 
     /* =====================================================
-       PRODUCT PAGE — MAIN
-       ===================================================== */
+       PRODUCT PAGE
+    ===================================================== */
 
-    /*
-       These selectors intentionally cover several possible
-       wrappers used by the existing product page.
-    */
+    .product-page {
+        padding-top:
+            62px;
+    }
 
-    .product-page,
-    .product-detail,
-    .product-section,
-    .product-container,
-    .product-wrapper {
+    .product-container {
         width: 100%;
-        max-width: 100%;
-        min-width: 0;
+
+        padding:
+            20px 14px;
     }
 
+    .product-layout {
+        grid-template-columns:
+            1fr;
 
-    /* Main product layout */
-
-    .product-content,
-    .product-detail-content,
-    .product-layout,
-    .product-main,
-    .product-grid {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
+        gap:
+            25px;
     }
 
+    .product-main-image {
+        min-height:
+            300px;
 
-    /*
-       If the product page uses a two-column desktop layout,
-       collapse it to one clean column.
-    */
-
-    .product-layout,
-    .product-detail-content,
-    .product-main {
-        grid-template-columns: 1fr !important;
+        padding:
+            10px;
     }
-
-
-    /* =====================================================
-       PRODUCT IMAGE AREA
-       ===================================================== */
-
-    .product-image,
-    .product-main-image,
-    .product-detail-image,
-    .product-preview,
-    .product-view-image,
-    .product-poster,
-    .product-poster-area {
-        width: 100% !important;
-
-        min-width: 0 !important;
-        min-height: 0 !important;
-
-        height: auto !important;
-
-        overflow: visible;
-
-        display: flex;
-
-        align-items: center;
-        justify-content: center;
-    }
-
-
-    /*
-       Product poster frame.
-       This is the important part.
-    */
 
     .product-poster-frame {
-        width: auto !important;
-
         max-width:
-            min(100%, 430px) !important;
+            calc(100vw - 55px);
 
         max-height:
-            none !important;
-
-        margin:
-            0 auto !important;
-
-        box-sizing: border-box;
-
-        flex-shrink: 1;
-
-        overflow: hidden;
-
-        position: relative;
+            500px;
     }
 
-
-    /*
-       Vertical poster:
-       keep its natural ratio.
-    */
-
-    .product-poster-frame img,
-    .product-main-image img,
-    .product-detail-image img,
-    .product-preview img,
-    .product-view-image img,
-    .product-image img {
-        display: block;
-
-        width: auto !important;
-
-        height: auto !important;
-
-        max-width: 100% !important;
-
-        max-height: 70vh !important;
-
-        object-fit: contain !important;
-
-        object-position: center center !important;
-
-        margin: 0 auto;
-    }
-
-
-    /*
-       Prevent any old aspect-ratio from forcing
-       horizontal posters into vertical boxes.
-    */
-
-    .product-image,
-    .product-main-image,
-    .product-detail-image,
-    .product-preview,
-    .product-view-image,
-    .product-poster-frame {
-        aspect-ratio: auto !important;
-    }
-
-
-    /* =====================================================
-       PRODUCT INFORMATION
-       ===================================================== */
-
-    .product-info,
-    .product-details,
-    .product-content-info,
-    .product-description {
+    .product-info {
         width: 100%;
-        max-width: 100%;
-        min-width: 0;
     }
 
     .product-info h1,
-    .product-details h1 {
+    #productTitle {
         font-size:
-            clamp(28px, 8vw, 42px);
+            28px;
 
-        line-height: 1.05;
-
-        letter-spacing: -1px;
-
-        overflow-wrap: anywhere;
+        line-height:
+            1.05;
     }
 
-    .product-info p,
-    .product-details p {
-        font-size: 12px;
-        line-height: 1.65;
+    .product-description {
+        font-size:
+            11px;
+
+        line-height:
+            1.6;
     }
 
+    .size-options {
+        display:
+            grid;
 
-    /* =====================================================
-       PRODUCT REVIEWS
-       ===================================================== */
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
 
-    .product-reviews {
-        display: flex;
-
-        align-items: center;
-
-        flex-wrap: wrap;
-
-        gap: 7px;
-
-        margin:
-            10px 0 16px;
+        gap:
+            7px;
     }
 
-    .product-reviews .rating-stars {
-        font-size: 17px;
-        letter-spacing: 1px;
-    }
-
-    .product-reviews .rating-value {
-        font-size: 14px;
-    }
-
-    .product-reviews .rating-count {
-        font-size: 12px;
-    }
-
-    .rating-summary {
-        gap: 7px;
-    }
-
-    .rating-stars {
-        font-size: 18px;
-    }
-
-
-    /* =====================================================
-       PRODUCT PRICE
-       ===================================================== */
-
-    .product-price,
-    .product-pricing,
-    .price-block {
-        max-width: 100%;
-    }
-
-    .product-price {
-        display: flex;
-        align-items: baseline;
-
-        flex-wrap: wrap;
-
-        gap: 8px;
-    }
-
-
-    /* =====================================================
-       PRODUCT SIZE SELECTOR
-       ===================================================== */
-
-    .size-options,
-    .size-selector,
-    .size-buttons,
-    .product-sizes {
-        width: 100%;
-        max-width: 100%;
-
-        display: flex;
-
-        flex-wrap: wrap;
-
-        gap: 8px;
-    }
-
-    .size-options button,
-    .size-selector button,
-    .size-buttons button,
-    .product-sizes button,
     .size-btn {
-        min-width: 52px;
+        min-height:
+            40px;
 
-        min-height: 42px;
+        font-size:
+            10px;
+    }
 
+    .quantity-section {
         padding:
-            8px 12px;
-
-        flex: 0 0 auto;
-
-        font-size: 11px;
+            12px 0;
     }
 
+    .quantity-total-row {
+        flex-wrap:
+            wrap;
 
-    /* =====================================================
-       PRODUCT ACTION BUTTONS
-       ===================================================== */
+        gap:
+            12px;
+    }
 
-    .product-actions,
-    .product-buttons,
-    .product-action-buttons {
+    .add-cart-btn {
         width: 100%;
-
-        display: flex;
-
-        flex-direction: column;
-
-        gap: 9px;
     }
 
-    .product-actions button,
-    .product-buttons button,
-    .product-action-buttons button,
-    .add-to-cart,
-    .buy-now {
-        width: 100% !important;
+    .reviews-grid {
+        grid-template-columns:
+            1fr;
 
-        min-height: 46px;
+        gap:
+            15px;
+    }
 
+    .review-form-card,
+    .reviews-list-card {
         padding:
-            12px 16px;
-
-        font-size: 12px;
-    }
-
-
-    /* =====================================================
-       PRODUCT QUANTITY
-       ===================================================== */
-
-    .quantity-control,
-    .quantity-selector,
-    .qty-control {
-        max-width: 100%;
-    }
-
-
-    /* =====================================================
-       PRODUCT REVIEWS LIST
-       ===================================================== */
-
-    .reviews-list,
-    .review-list,
-    .reviews-container {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .review-card,
-    .review-item {
-        padding: 14px;
-
-        border-radius: 9px;
-    }
-
-
-    /* =====================================================
-       PRODUCT PAGE SPACING
-       ===================================================== */
-
-    .product-section,
-    .product-detail-section {
-        padding-left: 15px !important;
-        padding-right: 15px !important;
+            15px;
     }
 
 
     /* =====================================================
        CART
-       ===================================================== */
+    ===================================================== */
 
-    .cart-container,
-    .cart-page,
-    .cart-content {
+    .cart-page {
+        padding-top:
+            62px;
+    }
+
+    .cart-container {
+        padding:
+            25px 14px;
+    }
+
+    .cart-header {
+        margin-bottom:
+            18px;
+    }
+
+    .cart-header h1 {
+        font-size:
+            30px;
+    }
+
+    .cart-layout {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            18px;
+    }
+
+    .cart-items {
         width: 100%;
-        max-width: 100%;
-        min-width: 0;
     }
 
     .cart-item {
-        min-width: 0;
+        padding:
+            10px;
+
+        gap:
+            10px;
     }
 
     .cart-item-image,
     .cart-product-image,
     .cart-item .item-image {
-        width: 78px;
-        height: 78px !important;
-        flex-shrink: 0;
+        width:
+            72px;
+
+        height:
+            72px !important;
+
+        flex:
+            0 0 72px;
     }
 
-    .cart-item-image img,
-    .cart-product-image img,
-    .cart-item .item-image img {
-        width: 100%;
-        height: 100% !important;
+    .cart-item h3 {
+        font-size:
+            11px;
+    }
 
-        object-fit: contain !important;
+    .cart-item small {
+        font-size:
+            8px;
+    }
+
+    .cart-summary {
+        width: 100%;
+
+        padding:
+            15px;
+    }
+
+    .checkout-btn {
+        width:
+            100%;
     }
 
 
     /* =====================================================
        CHECKOUT
-       ===================================================== */
+    ===================================================== */
 
-    .checkout-container,
-    .checkout-page,
-    .checkout-content {
-        width: 100%;
-        max-width: 100%;
-        min-width: 0;
+    .checkout-page {
+        padding-top:
+            62px;
+    }
+
+    .checkout-layout {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            15px;
+    }
+
+    .checkout-card {
+        padding:
+            15px;
+    }
+
+    .checkout-heading {
+        font-size:
+            25px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        min-height:
+            42px;
+
+        font-size:
+            11px;
     }
 
     .checkout-item-image,
     .checkout-product-image,
     .checkout-item .item-image {
-        width: 70px;
-        height: 70px !important;
-        flex-shrink: 0;
+        width:
+            62px;
+
+        height:
+            62px !important;
     }
 
-    .checkout-item-image img,
-    .checkout-product-image img,
-    .checkout-item .item-image img {
-        width: 100%;
-        height: 100% !important;
+    .pay-btn {
+        width:
+            100%;
 
-        object-fit: contain !important;
+        min-height:
+            46px;
     }
 
 
     /* =====================================================
-       RANDOM / SURPRISE WALL
-       ===================================================== */
+       RANDOM / SURPRISE ME
+    ===================================================== */
+
+    .random-page {
+        padding-top:
+            62px;
+    }
+
+    .random-header {
+        padding:
+            35px 14px 20px;
+    }
+
+    .random-header h1 {
+        font-size:
+            32px;
+    }
+
+    .random-builder {
+        padding:
+            15px;
+    }
+
+    .random-fields {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            10px;
+    }
+
+    .random-count-box {
+        padding:
+            15px;
+    }
 
     .random-preview-box {
-        width: 100%;
+        padding:
+            12px;
 
-        min-height: 380px;
+        border-radius:
+            14px;
 
-        padding: 15px;
-
-        margin-top: 20px;
-
-        border-radius: 15px;
+        min-height:
+            330px;
     }
 
     #randomGrid {
+        gap:
+            8px;
+
+        min-height:
+            280px;
+
         width: 100%;
-
-        min-height: 330px;
-
-        gap: 10px;
     }
 
     #randomGrid.wall-1 {
         grid-template-columns:
-            minmax(140px, 190px);
+            150px;
     }
 
     #randomGrid.wall-2,
-    #randomGrid.wall-3,
-    #randomGrid.wall-4,
-    #randomGrid.wall-5,
-    #randomGrid.wall-6,
-    #randomGrid.wall-7,
-    #randomGrid.wall-8,
-    #randomGrid.wall-9,
-    #randomGrid.wall-10 {
+    #randomGrid.wall-3 {
         grid-template-columns:
             repeat(2, minmax(0, 1fr));
-
-        grid-template-rows: auto;
-    }
-
-    #randomGrid.wall-5 .random-poster,
-    #randomGrid.wall-7 .random-poster {
-        grid-column: auto !important;
-        grid-row: auto !important;
     }
 
     .random-poster {
-        width: 100%;
-        min-height: 135px;
-        max-height: 230px;
+        min-width:
+            0;
+    }
 
-        border-width: 4px;
+    .random-results {
+        padding:
+            0 14px;
+    }
+
+    .random-actions {
+        flex-wrap:
+            wrap;
+
+        gap:
+            8px;
+    }
+
+
+    /* =====================================================
+       CUSTOMIZE
+    ===================================================== */
+
+    .customize-page {
+        padding-top:
+            62px;
+    }
+
+    .customize-container {
+        padding:
+            20px 14px;
+    }
+
+    .workspace {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            15px;
+    }
+
+    .photos-panel,
+    .preview-panel {
+        width:
+            100%;
+    }
+
+    .photo-list {
+        max-height:
+            220px;
+
+        overflow-y:
+            auto;
+    }
+
+    .preview-area {
+        min-height:
+            350px;
+    }
+
+    .poster-preview {
+        max-width:
+            calc(100vw - 55px);
+
+        max-height:
+            470px;
+    }
+
+    .action-row {
+        flex-wrap:
+            wrap;
+
+        gap:
+            8px;
+    }
+
+    .fit-buttons,
+    .apply-size-buttons,
+    .size-buttons {
+        display:
+            grid;
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            7px;
     }
 
 
     /* =====================================================
        OFFERS
-       ===================================================== */
+    ===================================================== */
 
-    .offers-grid,
-    .offer-grid,
-    .offers-container {
+    .offers-page {
+        padding-top:
+            62px;
+    }
+
+    .offers-header {
+        padding:
+            40px 14px 20px;
+    }
+
+    .offers-header h1 {
+        font-size:
+            34px;
+    }
+
+    .offer-filters {
+        overflow-x:
+            auto;
+
+        display:
+            flex;
+
+        gap:
+            7px;
+
+        padding:
+            0 14px 10px;
+    }
+
+    .offer-filter {
+        flex:
+            0 0 auto;
+
+        white-space:
+            nowrap;
+    }
+
+    .offers-grid {
         grid-template-columns:
-            1fr !important;
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            10px;
+
+        padding:
+            0 14px;
+    }
+
+
+    /* =====================================================
+       SINGLE OFFER
+    ===================================================== */
+
+    .offer-page {
+        padding-top:
+            62px;
+    }
+
+    .offer-container {
+        padding:
+            20px 14px;
+    }
+
+    .offer-top {
+        grid-template-columns:
+            1fr;
+
+        gap:
+            20px;
+    }
+
+    .offer-main-image {
+        min-height:
+            260px;
+    }
+
+    .offer-info h1 {
+        font-size:
+            30px;
+    }
+
+    .products-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            10px;
     }
 
 
     /* =====================================================
        TRACK ORDER
-       ===================================================== */
+    ===================================================== */
 
-    .track-container,
-    .track-order-container {
-        width: calc(100% - 30px);
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
+    .track-page {
+        padding-top:
+            62px;
+    }
+
+    .track-container {
+        padding:
+            35px 14px;
+    }
+
+    .track-card {
+        padding:
+            18px;
+    }
+
+    .track-title {
+        font-size:
+            30px;
+    }
+
+    .track-form {
+        flex-direction:
+            column;
+
+        gap:
+            8px;
+    }
+
+    .track-form input,
+    .track-form button {
+        width:
+            100%;
+    }
+
+    .status-bar {
+        overflow-x:
+            auto;
+
+        padding-bottom:
+            5px;
+    }
+
+    .status-step {
+        min-width:
+            90px;
     }
 
 
     /* =====================================================
-       FORMS
-       ===================================================== */
+       ORDER SUCCESS
+    ===================================================== */
 
-    input,
-    select,
-    textarea {
-        max-width: 100%;
+    .success-page {
+        padding:
+            85px 14px 30px;
+    }
+
+    .success-card {
+        padding:
+            22px 15px;
+    }
+
+    .success-card h1 {
+        font-size:
+            28px;
+    }
+
+    .success-actions {
+        flex-direction:
+            column;
+
+        gap:
+            8px;
+    }
+
+    .success-btn {
+        width:
+            100%;
     }
 
 
     /* =====================================================
-       GENERAL BUTTONS
-       ===================================================== */
+       ADMIN
+    ===================================================== */
 
-    .primary-btn,
-    .secondary-btn {
-        min-height: 44px;
+    .admin-container {
+        width:
+            100%;
+
+        padding:
+            25px 14px;
+    }
+
+    .admin-grid {
+        grid-template-columns:
+            1fr;
+    }
+
+    .admin-card {
+        padding:
+            16px;
+    }
+
+    .admin-actions {
+        flex-direction:
+            column;
+    }
+
+    .admin-actions button,
+    .admin-actions a {
+        width:
+            100%;
     }
 
 }
 
 
 /* =========================================================
-   SMALL PHONES — 480PX
-   ========================================================= */
+   SMALL MOBILE
+========================================================= */
 
 @media (max-width: 480px) {
 
-    /* ---------------- NAV ---------------- */
-
     .navbar {
         padding:
-            0 12px;
+            0 11px;
+    }
+
+    .brand-mark {
+        width:
+            32px;
+
+        height:
+            32px;
     }
 
     .brand-name {
-        font-size: 13px;
+        font-size:
+            10px;
     }
 
     .cart-button {
         padding:
-            7px 8px;
+            7px 9px;
     }
 
 
-    /* ---------------- HERO ---------------- */
+    /* -----------------------------------------------------
+       HERO
+    ----------------------------------------------------- */
 
     .hero {
         padding:
-            92px 15px 45px;
+            82px 14px 38px;
     }
 
     .hero h1 {
         font-size:
-            clamp(42px, 14vw, 58px);
+            clamp(38px, 14vw, 56px);
 
-        letter-spacing: -2.5px;
+        letter-spacing:
+            -2.5px;
     }
 
     .hero-description {
-        font-size: 12px;
+        font-size:
+            11px;
     }
 
     .hero-buttons {
-        flex-direction: column;
+        flex-direction:
+            column;
 
-        width: 100%;
-    }
-
-    .hero-buttons a {
-        width: 100%;
+        align-items:
+            stretch;
     }
 
     .hero-poster-area {
-        height: 350px;
+        height:
+            315px;
     }
 
     .hero-poster {
-        width: 220px;
-        height: 315px;
+        width:
+            195px;
+
+        height:
+            278px;
     }
 
     .hero-z {
-        top: 72px;
-        font-size: 100px;
+        font-size:
+            88px;
     }
 
     .hero-poster-title {
-        top: 210px;
-        font-size: 14px;
+        top:
+            182px;
+
+        font-size:
+            13px;
     }
 
 
-    /* ---------------- SECTIONS ---------------- */
+    /* -----------------------------------------------------
+       HOME SECTIONS
+    ----------------------------------------------------- */
 
     .trending-section,
     .style-section,
@@ -1548,386 +1574,377 @@ div {
     .sizes-section,
     .custom-section,
     .about-section {
+
         padding:
-            52px 15px;
+            38px 13px;
     }
 
-
-    /* ---------------- HOME GRID ---------------- */
+    .section-heading {
+        margin-bottom:
+            17px;
+    }
 
     .poster-grid {
         gap:
-            18px 9px;
+            8px;
+    }
+
+    .poster-info {
+        padding:
+            7px;
     }
 
     .poster-info h3 {
-        font-size: 10px;
+        font-size:
+            9px;
+    }
+
+    .poster-price {
+        font-size:
+            9px;
     }
 
 
-    /* ---------------- STYLE ---------------- */
+    /* -----------------------------------------------------
+       STYLE GRID
+    ----------------------------------------------------- */
 
     .style-grid {
-        gap: 9px;
+        gap:
+            8px;
     }
 
     .style-image {
-        height: 120px;
+        height:
+            105px;
     }
 
-
-    /* ---------------- SIZES ---------------- */
-
-    .sizes-grid {
-        gap: 8px;
-    }
-
-    .size-card {
+    .style-info {
         padding:
-            17px 12px;
+            8px;
     }
 
-
-    /* =====================================================
-       PRODUCT PAGE
-       ===================================================== */
-
-    .product-poster-frame {
-        max-width:
-            calc(100vw - 30px) !important;
-    }
-
-    .product-poster-frame img,
-    .product-main-image img,
-    .product-detail-image img,
-    .product-preview img,
-    .product-view-image img,
-    .product-image img {
-        max-width:
-            calc(100vw - 30px) !important;
-
-        max-height:
-            62vh !important;
-    }
-
-    .product-info h1,
-    .product-details h1 {
-        font-size:
-            27px;
-    }
-
-    .size-options,
-    .size-selector,
-    .size-buttons,
-    .product-sizes {
-        gap: 6px;
-    }
-
-    .size-options button,
-    .size-selector button,
-    .size-buttons button,
-    .product-sizes button,
-    .size-btn {
-        flex: 1 1 calc(25% - 6px);
-
-        min-width: 0;
-
-        min-height: 42px;
-
-        padding:
-            8px 5px;
-    }
-
-
-    /* ---------------- SHOP ---------------- */
-
-    .shop-grid {
-        gap:
-            18px 9px;
-    }
-
-    .shop-product-details h3 {
-        font-size: 10px;
-    }
-
-    .shop-product-details strong {
-        font-size: 11px;
-    }
-
-    .shop-product-bottom span {
-        min-width: 21px;
-    }
-
-
-    /* ---------------- CART ---------------- */
-
-    .cart-item-image,
-    .cart-product-image,
-    .cart-item .item-image {
-        width: 68px;
-        height: 68px !important;
-    }
-
-
-    /* ---------------- CHECKOUT ---------------- */
-
-    .checkout-item-image,
-    .checkout-product-image,
-    .checkout-item .item-image {
-        width: 62px;
-        height: 62px !important;
-    }
-
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES — 380PX
-   ========================================================= */
-
-@media (max-width: 380px) {
-
-    .navbar {
-        padding:
-            0 9px;
-    }
-
-    .brand-name {
-        font-size: 12px;
-    }
-
-    .cart-button {
-        font-size: 9px;
-        padding:
-            6px 7px;
-    }
-
-    .hero h1 {
-        font-size:
-            40px;
-    }
-
-    .hero-poster {
-        width: 200px;
-        height: 290px;
-    }
-
-    .poster-grid {
-        gap:
-            16px 8px;
-    }
-
-    .style-grid {
-        grid-template-columns:
-            1fr;
-    }
-
-    .sizes-grid {
-        grid-template-columns:
-            1fr 1fr;
-    }
-
-
-    /* PRODUCT */
-
-    .product-poster-frame {
-        max-width:
-            calc(100vw - 24px) !important;
-    }
-
-    .product-poster-frame img,
-    .product-main-image img,
-    .product-detail-image img,
-    .product-preview img,
-    .product-view-image img,
-    .product-image img {
-        max-width:
-            calc(100vw - 24px) !important;
-
-        max-height:
-            58vh !important;
-    }
-
-    .product-info h1,
-    .product-details h1 {
-        font-size:
-            24px;
-    }
-
-    .size-options button,
-    .size-selector button,
-    .size-buttons button,
-    .product-sizes button,
-    .size-btn {
+    .style-info h3 {
         font-size:
             10px;
     }
 
+
+    /* -----------------------------------------------------
+       SIZES
+    ----------------------------------------------------- */
+
+    .sizes-grid {
+        gap:
+            8px;
+    }
+
+    .size-card {
+        padding:
+            13px 9px;
+    }
+
+    .size-card h3 {
+        font-size:
+            13px;
+    }
+
+
+    /* =====================================================
+       SHOP
+    ===================================================== */
+
+    .shop-hero {
+        padding:
+            45px 13px 25px;
+    }
+
+    .shop-hero h1 {
+        font-size:
+            46px;
+    }
+
+    .shop-controls {
+        margin:
+            0 12px;
+
+        gap:
+            6px;
+    }
+
+    .shop-search {
+        margin:
+            8px 12px;
+    }
+
+    .quick-categories {
+        margin:
+            8px 12px;
+    }
+
+    .shop-products {
+        padding:
+            0 12px;
+    }
+
+    .shop-grid {
+        gap:
+            12px 7px;
+    }
+
+    .shop-product-image {
+        min-height:
+            130px !important;
+    }
+
+    .shop-product-details h3 {
+        font-size:
+            9px;
+    }
+
+    .shop-product-details strong {
+        font-size:
+            9px;
+    }
+
+
+    /* =====================================================
+       PRODUCT
+    ===================================================== */
+
+    .product-container {
+        padding:
+            15px 12px;
+    }
+
+    .product-main-image {
+        min-height:
+            260px;
+    }
+
+    .product-info h1,
+    #productTitle {
+        font-size:
+            25px;
+    }
+
+    .product-poster-frame {
+        max-width:
+            calc(100vw - 45px);
+    }
+
+    .size-options {
+        gap:
+            6px;
+    }
+
+    .size-btn {
+        min-height:
+            38px;
+
+        padding:
+            8px 5px;
+
+        font-size:
+            9px;
+    }
+
+
+    /* =====================================================
+       CART
+    ===================================================== */
+
+    .cart-container {
+        padding:
+            20px 12px;
+    }
+
+    .cart-header h1 {
+        font-size:
+            27px;
+    }
+
+    .cart-item-image,
+    .cart-product-image,
+    .cart-item .item-image {
+        width:
+            62px;
+
+        height:
+            62px !important;
+
+        flex:
+            0 0 62px;
+    }
+
+    .cart-item {
+        padding:
+            8px;
+
+        gap:
+            8px;
+    }
+
+
+    /* =====================================================
+       CHECKOUT
+    ===================================================== */
+
+    .checkout-card {
+        padding:
+            13px;
+    }
+
+    .checkout-heading {
+        font-size:
+            23px;
+    }
+
+
+    /* =====================================================
+       RANDOM
+    ===================================================== */
+
+    .random-preview-box {
+        padding:
+            9px;
+
+        min-height:
+            290px;
+    }
+
+    #randomGrid {
+        gap:
+            6px;
+
+        min-height:
+            250px;
+    }
+
+    #randomGrid.wall-1 {
+        grid-template-columns:
+            125px;
+    }
+
+
+    /* =====================================================
+       OFFERS
+    ===================================================== */
+
+    .offers-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap:
+            8px;
+
+        padding:
+            0 12px;
+    }
+
+
+    /* =====================================================
+       SINGLE OFFER
+    ===================================================== */
+
+    .offer-container {
+        padding:
+            15px 12px;
+    }
+
+    .offer-info h1 {
+        font-size:
+            26px;
+    }
+
+    .products-grid {
+        gap:
+            8px;
+    }
+
+
+    /* =====================================================
+       FOOTER
+    ===================================================== */
+
+    .footer {
+        padding:
+            24px 13px;
+    }
+
 }
 
 
 /* =========================================================
-   LANDSCAPE PHONES
-   ========================================================= */
+   EXTRA SMALL DEVICES
+========================================================= */
 
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 360px) {
 
-    .hero {
-        padding-top: 90px;
+    .brand-name {
+        font-size:
+            9px;
     }
 
-    .hero-content {
-        display: grid;
-
-        grid-template-columns:
-            1fr 1fr;
-
-        text-align: left;
-
-        align-items: center;
+    .cart-button {
+        padding:
+            6px 8px;
     }
 
-    .hero-buttons {
-        justify-content: flex-start;
-    }
-
-    .hero-poster-area {
-        height: 360px;
+    .hero h1 {
+        font-size:
+            37px;
     }
 
     .hero-poster {
-        width: 210px;
-        height: 300px;
+        width:
+            175px;
+
+        height:
+            250px;
     }
 
-
-    /*
-       Product poster can use more vertical space
-       in landscape mode.
-    */
-
-    .product-poster-frame img,
-    .product-main-image img,
-    .product-detail-image img,
-    .product-preview img,
-    .product-view-image img,
-    .product-image img {
-        max-height:
-            78vh !important;
+    .hero-poster-area {
+        height:
+            285px;
     }
 
-}
+    .hero-poster-title {
+        top:
+            163px;
 
-
-/* =========================================================
-   TOUCH DEVICES
-   ========================================================= */
-
-@media (hover: none) and (pointer: coarse) {
-
-    .poster-card:hover .poster-image img,
-    .shop-product-card:hover .shop-product-image img {
-        transform: none;
+        font-size:
+            11px;
     }
 
-    .shop-product-view {
-        display: none !important;
+    .style-image {
+        height:
+            90px;
     }
 
-    .primary-btn:hover,
-    .secondary-btn:hover {
-        transform: none;
+    .shop-grid {
+        gap:
+            10px 6px;
     }
 
-}
+    .shop-product-image {
+        min-height:
+            115px !important;
+    }
 
+    .shop-product-details h3 {
+        font-size:
+            8px;
+    }
 
-/* =========================================================
-   ACCESSIBILITY / REDUCED MOTION
-   ========================================================= */
+    .shop-product-details strong {
+        font-size:
+            8px;
+    }
 
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
+    .size-card h3 {
+        font-size:
+            12px;
     }
 
 }
-
-
-/* =========================================================
-   FINAL IMAGE SAFETY
-   ========================================================= */
-
-/*
-   These rules are deliberately at the bottom so they win
-   against older desktop image rules.
-*/
-
-@media (max-width: 700px) {
-
-    .product-image,
-    .product-main-image,
-    .product-detail-image,
-    .product-preview,
-    .product-view-image,
-    .product-poster-frame,
-    .shop-product-image,
-    .poster-image,
-    .product-card-image {
-        min-height: 0 !important;
-        height: auto !important;
-        aspect-ratio: auto !important;
-    }
-
-    .product-image img,
-    .product-main-image img,
-    .product-detail-image img,
-    .product-preview img,
-    .product-view-image img,
-    .product-poster-frame img,
-    .shop-product-image img,
-    .poster-image img,
-    .product-card-image img {
-        width: auto !important;
-        height: auto !important;
-
-        max-width: 100% !important;
-
-        object-fit: contain !important;
-        object-position: center !important;
-    }
-
-}
-
-
-/* =========================================================
-   DO NOT TOUCH POSTER EDITOR
-   =========================================================
-   The following intentionally preserves the editor's
-   free-positioned image behavior.
-*/
-
-#posterFrame {
-    touch-action: none;
-}
-
-#posterImage {
-    max-width: none !important;
-    max-height: none !important;
-    object-fit: unset !important;
-}
-
-#posterFrame img {
-    object-fit: unset !important;
-}
-
-
-/* =========================================================
-   END
-========================================================= */
