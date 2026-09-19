@@ -1948,3 +1948,163 @@ textarea {
     }
 
 }
+/* =========================================================
+   SHOP POSTERS — NATURAL IMAGE RATIO
+   Removes the old fixed poster box behavior.
+   Vertical stays vertical.
+   Horizontal stays horizontal.
+   Square stays square.
+========================================================= */
+
+.shop-product-card .shop-product-image {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    overflow: hidden;
+    display: block;
+    background: #0d0d0d;
+}
+
+.shop-product-card .shop-product-image img {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/* Remove any old layout classes completely */
+.shop-product-card.z-layout-v,
+.shop-product-card.z-layout-h {
+    width: auto !important;
+    align-self: start !important;
+}
+
+.shop-product-card.z-layout-v .shop-product-image,
+.shop-product-card.z-layout-h .shop-product-image {
+    width: 100% !important;
+    margin: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+}
+/* =========================================================
+   CART — NATURAL POSTER PROPORTIONS
+   Vertical, horizontal and square posters keep their
+   original proportions.
+========================================================= */
+
+.cart-item-image,
+.cart-product-image,
+.cart-item .item-image {
+    width: 110px !important;
+    height: 110px !important;
+    min-height: 0 !important;
+    flex: 0 0 110px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+    background: #090909 !important;
+    border: 1px solid #292929 !important;
+    border-radius: 8px !important;
+}
+
+/* The actual poster */
+.cart-item-image img,
+.cart-product-image img,
+.cart-item .item-image img {
+    display: block !important;
+
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+
+    .cart-item-image,
+    .cart-product-image,
+    .cart-item .item-image {
+        width: 82px !important;
+        height: 82px !important;
+        flex: 0 0 82px !important;
+    }
+
+}
+/* =========================================
+   ZAVYRO CART - PROPER POSTER IMAGE DISPLAY
+   ========================================= */
+
+.cart-item-image,
+.cart-product-image,
+.cart-item .image,
+.cart-item-image-wrap {
+    width: 110px !important;
+    height: 110px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+    background: #0b0b0b !important;
+    border-radius: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+/* The actual poster image */
+.cart-item-image img,
+.cart-product-image img,
+.cart-item .image img,
+.cart-item-image-wrap img {
+    width: auto !important;
+    height: auto !important;
+
+    max-width: 100% !important;
+    max-height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    display: block !important;
+    border-radius: 5px !important;
+}
+
+/* Prevent global img rules from stretching the poster */
+.cart-item img {
+    aspect-ratio: auto !important;
+}
+
+/* Desktop */
+@media (min-width: 769px) {
+    .cart-item-image,
+    .cart-product-image,
+    .cart-item .image,
+    .cart-item-image-wrap {
+        width: 110px !important;
+        height: 110px !important;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .cart-item-image,
+    .cart-product-image,
+    .cart-item .image,
+    .cart-item-image-wrap {
+        width: 90px !important;
+        height: 90px !important;
+    }
+}

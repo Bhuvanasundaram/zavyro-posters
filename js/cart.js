@@ -1,4 +1,3 @@
-
 /* =========================================================
    ZAVYRO POSTERS
    CART SYSTEM
@@ -128,7 +127,7 @@ function escapeHtml(value) {
    IMAGE URL
 ========================================================= */
 
-function getImageUrl(path) {
+function getImageUrl(path, version = "") {
 
     if (!path) {
         return "";
@@ -142,7 +141,13 @@ function getImageUrl(path) {
                 .from("posters")
                 .getPublicUrl(path);
 
-        return data?.publicUrl || "";
+        let url = data?.publicUrl || "";
+
+        if (url && version) {
+            url += `${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`;
+        }
+
+        return url;
 
     } catch (error) {
 
@@ -167,146 +172,85 @@ function getCartItemImage(item) {
         return "";
     }
 
-    /* CUSTOM POSTER — NEVER CHANGE */
+
+    /*
+     * CUSTOM POSTER
+     *
+     * customize.js stores:
+     *
+     * imageUrl: photo.src
+     *
+     * This is usually:
+     *
+     * data:image/jpeg;base64,...
+     */
+
     if (
         item.custom === true &&
         item.imageUrl &&
         typeof item.imageUrl === "string"
     ) {
+
         return item.imageUrl;
     }
 
-    /* OFFER — KEEP EXISTING OFFER IMAGE */
+
+    /*
+     * NORMAL PRODUCT — ALWAYS USE THE CURRENT
+     * SELECTED SIZE VARIANT FIRST.
+     */
+
     if (
-        item.type === "offer" &&
+        item.custom !== true &&
+        item.type !== "offer" &&
+        item.variant_image_path
+    ) {
+
+        return getImageUrl(
+            item.variant_image_path,
+            item.variant_image_version || ""
+        );
+    }
+
+
+    /*
+     * Normal item with imageUrl
+     */
+
+    if (
         item.imageUrl &&
         typeof item.imageUrl === "string"
     ) {
+
         return item.imageUrl;
     }
 
-    /* NORMAL PRODUCT — CURRENT SELECTED SIZE */
-    if (
-        item.custom !== true &&
-        item.type !== "offer"
-    ) {
 
-        const product =
-            item.productData ||
-            item.product ||
-            null;
+    /*
+     * Supabase poster
+     */
 
-        const size =
-            String(
-                item.size || "A4"
-            )
-            .trim()
-            .toUpperCase();
+    if (item.image_path) {
 
-        if (product) {
-
-            let variantPath = "";
-
-            /*
-             * First use the exact variant path saved
-             * by Poster Editor.
-             */
-            if (
-                product.poster_edits &&
-                product.poster_edits[size]
-            ) {
-
-                const variant =
-                    product.poster_edits[size];
-
-                if (
-                    typeof variant === "string"
-                ) {
-                    variantPath = variant;
-                } else if (
-                    variant.path
-                ) {
-                    variantPath =
-                        variant.path;
-                }
-            }
-
-            /*
-             * Standard Poster Editor path.
-             */
-            if (!variantPath) {
-
-                const productId =
-                    product.id ||
-                    item.product_id ||
-                    item.productId;
-
-                if (productId) {
-
-                    variantPath =
-                        `products/${productId}/${size}.png`;
-                }
-            }
-
-            if (variantPath) {
-
-                const {
-                    data
-                } =
-                    supabaseClient
-                        .storage
-                        .from("posters")
-                        .getPublicUrl(
-                            variantPath
-                        );
-
-                let url =
-                    data?.publicUrl || "";
-
-                /*
-                 * Prevent old browser cache.
-                 */
-                if (url) {
-
-                    const version =
-                        product.updated_at ||
-                        Date.now();
-
-                    url +=
-                        `${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`;
-                }
-
-                return url;
-            }
-        }
+        return getImageUrl(
+            item.image_path,
+            item.updated_at || ""
+        );
     }
 
-    /* LEGACY FALLBACK */
-    if (
-        item.image_path &&
-        typeof item.image_path === "string"
-    ) {
 
-        const {
-            data
-        } =
-            supabaseClient
-                .storage
-                .from("posters")
-                .getPublicUrl(
-                    item.image_path
-                );
+    /*
+     * Older image property
+     */
 
-        return data?.publicUrl || "";
-    }
-
-    /* OLD IMAGE FIELD */
     if (
         item.image &&
         typeof item.image === "string"
     ) {
+
         return item.image;
     }
+
 
     return "";
 }
@@ -459,11 +403,6 @@ async function loadProductData() {
 
     cart.forEach(item => {
 
-        /*
-         * CUSTOM ITEMS DO NOT EXIST
-         * IN THE PRODUCTS TABLE.
-         */
-
         if (
             item.custom === true ||
             item.type === "offer"
@@ -524,7 +463,9 @@ async function loadProductData() {
                 offer_active,
                 offer_label,
                 badge,
-                active
+                active,
+                poster_edits,
+                updated_at
             `)
             .in(
                 "id",
@@ -553,10 +494,6 @@ async function loadProductData() {
 
 
         cart = cart.map(item => {
-
-            /*
-             * Never modify custom items.
-             */
 
             if (
                 item.custom === true ||
@@ -620,7 +557,44 @@ async function loadProductData() {
                     product.subcategory,
 
                 image_path:
-                    product.image_path,
+                    (
+                        product.poster_edits?.[size]?.path ||
+                        (
+                            typeof product.poster_edits?.[size] === "string"
+                                ? product.poster_edits[size]
+                                : product.image_path
+                        )
+                    ),
+
+                variant_image_path:
+                    (
+                        product.poster_edits?.[size]?.path ||
+                        (
+                            typeof product.poster_edits?.[size] === "string"
+                                ? product.poster_edits[size]
+                                : ""
+                        )
+                    ),
+
+                variant_image_version:
+                    (
+                        product.poster_edits?.[size]?.updated_at ||
+                        product.updated_at ||
+                        ""
+                    ),
+
+                imageUrl:
+                    getImageUrl(
+                        product.poster_edits?.[size]?.path ||
+                        (
+                            typeof product.poster_edits?.[size] === "string"
+                                ? product.poster_edits[size]
+                                : product.image_path
+                        ),
+                        product.poster_edits?.[size]?.updated_at ||
+                        product.updated_at ||
+                        ""
+                    ),
 
                 productData:
                     product,
@@ -679,11 +653,6 @@ function getNormalData(item) {
         );
 
 
-    /*
-     * Custom poster:
-     * use its stored price directly.
-     */
-
     if (
         item.custom === true
     ) {
@@ -702,11 +671,6 @@ function getNormalData(item) {
             );
     }
 
-
-    /*
-     * Normal product:
-     * prefer current Supabase data.
-     */
 
     else if (item.productData) {
 
@@ -791,13 +755,6 @@ function renderNormalProduct(
         getNormalData(item);
 
 
-    /*
-     * THIS IS THE IMPORTANT FIX.
-     *
-     * Custom posters use item.imageUrl.
-     * Normal posters use Supabase image_path.
-     */
-
     const imageUrl =
         getCartItemImage(item);
 
@@ -808,7 +765,24 @@ function renderNormalProduct(
 
     card.innerHTML = `
 
-        <div class="cart-item-image">
+        <div
+            class="cart-item-image zavyro-cart-poster-box"
+            style="
+                width:110px !important;
+                height:140px !important;
+                min-width:0 !important;
+                min-height:0 !important;
+                flex:0 0 auto !important;
+                display:flex !important;
+                align-items:center !important;
+                justify-content:center !important;
+                overflow:hidden !important;
+                background:#090909 !important;
+                border:1px solid #292929 !important;
+                border-radius:8px !important;
+                padding:4px !important;
+            "
+        >
 
             ${
                 imageUrl
@@ -824,6 +798,19 @@ function renderNormalProduct(
                                         "Poster"
                                     )
                             )}"
+                            draggable="false"
+                            style="
+                                width:auto !important;
+                                height:auto !important;
+                                max-width:100% !important;
+                                max-height:100% !important;
+                                min-width:0 !important;
+                                min-height:0 !important;
+                                object-fit:contain !important;
+                                object-position:center !important;
+                                display:block !important;
+                            "
+                            onload="window.zavyroFitCartPoster && window.zavyroFitCartPoster(this);"
                             onerror="
                                 this.style.display='none';
                             "
@@ -1048,10 +1035,6 @@ function calculateOffer(
         "";
 
 
-    /* =========================
-       COMBO
-    ========================= */
-
     if (
         type === "combo"
     ) {
@@ -1095,10 +1078,6 @@ function calculateOffer(
         };
     }
 
-
-    /* =========================
-       BUY X GET Y
-    ========================= */
 
     if (
         type === "buy_get"
@@ -1379,6 +1358,9 @@ function renderOffer(
                             background:#090909;
                             border:1px solid #292929;
                             flex-shrink:0;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
                         "
                     >
 
@@ -1393,9 +1375,17 @@ function renderOffer(
                                             "Poster"
                                         )}"
                                         style="
-                                            width:100%;
-                                            height:100%;
-                                            object-fit:cover;
+                                            width:auto !important;
+                                            height:auto !important;
+                                            max-width:100% !important;
+                                            max-height:100% !important;
+                                            object-fit:contain !important;
+                                            object-position:center !important;
+                                            display:block !important;
+                                        "
+                                        onload="
+                                            this.style.width='auto';
+                                            this.style.height='auto';
                                         "
                                     >
                                   `
@@ -1570,6 +1560,103 @@ function renderOffer(
 
 
 /* =========================================================
+   DELIVERY CHARGE
+========================================================= */
+
+const DELIVERY_CHARGE = 50;
+const FREE_DELIVERY_THRESHOLD = 500;
+
+function getDeliveryCharge(subtotal) {
+
+    return Number(subtotal) >=
+        FREE_DELIVERY_THRESHOLD
+
+        ? 0
+
+        : DELIVERY_CHARGE;
+}
+
+
+function getOrCreateDeliveryRow() {
+
+    let row =
+        document.getElementById(
+            "deliveryChargeRow"
+        );
+
+
+    if (row) {
+        return row;
+    }
+
+
+    if (!summaryTotal) {
+        return null;
+    }
+
+
+    const totalRow =
+        summaryTotal.parentElement;
+
+
+    if (
+        !totalRow ||
+        !totalRow.parentElement
+    ) {
+
+        return null;
+    }
+
+
+    row =
+        document.createElement(
+            "div"
+        );
+
+
+    row.id =
+        "deliveryChargeRow";
+
+
+    row.style.display =
+        "flex";
+
+
+    row.style.alignItems =
+        "center";
+
+
+    row.style.justifyContent =
+        "space-between";
+
+
+    row.style.gap =
+        "12px";
+
+
+    row.style.padding =
+        "12px 0";
+
+
+    row.style.borderTop =
+        "1px solid #292929";
+
+
+    row.style.fontSize =
+        "13px";
+
+
+    totalRow.parentElement.insertBefore(
+        row,
+        totalRow
+    );
+
+
+    return row;
+}
+
+
+/* =========================================================
    UPDATE SUMMARY
 ========================================================= */
 
@@ -1649,11 +1736,124 @@ function updateSummary() {
     }
 
 
+    const deliveryCharge =
+        getDeliveryCharge(subtotal);
+
+    const grandTotal =
+        subtotal +
+        deliveryCharge;
+
+
+    const deliveryRow =
+        getOrCreateDeliveryRow();
+
+    if (deliveryRow) {
+
+        deliveryRow.innerHTML = `
+            <span style="color:#bbb;">
+                Delivery Charge
+            </span>
+
+            <strong style="color:${deliveryCharge === 0 ? "#22c55e" : "#fff"};">
+                ${deliveryCharge === 0 ? "FREE" : money(deliveryCharge)}
+            </strong>
+        `;
+    }
+
+
+    /* =====================================================
+       FREE DELIVERY PROGRESS DISPLAY
+       ONLY ADDITION
+    ===================================================== */
+
+    let freeDeliveryMessage =
+        document.getElementById(
+            "freeDeliveryMessage"
+        );
+
+
+    if (!freeDeliveryMessage) {
+
+        freeDeliveryMessage =
+            document.createElement(
+                "div"
+            );
+
+        freeDeliveryMessage.id =
+            "freeDeliveryMessage";
+
+        freeDeliveryMessage.style.fontSize =
+            "12px";
+
+        freeDeliveryMessage.style.marginTop =
+            "6px";
+
+        freeDeliveryMessage.style.lineHeight =
+            "1.4";
+
+        freeDeliveryMessage.style.textAlign =
+            "right";
+
+        freeDeliveryMessage.style.width =
+            "100%";
+
+
+        if (summarySubtotal) {
+
+            const subtotalParent =
+                summarySubtotal.parentElement;
+
+            if (
+                subtotalParent &&
+                subtotalParent.parentElement
+            ) {
+
+                subtotalParent.parentElement
+                    .appendChild(
+                        freeDeliveryMessage
+                    );
+            }
+        }
+    }
+
+
+    if (freeDeliveryMessage) {
+
+        if (
+            subtotal >=
+            FREE_DELIVERY_THRESHOLD
+        ) {
+
+            freeDeliveryMessage.innerHTML =
+                "🎉 <strong>FREE delivery!</strong>";
+
+            freeDeliveryMessage.style.color =
+                "#22c55e";
+
+        } else {
+
+            const remaining =
+                FREE_DELIVERY_THRESHOLD -
+                subtotal;
+
+            freeDeliveryMessage.innerHTML =
+                `Purchase ${money(remaining)} more to get <strong>FREE delivery</strong>`;
+
+            freeDeliveryMessage.style.color =
+                "#aaa";
+        }
+    }
+
+
+    /* =====================================================
+       GRAND TOTAL
+========================================================= */
+
     if (summaryTotal) {
 
         summaryTotal.textContent =
             money(
-                subtotal
+                grandTotal
             );
     }
 
@@ -1684,17 +1884,23 @@ function renderCart() {
     }
 
 
-    cartContainer.innerHTML = "";
+    cartContainer.innerHTML =
+        "";
 
 
     if (!cart.length) {
 
         if (cartContent) {
-            cartContent.hidden = true;
+
+            cartContent.hidden =
+                true;
         }
 
+
         if (emptyCart) {
-            emptyCart.hidden = false;
+
+            emptyCart.hidden =
+                false;
         }
 
 
@@ -1705,11 +1911,16 @@ function renderCart() {
 
 
     if (cartContent) {
-        cartContent.hidden = false;
+
+        cartContent.hidden =
+            false;
     }
 
+
     if (emptyCart) {
-        emptyCart.hidden = true;
+
+        emptyCart.hidden =
+            true;
     }
 
 
@@ -1791,6 +2002,7 @@ if (cartContainer) {
                 Number.isNaN(index) ||
                 !cart[index]
             ) {
+
                 return;
             }
 
@@ -1798,8 +2010,6 @@ if (cartContainer) {
             const item =
                 cart[index];
 
-
-            /* REMOVE */
 
             if (
                 action === "remove"
@@ -1819,18 +2029,13 @@ if (cartContainer) {
             }
 
 
-            /*
-             * Offers are not quantity-editable.
-             */
-
             if (
                 item.type === "offer"
             ) {
+
                 return;
             }
 
-
-            /* PLUS */
 
             if (
                 action === "plus"
@@ -1840,7 +2045,8 @@ if (cartContainer) {
                     Math.max(
                         1,
                         Number(
-                            item.quantity || 1
+                            item.quantity ||
+                            1
                         )
                     ) + 1;
 
@@ -1853,8 +2059,6 @@ if (cartContainer) {
             }
 
 
-            /* MINUS */
-
             if (
                 action === "minus"
             ) {
@@ -1863,7 +2067,8 @@ if (cartContainer) {
                     Math.max(
                         1,
                         Number(
-                            item.quantity || 1
+                            item.quantity ||
+                            1
                         )
                     );
 
@@ -1932,34 +2137,249 @@ if (
 
 
 /* =========================================================
+   FINAL CART POSTER IMAGE FIT
+========================================================= */
+
+window.zavyroFitCartPoster =
+    function(img) {
+
+        if (
+            !img ||
+            !img.naturalWidth ||
+            !img.naturalHeight
+        ) {
+
+            return;
+        }
+
+
+        const box =
+            img.closest(
+                ".zavyro-cart-poster-box"
+            );
+
+
+        if (!box) {
+            return;
+        }
+
+
+        const mobile =
+            window.innerWidth <= 768;
+
+
+        const maxWidth =
+            mobile
+                ? 86
+                : 110;
+
+
+        const maxHeight =
+            mobile
+                ? 112
+                : 140;
+
+
+        const ratio =
+            img.naturalWidth /
+            img.naturalHeight;
+
+
+        let width =
+            maxWidth;
+
+
+        let height =
+            width /
+            ratio;
+
+
+        if (
+            height >
+            maxHeight
+        ) {
+
+            height =
+                maxHeight;
+
+
+            width =
+                height *
+                ratio;
+        }
+
+
+        const finalWidth =
+            Math.max(
+                48,
+                Math.round(
+                    width
+                )
+            );
+
+
+        const finalHeight =
+            Math.max(
+                60,
+                Math.round(
+                    height
+                )
+            );
+
+
+        box.style.setProperty(
+            "width",
+            `${finalWidth}px`,
+            "important"
+        );
+
+
+        box.style.setProperty(
+            "height",
+            `${finalHeight}px`,
+            "important"
+        );
+
+
+        box.style.setProperty(
+            "min-width",
+            `${finalWidth}px`,
+            "important"
+        );
+
+
+        box.style.setProperty(
+            "min-height",
+            `${finalHeight}px`,
+            "important"
+        );
+
+
+        box.style.setProperty(
+            "flex",
+            `0 0 ${finalWidth}px`,
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "width",
+            `${Math.round(width)}px`,
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "height",
+            `${Math.round(height)}px`,
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "max-width",
+            "100%",
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "max-height",
+            "100%",
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "min-width",
+            "0",
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "min-height",
+            "0",
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "object-fit",
+            "contain",
+            "important"
+        );
+
+
+        img.style.setProperty(
+            "object-position",
+            "center",
+            "important"
+        );
+    };
+
+
+function fixAllZavyroCartPosters() {
+
+    document
+        .querySelectorAll(
+            "#cartItems .zavyro-cart-poster-box img"
+        )
+        .forEach(
+            img => {
+
+                if (
+                    img.complete &&
+                    img.naturalWidth > 0
+                ) {
+
+                    window.zavyroFitCartPoster(
+                        img
+                    );
+                }
+            }
+        );
+}
+
+
+window.addEventListener(
+    "resize",
+    fixAllZavyroCartPosters
+);
+
+
+/* =========================================================
    START
 ========================================================= */
 
 async function initializeCart() {
 
-    /*
-     * Render immediately.
-     */
-
     renderCart();
 
-
-    /*
-     * Recover only normal products.
-     * Custom posters are skipped.
-     */
 
     await loadProductData();
 
 
-    /*
-     * Render again with latest
-     * normal product information.
-     */
-
     renderCart();
+
+
+    setTimeout(
+        fixAllZavyroCartPosters,
+        50
+    );
+
+
+    setTimeout(
+        fixAllZavyroCartPosters,
+        250
+    );
+
+
+    setTimeout(
+        fixAllZavyroCartPosters,
+        500
+    );
 }
 
 
 initializeCart();
-

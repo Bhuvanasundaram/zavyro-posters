@@ -1,4 +1,4 @@
-const cart =
+let cart =
     JSON.parse(
         localStorage.getItem("zavyroCart") || "[]"
     );
@@ -25,10 +25,6 @@ const checkoutMessage =
     document.getElementById("checkoutMessage");
 
 
-/* =========================================================
-   ERROR MESSAGE
-========================================================= */
-
 function showError(message) {
 
     if (!checkoutMessage) {
@@ -36,212 +32,453 @@ function showError(message) {
         return;
     }
 
-    checkoutMessage.textContent =
-        message;
+    checkoutMessage.textContent = message;
 
     checkoutMessage.className =
         "checkout-message error";
 }
 
 
-/* =========================================================
-   GET PRODUCT IMAGE
-========================================================= */
+/* =========================
+   GET IMAGE
+========================= */
 
-function getProductImage(item) {
+function getSizeKey(size) {
 
-    if (!item) {
-        return "";
-    }
-
-    /* CUSTOM POSTER — NEVER CHANGE */
-    if (
-        item.custom === true &&
-        item.imageUrl &&
-        typeof item.imageUrl === "string"
-    ) {
-        return item.imageUrl;
-    }
-
-    /* OFFER — KEEP EXISTING IMAGE */
-    if (
-        item.type === "offer" &&
-        item.imageUrl &&
-        typeof item.imageUrl === "string"
-    ) {
-        return item.imageUrl;
-    }
-
-    /* NORMAL PRODUCT — CURRENT SELECTED SIZE */
-    if (
-        item.custom !== true &&
-        item.type !== "offer"
-    ) {
-
-        const product =
-            item.productData ||
-            item.product ||
-            null;
-
-        const size =
-            String(
-                item.size || "A4"
-            )
+    const normalized =
+        String(size || "A4")
             .trim()
             .toUpperCase();
 
-        if (product) {
+    if (normalized === "A6") return "a6";
+    if (normalized === "A5") return "a5";
+    if (normalized === "A4") return "a4";
+    if (normalized === "A3") return "a3";
 
-            let variantPath = "";
+    return "a4";
+}
 
-            /*
-             * Use Poster Editor saved variant.
-             */
-            if (
-                product.poster_edits &&
-                product.poster_edits[size]
-            ) {
 
-                const variant =
-                    product.poster_edits[size];
+function getProductId(item) {
 
-                if (
-                    typeof variant === "string"
-                ) {
-                    variantPath = variant;
-                } else if (
-                    variant.path
-                ) {
-                    variantPath =
-                        variant.path;
-                }
-            }
+    return (
+        item?.product_id ||
+        item?.productId ||
+        item?.product?.id ||
+        item?.productData?.id ||
+        null
+    );
+}
 
-            /*
-             * Standard Poster Editor path.
-             */
-            if (!variantPath) {
 
-                const productId =
-                    product.id ||
-                    item.product_id ||
-                    item.productId;
+function getVariantPath(product, size) {
 
-                if (productId) {
+    const saved =
+        product?.poster_edits?.[size];
 
-                    variantPath =
-                        `products/${productId}/${size}.png`;
-                }
-            }
-
-            if (variantPath) {
-
-                const {
-                    data
-                } =
-                    supabaseClient
-                        .storage
-                        .from("posters")
-                        .getPublicUrl(
-                            variantPath
-                        );
-
-                let url =
-                    data?.publicUrl || "";
-
-                /*
-                 * Prevent old image cache.
-                 */
-                if (url) {
-
-                    const version =
-                        product.updated_at ||
-                        Date.now();
-
-                    url +=
-                        `${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`;
-                }
-
-                return url;
-            }
-        }
+    if (saved && typeof saved === "object" && saved.path) {
+        return saved.path;
     }
 
-    /* LEGACY FALLBACK */
-    if (
-        item.image_path &&
-        typeof item.image_path === "string"
-    ) {
+    if (typeof saved === "string") {
+        return saved;
+    }
 
-        const {
-            data
-        } =
+    return product?.image_path || "";
+}
+
+
+function getVariantVersion(product, size) {
+
+    return (
+        product?.poster_edits?.[size]?.updated_at ||
+        product?.updated_at ||
+        ""
+    );
+}
+
+
+function getPublicProductImage(path, version = "") {
+
+    if (!path) {
+        return "";
+    }
+
+    try {
+        const { data } =
             supabaseClient
                 .storage
                 .from("posters")
-                .getPublicUrl(
-                    item.image_path
-                );
+                .getPublicUrl(path);
 
-        return data?.publicUrl || "";
+        let url = data?.publicUrl || "";
+
+        if (url && version) {
+            url += `${url.includes("?") ? "&" : "?"}v=${encodeURIComponent(version)}`;
+        }
+
+        return url;
+    } catch (error) {
+        console.error("CHECKOUT IMAGE URL ERROR:", error);
+        return "";
+    }
+}
+
+
+function getProductImage(item) {
+
+    /*
+       CUSTOM POSTER
+
+       Custom images must never be replaced.
+    */
+
+    if (
+        item?.custom === true &&
+        item.imageUrl &&
+        typeof item.imageUrl === "string"
+    ) {
+        return item.imageUrl;
     }
 
-    /* OLD IMAGE FIELD */
+
+    /*
+       OFFERS keep their existing image.
+    */
+
     if (
+        item?.type === "offer" &&
+        item.imageUrl &&
+        typeof item.imageUrl === "string"
+    ) {
+        return item.imageUrl;
+    }
+
+
+    /*
+       NORMAL PRODUCT — selected size variant.
+    */
+
+    if (item?.variant_image_path) {
+        return getPublicProductImage(
+            item.variant_image_path,
+            item.variant_image_version || ""
+        );
+    }
+
+    if (item?.productData) {
+        const size = item.size || "A4";
+        const path = getVariantPath(item.productData, size);
+        const version = getVariantVersion(item.productData, size);
+
+        return getPublicProductImage(path, version);
+    }
+
+
+    /*
+       Legacy normal item fallback.
+    */
+
+    if (item?.image_path) {
+        return getPublicProductImage(
+            item.image_path,
+            item.updated_at || ""
+        );
+    }
+
+
+    /*
+       Older image field
+    */
+
+    if (
+        item &&
         item.image &&
         typeof item.image === "string"
     ) {
         return item.image;
     }
 
+
     return "";
 }
 
 
 /* =========================================================
-   GET PRICE
+   CHECKOUT POSTER IMAGE FIT
+   ONLY IMAGE FITTING FIX
 ========================================================= */
+
+function fitCheckoutPosterImage(imageElement) {
+
+    if (
+        !imageElement ||
+        !imageElement.naturalWidth ||
+        !imageElement.naturalHeight
+    ) {
+        return;
+    }
+
+    /*
+       Maximum display area.
+
+       The actual image keeps its
+       original natural aspect ratio.
+    */
+
+    const maxWidth = 72;
+    const maxHeight = 90;
+
+    const ratio =
+        imageElement.naturalWidth /
+        imageElement.naturalHeight;
+
+    let width =
+        maxWidth;
+
+    let height =
+        width / ratio;
+
+
+    /*
+       If the image becomes too tall,
+       scale it down while keeping
+       its original aspect ratio.
+    */
+
+    if (height > maxHeight) {
+
+        height =
+            maxHeight;
+
+        width =
+            height * ratio;
+    }
+
+
+    /*
+       If the image becomes too wide,
+       scale it down again.
+    */
+
+    if (width > maxWidth) {
+
+        width =
+            maxWidth;
+
+        height =
+            width / ratio;
+    }
+
+
+    /*
+       Inline !important overrides
+       existing checkout CSS dimensions.
+    */
+
+    imageElement.style.setProperty(
+        "width",
+        `${Math.round(width)}px`,
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "height",
+        `${Math.round(height)}px`,
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "max-width",
+        `${maxWidth}px`,
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "max-height",
+        `${maxHeight}px`,
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "object-fit",
+        "contain",
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "object-position",
+        "center center",
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "display",
+        "block",
+        "important"
+    );
+
+    imageElement.style.setProperty(
+        "flex-shrink",
+        "0",
+        "important"
+    );
+}
+
+
+/* =========================
+   REFRESH CURRENT PRODUCT VARIANTS
+========================= */
+
+async function refreshCurrentProductVariants() {
+
+    const ids =
+        [...new Set(
+            cart
+                .filter(item =>
+                    item &&
+                    item.custom !== true &&
+                    item.type !== "offer"
+                )
+                .map(getProductId)
+                .filter(Boolean)
+        )];
+
+    if (!ids.length) {
+        return;
+    }
+
+    try {
+        const { data, error } =
+            await supabaseClient
+                .from("products")
+                .select(`
+                    id,
+                    title,
+                    description,
+                    category,
+                    subcategory,
+                    image_path,
+                    updated_at,
+                    poster_edits,
+                    price,
+                    price_a6,
+                    price_a5,
+                    price_a4,
+                    price_a3,
+                    mrp_a6,
+                    mrp_a5,
+                    mrp_a4,
+                    mrp_a3,
+                    offer_a6,
+                    offer_a5,
+                    offer_a4,
+                    offer_a3,
+                    offer_active,
+                    offer_label,
+                    active
+                `)
+                .in("id", ids);
+
+        if (error) {
+            throw error;
+        }
+
+        const productMap =
+            new Map(
+                (data || []).map(product =>
+                    [product.id, product]
+                )
+            );
+
+        cart = cart.map(item => {
+
+            if (
+                item.custom === true ||
+                item.type === "offer"
+            ) {
+                return item;
+            }
+
+            const product =
+                productMap.get(
+                    getProductId(item)
+                );
+
+            if (!product) {
+                return item;
+            }
+
+            const size =
+                String(item.size || "A4").toUpperCase();
+
+            const variantPath =
+                getVariantPath(product, size);
+
+            const variantVersion =
+                getVariantVersion(product, size);
+
+            return {
+                ...item,
+                product_id: product.id,
+                title: product.title,
+                description: product.description,
+                category: product.category,
+                subcategory: product.subcategory,
+                productData: product,
+                image_path: variantPath,
+                variant_image_path: variantPath,
+                variant_image_version: variantVersion,
+                imageUrl: getPublicProductImage(
+                    variantPath,
+                    variantVersion
+                )
+            };
+        });
+
+        localStorage.setItem(
+            "zavyroCart",
+            JSON.stringify(cart)
+        );
+
+    } catch (error) {
+        console.error(
+            "CURRENT VARIANT REFRESH ERROR:",
+            error
+        );
+    }
+}
+
+
+/* =========================
+   PRICE
+========================= */
 
 function getPrice(item) {
 
-    if (
-        item.price !== undefined
-    ) {
-        return Number(
-            item.price
-        );
+    if (item.price !== undefined) {
+        return Number(item.price);
     }
 
-    if (
-        item.offerPrice !== undefined
-    ) {
-        return Number(
-            item.offerPrice
-        );
+    if (item.offerPrice !== undefined) {
+        return Number(item.offerPrice);
     }
 
     return 0;
 }
 
 
-/* =========================================================
-   CALCULATE ITEM TOTAL
-========================================================= */
+/* =========================
+   ITEM TOTAL
+========================= */
 
 function calculateItemTotal(item) {
 
     const quantity =
-        Number(
-            item.quantity || 1
-        );
+        Number(item.quantity || 1);
 
     const price =
         getPrice(item);
-
-
-    /*
-       BUY X GET Y
-    */
 
     if (
         item.promo_active &&
@@ -250,31 +487,24 @@ function calculateItemTotal(item) {
     ) {
 
         const buy =
-            Number(
-                item.promo_buy_qty
-            );
+            Number(item.promo_buy_qty);
 
         const get =
-            Number(
-                item.promo_get_qty
-            );
+            Number(item.promo_get_qty);
 
         const groupSize =
             buy + get;
 
         const completeGroups =
             Math.floor(
-                quantity /
-                groupSize
+                quantity / groupSize
             );
 
         const remainder =
-            quantity %
-            groupSize;
+            quantity % groupSize;
 
         const freeFromGroups =
-            completeGroups *
-            get;
+            completeGroups * get;
 
         const freeFromRemainder =
             Math.max(
@@ -287,39 +517,26 @@ function calculateItemTotal(item) {
             freeFromRemainder;
 
         const payableQuantity =
-            quantity -
-            freeQuantity;
+            quantity - freeQuantity;
 
-        return (
-            payableQuantity *
-            price
-        );
+        return payableQuantity * price;
     }
 
-
-    return (
-        quantity *
-        price
-    );
+    return quantity * price;
 }
 
 
-/* =========================================================
+/* =========================
    GRAND TOTAL
-========================================================= */
+========================= */
 
 function getGrandTotal() {
 
     return cart.reduce(
-        function (
-            total,
-            item
-        ) {
+        function (total, item) {
 
-            return (
-                total +
-                calculateItemTotal(item)
-            );
+            return total +
+                calculateItemTotal(item);
 
         },
         0
@@ -327,22 +544,20 @@ function getGrandTotal() {
 }
 
 
-/* =========================================================
-   RENDER CHECKOUT SUMMARY
-========================================================= */
+/* =========================
+   RENDER SUMMARY
+========================= */
 
 function renderSummary() {
 
     if (!cart.length) {
 
         if (checkoutContent) {
-            checkoutContent.hidden =
-                true;
+            checkoutContent.hidden = true;
         }
 
         if (emptyCheckout) {
-            emptyCheckout.hidden =
-                false;
+            emptyCheckout.hidden = false;
         }
 
         return;
@@ -350,23 +565,19 @@ function renderSummary() {
 
 
     if (checkoutContent) {
-        checkoutContent.hidden =
-            false;
+        checkoutContent.hidden = false;
     }
 
     if (emptyCheckout) {
-        emptyCheckout.hidden =
-            true;
+        emptyCheckout.hidden = true;
     }
-
 
     if (!summaryItems) {
         return;
     }
 
 
-    summaryItems.innerHTML =
-        "";
+    summaryItems.innerHTML = "";
 
 
     cart.forEach(
@@ -378,33 +589,27 @@ function renderSummary() {
                 );
 
             const itemTotal =
-                calculateItemTotal(
-                    item
-                );
+                calculateItemTotal(item);
 
             const image =
-                getProductImage(
-                    item
-                );
+                getProductImage(item);
 
 
             const div =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             div.className =
                 "order-item";
 
 
-            /* IMAGE */
+            /* =========================
+               IMAGE
+            ========================= */
 
             if (image) {
 
                 const imageElement =
-                    document.createElement(
-                        "img"
-                    );
+                    document.createElement("img");
 
                 imageElement.className =
                     "order-poster";
@@ -414,11 +619,57 @@ function renderSummary() {
                         ? "Custom Poster"
                         : "Poster";
 
+                /*
+                   MOST IMPORTANT PART
+
+                   Directly assign src instead
+                   of inserting it through
+                   innerHTML.
+                */
+
                 imageElement.src =
                     image;
 
                 imageElement.draggable =
                     false;
+
+
+                /*
+                   IMAGE FIT FIX
+
+                   The image is fitted only after
+                   the browser knows its natural
+                   width and height.
+                */
+
+                imageElement.addEventListener(
+                    "load",
+                    function () {
+
+                        fitCheckoutPosterImage(
+                            imageElement
+                        );
+
+                    }
+                );
+
+
+                /*
+                   If the image is already cached,
+                   the load event may have already
+                   happened.
+                */
+
+                if (
+                    imageElement.complete &&
+                    imageElement.naturalWidth
+                ) {
+
+                    fitCheckoutPosterImage(
+                        imageElement
+                    );
+                }
+
 
                 div.appendChild(
                     imageElement
@@ -426,21 +677,19 @@ function renderSummary() {
             }
 
 
-            /* INFORMATION */
+            /* =========================
+               INFORMATION
+            ========================= */
 
             const info =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             info.className =
                 "order-info";
 
 
             const title =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             title.className =
                 "order-title";
@@ -449,35 +698,24 @@ function renderSummary() {
                 item.title ||
                 "Poster";
 
-            info.appendChild(
-                title
-            );
+            info.appendChild(title);
 
 
             const size =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             size.className =
                 "order-meta";
 
             size.textContent =
                 "Size: " +
-                (
-                    item.size ||
-                    "A4"
-                );
+                (item.size || "A4");
 
-            info.appendChild(
-                size
-            );
+            info.appendChild(size);
 
 
             const qty =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             qty.className =
                 "order-meta";
@@ -486,19 +724,17 @@ function renderSummary() {
                 "Quantity: " +
                 quantity;
 
-            info.appendChild(
-                qty
-            );
+            info.appendChild(qty);
 
 
-            /* CUSTOM POSTER */
+            /* =========================
+               CUSTOM POSTER LABEL
+            ========================= */
 
             if (item.custom) {
 
                 const customLabel =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
                 customLabel.className =
                     "order-meta";
@@ -512,16 +748,14 @@ function renderSummary() {
             }
 
 
-            /* PROMOTION */
+            /* =========================
+               PROMO
+            ========================= */
 
-            if (
-                item.promo_active
-            ) {
+            if (item.promo_active) {
 
                 const promo =
-                    document.createElement(
-                        "div"
-                    );
+                    document.createElement("div");
 
                 promo.className =
                     "promo-text";
@@ -539,12 +773,12 @@ function renderSummary() {
             }
 
 
-            /* PRICE */
+            /* =========================
+               PRICE
+            ========================= */
 
             const price =
-                document.createElement(
-                    "div"
-                );
+                document.createElement("div");
 
             price.className =
                 "order-price";
@@ -558,18 +792,16 @@ function renderSummary() {
             );
 
 
-            div.appendChild(
-                info
-            );
+            div.appendChild(info);
 
-            summaryItems.appendChild(
-                div
-            );
+            summaryItems.appendChild(div);
         }
     );
 
 
-    /* TOTAL */
+    /* =========================
+       TOTAL
+    ========================= */
 
     if (summaryTotal) {
 
@@ -580,36 +812,28 @@ function renderSummary() {
 }
 
 
-/* =========================================================
+/* =========================
    CREATE RAZORPAY ORDER
-========================================================= */
+========================= */
 
-async function createRazorpayOrder(
-    amount
-) {
+async function createRazorpayOrder(amount) {
 
     const amountInPaise =
-        Math.round(
-            amount * 100
-        );
-
+        Math.round(amount * 100);
 
     const {
         data,
         error
     } =
-        await supabaseClient
-            .functions
-            .invoke(
-                "create-razorpay-order",
-                {
-                    body: {
-                        amount:
-                            amountInPaise
-                    }
+        await supabaseClient.functions.invoke(
+            "create-razorpay-order",
+            {
+                body: {
+                    amount:
+                        amountInPaise
                 }
-            );
-
+            }
+        );
 
     if (error) {
 
@@ -624,10 +848,7 @@ async function createRazorpayOrder(
         );
     }
 
-
-    if (
-        !data?.success
-    ) {
+    if (!data?.success) {
 
         throw new Error(
             data?.error ||
@@ -635,20 +856,13 @@ async function createRazorpayOrder(
         );
     }
 
-
-    console.log(
-        "RAZORPAY ORDER CREATED:",
-        data
-    );
-
-
     return data;
 }
 
 
-/* =========================================================
-   VERIFY RAZORPAY PAYMENT
-========================================================= */
+/* =========================
+   VERIFY PAYMENT
+========================= */
 
 async function verifyPayment(
     response,
@@ -659,34 +873,28 @@ async function verifyPayment(
         data,
         error
     } =
-        await supabaseClient
-            .functions
-            .invoke(
-                "verify-razorpay-payment",
-                {
-                    body: {
+        await supabaseClient.functions.invoke(
+            "verify-razorpay-payment",
+            {
+                body: {
 
-                        razorpay_order_id:
-                            response
-                                .razorpay_order_id,
+                    razorpay_order_id:
+                        response.razorpay_order_id,
 
-                        razorpay_payment_id:
-                            response
-                                .razorpay_payment_id,
+                    razorpay_payment_id:
+                        response.razorpay_payment_id,
 
-                        razorpay_signature:
-                            response
-                                .razorpay_signature,
+                    razorpay_signature:
+                        response.razorpay_signature,
 
-                        customer:
-                            customer,
+                    customer:
+                        customer,
 
-                        items:
-                            cart
-                    }
+                    items:
+                        cart
                 }
-            );
-
+            }
+        );
 
     if (error) {
 
@@ -701,10 +909,7 @@ async function verifyPayment(
         );
     }
 
-
-    if (
-        !data?.success
-    ) {
+    if (!data?.success) {
 
         throw new Error(
             data?.error ||
@@ -712,262 +917,13 @@ async function verifyPayment(
         );
     }
 
-
-    console.log(
-        "RAZORPAY PAYMENT VERIFIED:",
-        data
-    );
-
-
     return data;
 }
 
 
-/* =========================================================
-   SEND NEW ORDER NOTIFICATION
-   TO BROTHER
-========================================================= */
-
-async function notifyBrother(
-    result,
-    customer
-) {
-
-    console.log(
-        "================================"
-    );
-
-    console.log(
-        "ZAVYRO: STARTING ORDER NOTIFICATION"
-    );
-
-    console.log(
-        "================================"
-    );
-
-
-    try {
-
-        /*
-           GET ORDER ID / NUMBER
-        */
-
-        const orderNumber =
-            result?.order_number ||
-            result?.order?.order_number ||
-            result?.data?.order_number ||
-            result?.order?.id ||
-            result?.data?.id ||
-            result?.id ||
-            "NEW ORDER";
-
-
-        const orderId =
-            result?.id ||
-            result?.order?.id ||
-            result?.data?.id ||
-            "";
-
-
-        /*
-           DELIVERY ADDRESS
-        */
-
-        const deliveryAddress =
-            [
-                customer.address,
-                customer.pincode
-            ]
-                .filter(
-                    Boolean
-                )
-                .join(", ");
-
-
-        /*
-           NOTIFICATION DATA
-        */
-
-        const notificationPayload = {
-
-            order_number:
-                orderNumber,
-
-            id:
-                orderId,
-
-            customer_name:
-                customer.name ||
-                "Customer",
-
-            customer_phone:
-                customer.phone ||
-                "Not provided",
-
-            customer_email:
-                customer.email ||
-                "Not provided",
-
-            total_amount:
-                getGrandTotal(),
-
-            payment_status:
-                "paid",
-
-            order_status:
-                result?.order_status ||
-                result?.order?.order_status ||
-                result?.data?.order_status ||
-                "pending",
-
-            delivery_address:
-                deliveryAddress,
-
-            address:
-                customer.address ||
-                "",
-
-            pincode:
-                customer.pincode ||
-                "",
-
-            items:
-                cart
-        };
-
-
-        console.log(
-            "ZAVYRO NOTIFICATION PAYLOAD:",
-            notificationPayload
-        );
-
-
-        /*
-           CALL SUPABASE EDGE FUNCTION
-        */
-
-        const {
-            data,
-            error
-        } =
-            await supabaseClient
-                .functions
-                .invoke(
-                    "notify-new-order",
-                    {
-                        body:
-                            notificationPayload
-                    }
-                );
-
-
-        /*
-           SUPABASE INVOCATION ERROR
-        */
-
-        if (error) {
-
-            console.error(
-                "❌ BROTHER NOTIFICATION ERROR:",
-                error
-            );
-
-            return {
-                success:
-                    false,
-
-                error:
-                    error.message ||
-                    "Notification failed."
-            };
-        }
-
-
-        /*
-           EDGE FUNCTION ERROR
-        */
-
-        if (
-            data &&
-            data.success === false
-        ) {
-
-            console.error(
-                "❌ NOTIFICATION FUNCTION FAILED:",
-                data.error
-            );
-
-            return {
-                success:
-                    false,
-
-                error:
-                    data.error ||
-                    "Notification failed."
-            };
-        }
-
-
-        /*
-           SUCCESS
-        */
-
-        console.log(
-            "================================"
-        );
-
-        console.log(
-            "✅ BROTHER NOTIFICATION SENT"
-        );
-
-        console.log(
-            "ORDER:",
-            orderNumber
-        );
-
-        console.log(
-            "RESEND RESPONSE:",
-            data
-        );
-
-        console.log(
-            "================================"
-        );
-
-
-        return {
-            success:
-                true,
-
-            data:
-                data
-        };
-
-
-    } catch (error) {
-
-        console.error(
-            "❌ NOTIFICATION EXCEPTION:",
-            error
-        );
-
-
-        return {
-
-            success:
-                false,
-
-            error:
-                error?.message ||
-                "Notification failed."
-        };
-    }
-}
-
-
-/* =========================================================
-   PAYMENT BUTTON
-========================================================= */
+/* =========================
+   PAYMENT
+========================= */
 
 if (payBtn) {
 
@@ -976,10 +932,6 @@ if (payBtn) {
         async function () {
 
             try {
-
-                /*
-                   CART
-                */
 
                 if (!cart.length) {
 
@@ -991,9 +943,10 @@ if (payBtn) {
                 }
 
 
-                /*
-                   FORM
-                */
+                await refreshCurrentProductVariants();
+
+                renderSummary();
+
 
                 if (
                     checkoutForm &&
@@ -1005,10 +958,6 @@ if (payBtn) {
                     return;
                 }
 
-
-                /*
-                   CUSTOMER DETAILS
-                */
 
                 const name =
                     document
@@ -1055,14 +1004,8 @@ if (payBtn) {
                         .trim();
 
 
-                /*
-                   PHONE VALIDATION
-                */
-
                 if (
-                    !/^[0-9]{10}$/.test(
-                        phone
-                    )
+                    !/^[0-9]{10}$/.test(phone)
                 ) {
 
                     showError(
@@ -1073,14 +1016,8 @@ if (payBtn) {
                 }
 
 
-                /*
-                   PINCODE VALIDATION
-                */
-
                 if (
-                    !/^[0-9]{6}$/.test(
-                        pincode
-                    )
+                    !/^[0-9]{6}$/.test(pincode)
                 ) {
 
                     showError(
@@ -1091,18 +1028,12 @@ if (payBtn) {
                 }
 
 
-                /*
-                   TOTAL
-                */
-
                 const total =
                     getGrandTotal();
 
 
                 if (
-                    !Number.isFinite(
-                        total
-                    ) ||
+                    !Number.isFinite(total) ||
                     total < 1
                 ) {
 
@@ -1113,10 +1044,6 @@ if (payBtn) {
                     return;
                 }
 
-
-                /*
-                   CUSTOMER OBJECT
-                */
 
                 const customer = {
 
@@ -1137,10 +1064,6 @@ if (payBtn) {
                 };
 
 
-                /*
-                   SAVE CUSTOMER
-                */
-
                 localStorage.setItem(
                     "zavyroCheckoutCustomer",
                     JSON.stringify(
@@ -1149,10 +1072,6 @@ if (payBtn) {
                 );
 
 
-                /*
-                   DISABLE BUTTON
-                */
-
                 payBtn.disabled =
                     true;
 
@@ -1160,19 +1079,11 @@ if (payBtn) {
                     "CREATING PAYMENT...";
 
 
-                /*
-                   CREATE RAZORPAY ORDER
-                */
-
                 const razorpayOrder =
                     await createRazorpayOrder(
                         total
                     );
 
-
-                /*
-                   RAZORPAY OPTIONS
-                */
 
                 const options = {
 
@@ -1215,37 +1126,12 @@ if (payBtn) {
                     },
 
 
-                    /*
-                       PAYMENT SUCCESS
-                    */
-
                     handler:
                         async function (
                             response
                         ) {
 
                             try {
-
-                                console.log(
-                                    "================================"
-                                );
-
-                                console.log(
-                                    "RAZORPAY PAYMENT SUCCESS"
-                                );
-
-                                console.log(
-                                    response
-                                );
-
-                                console.log(
-                                    "================================"
-                                );
-
-
-                                /*
-                                   VERIFY
-                                */
 
                                 payBtn.textContent =
                                     "VERIFYING PAYMENT...";
@@ -1258,68 +1144,10 @@ if (payBtn) {
                                     );
 
 
-                                console.log(
-                                    "PAYMENT VERIFICATION RESULT:",
-                                    result
-                                );
-
-
-                                /*
-                                   IMPORTANT:
-                                   PAYMENT IS VERIFIED.
-
-                                   NOW SEND EMAIL.
-                                */
-
-                                payBtn.textContent =
-                                    "SENDING ORDER...";
-
-
-                                const notification =
-                                    await notifyBrother(
-                                        result,
-                                        customer
-                                    );
-
-
-                                console.log(
-                                    "FINAL NOTIFICATION RESULT:",
-                                    notification
-                                );
-
-
-                                /*
-                                   DO NOT CANCEL
-                                   SUCCESSFUL PAYMENT
-                                   IF EMAIL FAILS.
-                                */
-
-                                if (
-                                    !notification.success
-                                ) {
-
-                                    console.warn(
-                                        "⚠️ PAYMENT SUCCESSFUL, BUT BROTHER EMAIL FAILED."
-                                    );
-
-                                    console.warn(
-                                        notification.error
-                                    );
-                                }
-
-
-                                /*
-                                   CLEAR CART
-                                */
-
                                 localStorage.removeItem(
                                     "zavyroCart"
                                 );
 
-
-                                /*
-                                   SAVE LAST ORDER
-                                */
 
                                 localStorage.setItem(
                                     "zavyroLastOrder",
@@ -1329,10 +1157,6 @@ if (payBtn) {
                                 );
 
 
-                                /*
-                                   ORDER SUCCESS PAGE
-                                */
-
                                 window.location.href =
                                     "order-success.html";
 
@@ -1340,7 +1164,7 @@ if (payBtn) {
                             } catch (error) {
 
                                 console.error(
-                                    "VERIFY / ORDER ERROR:",
+                                    "VERIFY ERROR:",
                                     error
                                 );
 
@@ -1348,7 +1172,6 @@ if (payBtn) {
                                     error.message ||
                                     "Payment verification failed."
                                 );
-
 
                                 payBtn.disabled =
                                     false;
@@ -1358,10 +1181,6 @@ if (payBtn) {
                             }
                         },
 
-
-                    /*
-                       RAZORPAY CLOSED
-                    */
 
                     modal: {
 
@@ -1378,10 +1197,6 @@ if (payBtn) {
                 };
 
 
-                /*
-                   CHECK RAZORPAY
-                */
-
                 if (
                     typeof Razorpay ===
                     "undefined"
@@ -1393,19 +1208,11 @@ if (payBtn) {
                 }
 
 
-                /*
-                   OPEN RAZORPAY
-                */
-
                 const razorpay =
                     new Razorpay(
                         options
                     );
 
-
-                /*
-                   PAYMENT FAILED
-                */
 
                 razorpay.on(
                     "payment.failed",
@@ -1418,13 +1225,11 @@ if (payBtn) {
                             response.error
                         );
 
-
                         showError(
                             response.error
                                 ?.description ||
                             "Payment failed. Please try again."
                         );
-
 
                         payBtn.disabled =
                             false;
@@ -1445,12 +1250,10 @@ if (payBtn) {
                     error
                 );
 
-
                 showError(
                     error.message ||
                     "Unable to start payment."
                 );
-
 
                 payBtn.disabled =
                     false;
@@ -1463,8 +1266,15 @@ if (payBtn) {
 }
 
 
-/* =========================================================
+/* =========================
    START
-========================================================= */
+========================= */
 
-renderSummary();
+async function initializeCheckout() {
+
+    await refreshCurrentProductVariants();
+
+    renderSummary();
+}
+
+initializeCheckout();
